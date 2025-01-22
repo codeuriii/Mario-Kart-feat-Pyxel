@@ -1,3 +1,4 @@
+import asyncio
 import pyxel as p
 from player import Player
 import websockets
@@ -15,6 +16,7 @@ class Game:
         p.rect(10, 10, 20, 20, 9)
 
     async def run(self):
+        print("run function")
         p.init(160, 120)
         p.run(self.update, self.draw)
 
@@ -25,7 +27,7 @@ class Game:
             print("before async for")
             async for message in self.websocket:
                 print(f"Received from server: {message}")
-                self.player.handle_message(message)
+                await self.player.handle_message(message)
             print("after async for")
         except websockets.ConnectionClosed:
             print("Disconnected from server.")
@@ -35,4 +37,5 @@ class Game:
     async def send_id_request(self):
         print("send load to server")
         await self.websocket.send("load")
+        print("send load to server end")
     

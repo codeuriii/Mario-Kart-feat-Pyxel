@@ -27,18 +27,21 @@ async def handler(websocket):
             for client in connected_clients:
                 try:
                     if message == "load":
-                        if client == websocket:
-                            if len(all_tokens) <= len(colors):
-                                color = colors[len(all_tokens)]
-                                all_tokens[current_token] = color
-                                await websocket.send(f"id/{current_token}-color/{color}")
-                            else:
-                                await websocket.send("this room is full error")
-                            print("send id to client")
+                        if len(all_tokens) <= len(colors):
+                            color = colors[len(all_tokens)]
+                            all_tokens[current_token] = color
+                            await asyncio.sleep(1)
+                            await websocket.send(f"id/{current_token}-color/{color}")
+                            print("just after send id to client")
                         else:
-                            if len(all_tokens) <= len(colors):
-                                await client.send(f"create_player/{current_token}-color/{all_tokens[current_token]}")
-                                print("send create player to client")
+                            await websocket.send("this room is full error")
+                        print(current_token)
+                        print(all_tokens)
+                        print("send id to client")
+
+                        if client != websocket:
+                            await client.send(f"create_player/{current_token}-color/{all_tokens[current_token]}")
+                            print("send create player to client")
 
                     elif message == "get_players":
                         if client == websocket:
@@ -50,10 +53,8 @@ async def handler(websocket):
             # Nettoyer les clients déconnectés
             for client in disconnected_clients:
                 connected_clients.remove(client)
-    except websockets.ConnectionClosed:
-        print("Client disconnected")
-    finally:
-        connected_clients.remove(websocket)
+    except Exception as e:
+        raise e
 
 async def main():
     def get_local_ip():
@@ -67,14 +68,11 @@ async def main():
     local_ip = get_local_ip()
     print(local_ip)
     print(f"WebSocket server will be accessible on ws://{local_ip}:1025")
-    """Point d'entrée principal pour démarrer le serveur."""
-    print("WebSocket server started on ws://0.0.0.0:1025")
-    # Démarrer le serveur WebSocket
-    async with websockets.serve(handler, "0.0.0.0", 1025):
-        # Exécuter la diffusion et la gestion des connexions en parallèle
-        await asyncio.gather(
-            asyncio.Future()       # Maintenir le serveur actif
-        )
+    async with websockets.serve(handler, "127.0.0.1", 1025):
+        await asyncio.Future()
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Server stopped.")
