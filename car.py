@@ -1,11 +1,12 @@
 import pyxel as p
 
 class Car:
-    def __init__(self, x, y):
+    def __init__(self, x, y, color):
         self.x = x
         self.y = y
         self.speed = 1
         self.angle = 0
+        self.color = color
 
     def move(self):
         self.x += self.speed * p.cos(self.angle)
