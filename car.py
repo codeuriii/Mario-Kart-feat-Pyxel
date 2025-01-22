@@ -10,6 +10,7 @@ class Car:
     def move(self):
         self.x += self.speed * p.cos(self.angle)
         self.y += self.speed * p.sin(self.angle)
+        self.speed *= 0.99
 
     def keyboard_input(self):
         if p.btn(p.KEY_UP):
