@@ -57,11 +57,14 @@ async def handler(websocket: websockets.WebSocketClientProtocol):
 async def main():
     def get_local_ip():
         """Obtenir l'adresse IP locale de la machine."""
-        hostname = socket.gethostname()
-        local_ip = socket.gethostbyname(hostname)
+
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(("8.8.8.8", 80))
+            local_ip = s.getsockname()[0]
         return local_ip
 
     local_ip = get_local_ip()
+    print(local_ip)
     print(f"WebSocket server will be accessible on ws://{local_ip}:1025")
     """Point d'entrée principal pour démarrer le serveur."""
     print("WebSocket server started on ws://0.0.0.0:1025")
