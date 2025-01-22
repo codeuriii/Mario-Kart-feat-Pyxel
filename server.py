@@ -1,5 +1,6 @@
 import asyncio
 import websockets
+import socket
 
 connected_clients: set[websockets.WebSocketClientProtocol] = set()
 all_tokens = {}
@@ -54,6 +55,14 @@ async def handler(websocket: websockets.WebSocketClientProtocol):
         connected_clients.remove(websocket)
 
 async def main():
+    def get_local_ip():
+        """Obtenir l'adresse IP locale de la machine."""
+        hostname = socket.gethostname()
+        local_ip = socket.gethostbyname(hostname)
+        return local_ip
+
+    local_ip = get_local_ip()
+    print(f"WebSocket server will be accessible on ws://{local_ip}:1025")
     """Point d'entrée principal pour démarrer le serveur."""
     print("WebSocket server started on ws://0.0.0.0:1025")
     # Démarrer le serveur WebSocket
