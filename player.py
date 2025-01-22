@@ -9,6 +9,10 @@ class Player:
     def generate_token(self):
         return hex(id(object()))[2:]
     
+    async def send_id_request(self):
+        print("send id request")
+        await self.websocket.send("load")
+    
     async def receive_message(self):
         try:
             async for message in self.websocket:
@@ -17,6 +21,7 @@ class Player:
                     self.parse_id()
                     self.color = self.get_color()
                     self.car = Car(color=self.color)
+                    print(f"Received from server: {message}")
         except websockets.ConnectionClosed:
             print("Disconnected from server.")
 
@@ -28,5 +33,4 @@ class Player:
 
     def get_color(self):
         return self.infos['color']
-    
     
