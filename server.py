@@ -2,7 +2,7 @@ import asyncio
 import websockets
 import socket
 
-connected_clients: set[websockets.WebSocketClientProtocol] = set()
+connected_clients = set()
 all_tokens = {}
 colors = [
     "blue",
@@ -15,7 +15,7 @@ def generate_token():
     """Générer un jeton unique pour chaque client."""
     return hex(id(object()))[2:]
 
-async def handler(websocket: websockets.WebSocketClientProtocol):
+async def handler(websocket):
     """Gestion des connexions client."""
     connected_clients.add(websocket)
     try:
@@ -34,10 +34,11 @@ async def handler(websocket: websockets.WebSocketClientProtocol):
                                 await websocket.send(f"id/{current_token}-color/{color}")
                             else:
                                 await websocket.send("this room is full error")
+                            print("send id to client")
                         else:
                             if len(all_tokens) <= len(colors):
                                 await client.send(f"create_player/{current_token}-color/{all_tokens[current_token]}")
-                        print("send id to client")
+                                print("send create player to client")
 
                     elif message == "get_players":
                         if client == websocket:

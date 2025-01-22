@@ -12,10 +12,11 @@ async def main():
                 print("Connected to server.")
                 connected = True
                 game = Game(websocket)
+                print("after game")
                 await asyncio.gather(
-                    game.player_receive_message(),
-                    game.run(),
-                    game.player_send_id_request()
+                    game.receive_message(),
+                    game.send_id_request(),
+                    game.run()
                 )
         except (websockets.exceptions.ConnectionClosedError, ConnectionRefusedError):
             print("Connection failed, retrying in 1 seconds...")
