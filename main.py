@@ -4,7 +4,7 @@ from game import Game
 import websockets
 
 async def main():
-    uri = f"ws://{input('Ip locale : ')}:1025"
+    uri = f"ws://127.0.0.1:1025"
     connected = False
     while not connected:
         try:
