@@ -3,7 +3,6 @@ import websockets
 from game import Game
 
 async def connect_to_server(uri, max_retries=10, retry_delay=1):
-    """Essaie de se connecter au serveur WebSocket avec des tentatives multiples."""
     retries = 0
     while retries < max_retries:
         try:

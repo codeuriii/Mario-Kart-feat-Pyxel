@@ -36,28 +36,21 @@ async def handler(websocket):
                                     "color": color
                                 })
                                 await asyncio.sleep(1)
-                                print("just before send id to client")
                                 await websocket.send(f"id/{current_token}-color/{color}")
-                                print("just after send id to client")
                             else:
                                 await websocket.send("this room is full error")
-                            print(current_token)
-                            print(all_tokens)
-                            print("send id to client")
-                            print(all_tokens)
 
                         else:
                             for element in all_tokens:
                                 if element["token"] == current_token:
                                     print(color := element['color'])
                             await client.send(f"create_player/{current_token}-color/{color}")
-                            print("send create player to client")
 
                     elif message == "get_players":
                         if client == websocket:
                             for element in all_tokens:
-                                print(token := element['token'])
-                                print(color := element['color'])
+                                token = element['token']
+                                color = element['color']
                                 await client.send(f"create_player/{token}-color/{color}")
                     
                     elif message == "run":
@@ -74,16 +67,13 @@ async def handler(websocket):
 
 async def main():
     def get_local_ip():
-        """Obtenir l'adresse IP locale de la machine."""
-
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
             s.connect(("8.8.8.8", 80))
             local_ip = s.getsockname()[0]
         return local_ip
 
     local_ip = get_local_ip()
-    print(local_ip)
-    print(f"WebSocket server will be accessible on ws://{local_ip}:1025")
+    print(f"Server will be accessible on ws://{local_ip}:1025")
     async with websockets.serve(handler, "127.0.0.1", 1025, ping_interval=20, ping_timeout=20):
         await asyncio.Future()
 

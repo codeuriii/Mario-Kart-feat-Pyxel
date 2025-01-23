@@ -4,21 +4,12 @@ class Player:
     def __init__(self, websocket):
         self.websocket = websocket
 
-    def generate_token(self):
-        return hex(id(object()))[2:]
-    
-
     async def handle_message(self, message):
-        print("receive to player: ", message)
         if message.startswith("id"):
             self.set_id(message)
             self.parse_id()
             self.color = self.get_color()
             self.car = Car(0, 0, self.color)
-            print(f"Received id from server: {message}")
-            print(self.id)
-            print(self.color)
-            print(self.infos)
             await self.websocket.send("get_players")
             await self.websocket.send("run")
             
