@@ -1,9 +1,11 @@
 import asyncio
 import websockets
 import socket
+import random
+import string
 
 connected_clients = set()
-all_tokens = {}
+all_tokens = []
 colors = [
     "blue",
     "green",
@@ -12,8 +14,7 @@ colors = [
 ]
 
 def generate_token():
-    """Générer un jeton unique pour chaque client."""
-    return hex(id(object()))[2:]
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=8))
 
 async def handler(websocket):
     """Gestion des connexions client."""
@@ -27,26 +28,41 @@ async def handler(websocket):
             for client in connected_clients:
                 try:
                     if message == "load":
-                        if len(all_tokens) <= len(colors):
-                            color = colors[len(all_tokens)]
-                            all_tokens[current_token] = color
-                            await asyncio.sleep(1)
-                            await websocket.send(f"id/{current_token}-color/{color}")
-                            print("just after send id to client")
-                        else:
-                            await websocket.send("this room is full error")
-                        print(current_token)
-                        print(all_tokens)
-                        print("send id to client")
+                        if client == websocket:
+                            if len(all_tokens) <= len(colors):
+                                color = colors[len(all_tokens)]
+                                all_tokens.append({
+                                    "token": current_token,
+                                    "color": color
+                                })
+                                await asyncio.sleep(1)
+                                print("just before send id to client")
+                                await websocket.send(f"id/{current_token}-color/{color}")
+                                print("just after send id to client")
+                            else:
+                                await websocket.send("this room is full error")
+                            print(current_token)
+                            print(all_tokens)
+                            print("send id to client")
+                            print(all_tokens)
 
-                        if client != websocket:
-                            await client.send(f"create_player/{current_token}-color/{all_tokens[current_token]}")
+                        else:
+                            for element in all_tokens:
+                                if element["token"] == current_token:
+                                    print(color := element['color'])
+                            await client.send(f"create_player/{current_token}-color/{color}")
                             print("send create player to client")
 
                     elif message == "get_players":
                         if client == websocket:
-                            for token, color in all_tokens.items():
+                            for element in all_tokens:
+                                print(token := element['token'])
+                                print(color := element['color'])
                                 await client.send(f"create_player/{token}-color/{color}")
+                    
+                    elif message == "run":
+                        if client == websocket:
+                            await client.send("run")
 
                 except websockets.ConnectionClosed:
                     disconnected_clients.append(client)
@@ -68,7 +84,7 @@ async def main():
     local_ip = get_local_ip()
     print(local_ip)
     print(f"WebSocket server will be accessible on ws://{local_ip}:1025")
-    async with websockets.serve(handler, "127.0.0.1", 1025):
+    async with websockets.serve(handler, "127.0.0.1", 1025, ping_interval=20, ping_timeout=20):
         await asyncio.Future()
 
 if __name__ == "__main__":
