@@ -25,8 +25,7 @@ async def main():
         print("Starting game tasks...")
         await asyncio.gather(
             game.receive_message(),
-            game.send_id_request(),
-            game.run()
+            game.send_id_request()
         )
     except ConnectionError as e:
         print(f"Failed to connect to server: {e}")
