@@ -10,11 +10,12 @@ class Game:
         self.players = []
 
     def update(self):
-        pass
+        self.player.update()
 
     def draw(self):
         p.cls(0)
-        p.rect(10, 10, 20, 20, 9)
+        self.player.car.draw_car()
+        # p.rect(10, 10, 20, 20, 9)
 
     def run(self):
         loop = asyncio.get_event_loop()

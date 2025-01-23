@@ -12,6 +12,9 @@ class Player:
             self.car = Car(0, 0, self.color)
             await self.websocket.send("get_players")
             await self.websocket.send("run")
+    
+    def update(self):
+        self.car.update()
             
     def set_id(self, id):
         self.id = id
