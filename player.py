@@ -9,7 +9,7 @@ class Player:
             self.set_id(message)
             self.parse_id()
             self.color = self.get_color()
-            self.car = Car(0, 0, self.color)
+            self.car = Car(10, 10, self.color)
             await self.websocket.send("get_players")
             await self.websocket.send("run")
     
