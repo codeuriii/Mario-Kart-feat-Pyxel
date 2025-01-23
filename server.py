@@ -8,8 +8,8 @@ connected_clients = set()
 all_tokens = []
 colors = [
     "blue",
-    "green",
     "red",
+    "green",
     "yellow"
 ]
 
@@ -17,13 +17,11 @@ def generate_token():
     return ''.join(random.choices(string.ascii_letters + string.digits, k=8))
 
 async def handler(websocket):
-    """Gestion des connexions client."""
     connected_clients.add(websocket)
     try:
         current_token = generate_token()
         async for message in websocket:
             print(f"Received from client: {message}")
-            # Diffuser le message reçu à tous les clients
             disconnected_clients = []
             for client in connected_clients:
                 try:
@@ -40,18 +38,11 @@ async def handler(websocket):
                             else:
                                 await websocket.send("this room is full error")
 
-                        else:
-                            for element in all_tokens:
-                                if element["token"] == current_token:
-                                    print(color := element['color'])
-                            await client.send(f"create_player/{current_token}-color/{color}")
-
                     elif message == "get_players":
-                        if client == websocket:
-                            for element in all_tokens:
-                                token = element['token']
-                                color = element['color']
-                                await client.send(f"create_player/{token}-color/{color}")
+                        for element in all_tokens:
+                            token = element['token']
+                            color = element['color']
+                            await client.send(f"create_player/{token}-color/{color}")
                     
                     elif message == "run":
                         if client == websocket:
