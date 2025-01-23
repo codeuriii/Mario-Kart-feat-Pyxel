@@ -1,4 +1,5 @@
 import pyxel as p
+import os
 
 class Car:
     def __init__(self, x, y, color):
@@ -7,6 +8,11 @@ class Car:
         self.speed = 1
         self.angle = 0
         self.color = color
+    
+    def load_images(self):
+        for file in os.listdir("assets/cars"):
+            if file.endswith(".pyxres"):
+                p.load(os.path.join("assets/cars", file))
 
     def move(self):
         self.x += self.speed * p.cos(self.angle)
