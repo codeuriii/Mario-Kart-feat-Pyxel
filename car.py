@@ -6,13 +6,8 @@ class Car:
         self.x = x
         self.y = y
         self.speed = 1
-        self.angle = 0
+        self.angle = 270
         self.color = color
-    
-    def load_images(self):
-        for file in os.listdir("assets/cars"):
-            if file.endswith(".pyxres"):
-                p.load(os.path.join("assets/cars", file))
 
     def move(self):
         self.x += self.speed * p.cos(self.angle)
@@ -20,18 +15,18 @@ class Car:
         self.speed *= 0.99
 
     def keyboard_input(self):
-        if p.btn(p.KEY_UP):
-            self.speed += 1 
-        elif p.btn(p.KEY_DOWN):
-            self.speed -= 1
-        elif p.btn(p.KEY_LEFT):
-            self.angle -= 1
-        elif p.btn(p.KEY_RIGHT):
-            self.angle += 1
+        if p.btnp(p.KEY_UP):
+            self.speed += 100
+        elif p.btnp(p.KEY_DOWN):
+            self.speed -= 100
+        if p.btnp(p.KEY_LEFT):
+            self.angle -= 10
+        if p.btnp(p.KEY_RIGHT):
+            self.angle += 10
 
-    def update_car(self):
-        self.keyboard_input()
+    def update(self):
         self.move()
+        self.keyboard_input()
 
     def draw_car(self):
         p.rect(self.x, self.y, 10, 5, 7)
