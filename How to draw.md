@@ -5,6 +5,7 @@ p.blt(
     Le coodroné y de la ou on veut dessiner (coin supérieur gauche)
     Le coordoné x du pixel du début qu'on veut dessiner dans la bande (idem)
     Le coordiné y du pixel du début qu'on veut dessiner dans la bande (idem)
-    X du pixel de fin de la bande d'image
-    Y du pixel de fin de la bande d'image
+    X du pixel de fin de la bande d'image RELATIF PAR RAPPORT AU X DAVANT
+    Y du pixel de fin de la bande d'image RELATIF PAR RAPPORT AU Y DAVANT
+    Couleur transparente (0 pour noir)
 )
