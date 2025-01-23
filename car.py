@@ -1,5 +1,5 @@
 import pyxel as p
-import os
+from drawer import Drawer
 
 class Car:
     def __init__(self, x, y, color):
@@ -8,6 +8,7 @@ class Car:
         self.speed = 1
         self.angle = 270
         self.color = color
+        self.drawer = Drawer()
 
     def move(self):
         self.x += self.speed * p.cos(self.angle)
@@ -29,4 +30,4 @@ class Car:
         self.keyboard_input()
 
     def draw_car(self):
-        p.rect(self.x, self.y, 10, 5, 7)
+        p.blt(self.x, self.y, 0, 0, 0, 16, 16, p.COLOR_BLACK)
