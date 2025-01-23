@@ -62,8 +62,8 @@ async def handler(websocket):
             # Nettoyer les clients déconnectés
             for client in disconnected_clients:
                 connected_clients.remove(client)
-    except Exception as e:
-        raise e
+    except websockets.ConnectionClosed:
+        print("Client disconnected.")
 
 async def main():
     def get_local_ip():
