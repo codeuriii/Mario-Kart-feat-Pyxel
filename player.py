@@ -10,16 +10,18 @@ class Player:
 
     async def handle_message(self, message):
         print("receive to player: ", message)
-        if message.startwith("id"):
+        if message.startswith("id"):
             self.set_id(message)
             self.parse_id()
             self.color = self.get_color()
-            self.car = Car(color=self.color)
+            self.car = Car(0, 0, self.color)
             print(f"Received id from server: {message}")
             print(self.id)
             print(self.color)
             print(self.infos)
-
+            await self.websocket.send("get_players")
+            await self.websocket.send("run")
+            
     def set_id(self, id):
         self.id = id
 
