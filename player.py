@@ -1,6 +1,4 @@
 from car import Car
-import websockets
-import asyncio
 
 class Player:
     def __init__(self, websocket):
@@ -10,7 +8,8 @@ class Player:
         return hex(id(object()))[2:]
     
 
-    def handle_message(self, message):
+    async def handle_message(self, message):
+        print("receive to player: ", message)
         if message.startwith("id"):
             self.set_id(message)
             self.parse_id()
