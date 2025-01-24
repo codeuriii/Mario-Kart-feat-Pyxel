@@ -17,6 +17,7 @@
 - [ ] faire un vrai circuit
 - [ ] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
 - [ ] Enlever le token si quelqu'un se déco
+- [ ] Intégration a la manette
 
 Brainstorm
 
