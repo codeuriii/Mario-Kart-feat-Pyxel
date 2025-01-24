@@ -16,7 +16,7 @@
 - [x] dessiner les sprites de routes -> il manque le carrefour
 - [x] faire le track 2
 - [x] faire le track 3
-- [ ] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
+- [>] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
 - [ ] Enlever le token si quelqu'un se déco
 - [ ] Intégration a la manette
 

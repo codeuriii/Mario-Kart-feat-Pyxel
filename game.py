@@ -1,5 +1,6 @@
 import asyncio
 import pyxel as p
+from drawer import Drawer
 from player import Player
 from road import Road
 import websockets
@@ -9,17 +10,24 @@ class Game:
         self.websocket = websocket
         self.player = Player(self.websocket)
         self.players = []
+        self.drawer = Drawer()
         self.road = Road() 
 
     def update(self):
         self.player.update()
+        for player in self.players:
+            if player["id"] == self.player.infos["id"]:
+                player["x"] = self.player.car.x
+                player["y"] = self.player.car.y
+        self.player.infos["id"]
 
     def draw(self):
         p.cls(p.COLOR_LIME)
         self.road.draw_road()
-        self.player.car.draw_car()
+        self.draw_players()
 
-    def run(self):
+    async def run(self):
+        await self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}")
         loop = asyncio.get_event_loop()
         loop.run_in_executor(None, self.start_pyxel)
 
@@ -34,27 +42,47 @@ class Game:
             async for message in self.websocket:
                 print(f"Received from server: {message}")
                 await self.player.handle_message(message)
-                await self.handle_message(message)
+                try:
+                    self.player.infos["id"]
+                    await self.handle_message(message)
+                except:
+                    pass
         except websockets.ConnectionClosed:
             print("Disconnected from server.")
 
 
     async def handle_message(self, message):
-        if message.startswith("create_player"):
+        if message.startswith("move"):
+            for player in self.players:
+                if player["id"] != message.split("/")[1]:
+                    player["x"] = int(message.split("/")[2])
+                    player["y"] = int(message.split("/")[3])
+                    player["angle"] = int(message.split("/")[4])
+            await self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}")
+        elif message.startswith("create_player"):
             self.create_player(message)
         elif message == "run":
-            self.run()
+            await self.run()
         elif message == "this room is full error":
             print("This room is full.")
             await self.websocket.close()
 
+    def draw_car(self, color, x, y, angle):
+        self.drawer.draw_car(color, x, y, angle)
+    
+    def draw_players(self):
+        for player in self.players:
+            self.draw_car(player["color"], player["x"], player["y"], player["angle"])
 
     def create_player(self, message):
         player_id = message.split("-")[0].split("/")[1]
         if not any(player["id"] == player_id for player in self.players):
             self.players.append({
                 "id": player_id,
-                "color": message.split("-")[1].split("/")[1]
+                "color": message.split("-")[1].split("/")[1],
+                "x": 10,
+                "y": 10,
+                "angle": 270
             })
         print(self.players)
     

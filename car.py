@@ -45,4 +45,4 @@ class Car:
 
     def draw_car(self):
         self.draw_line()
-        self.drawer.draw_car(self.color, self.x, self.y, self.angle)
+        # self.drawer.draw_car(self.color, self.x, self.y, self.angle)
