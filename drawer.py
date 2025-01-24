@@ -35,7 +35,8 @@ class Drawer:
             "haut_gauche": 2,
             "haut_droite": 3,
             "bas_droite": 4,
-            "bas_gauche": 5
+            "bas_gauche": 5,
+            "carrefour": 6
         }
 
         self.roads_data = {
@@ -45,6 +46,7 @@ class Drawer:
             3: (32, 32, -32, 32),  # le bas vers la gauche
             4: (32, 32, -32, -32),  # Le haut vers la droite
             5: (32, 32, 32, -32),  # Le bas vers la gauche
+            6: (0, 64, 32, 32)  # Carrefour
         }
     
     def draw_car(self, color, x, y, angle):
