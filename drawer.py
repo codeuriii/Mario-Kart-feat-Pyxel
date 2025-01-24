@@ -19,12 +19,12 @@ class Drawer:
         }
 
         self.roads_data = {
-            0: (0, 0, 16, 16),   # Vertical road │
-            1: (16, 0, 16, 16),  # Horizontal road ─
-            2: (32, 0, 16, 16),  # Left turn (↑→)
-            3: (48, 0, 16, 16),  # Right turn (→↑)
-            4: (64, 0, 16, 16),  # Left turn mirror (↓→)
-            5: (80, 0, 16, 16),  # Left turn from horizontal (→↓)
+            0: (0, 0, 32, 32),   # Vertical road │
+            1: (32, 0, 32, 32),  # Horizontal road ─
+            2: (32, 32, 32, 32),  # le bas vers la droite
+            3: (32, 32, -32, 32),  # le bas vers la gauche
+            4: (32, 32, -32, -32),  # Le haut vers la droite
+            5: (32, 32, 32, -32),  # Le bas vers la gauche
         }
     
     def draw_car(self, color, x, y):

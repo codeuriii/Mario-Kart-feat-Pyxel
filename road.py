@@ -23,4 +23,4 @@ class Road:
             for x in range(5):
                 tile = self.road_map[y][x]
                 if tile >= 0:
-                    self.drawer.draw_road_tile(x * 16, y * 16, tile)
+                    self.drawer.draw_road_tile(x * 32, y * 32, tile)
