@@ -1,8 +1,6 @@
 import pyxel as p
 from drawer import Drawer
 
-road_map =  [[-1 for i in range(10)] for j in range(7)]
-
 road_map = [
     [1, 2, 1, 1, 1, 3, 5, 1, 1, 1],  # Horizontal road with turns
     [4, -1, -1, -1, -1, -1, 2, 5, -1, 1],  # Left turns and open spaces
