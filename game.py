@@ -24,7 +24,7 @@ class Game:
         loop.run_in_executor(None, self.start_pyxel)
 
     def start_pyxel(self):
-        p.init(160, 120, fps=60, title="Mario Kart 8.5")
+        p.init(160, 160, fps=60, title="Mario Kart 8.5")
         p.load("images.pyxres")
         p.mouse(True)
         p.run(self.update, self.draw)
