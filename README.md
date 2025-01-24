@@ -9,7 +9,6 @@
 - [ ] Faire le petit carré pour les items
 - [ ] Faire la mécanique des objets (classe, comportement etc) -> attendre le skin et le circuit (barrières) + oublie pas de pouvoir trail les carapaces verte, rouge et banane et bombe
 - [ ] dessiner des tiles d'environement / un fond (herbe / terre ect ...)
-- [ ] Gérer la caméra
 - [ ] Desing les lignes d'item sur le terrain
 
 ### nathan:
