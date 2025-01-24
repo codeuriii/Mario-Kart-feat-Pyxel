@@ -5,7 +5,6 @@
 ### ruben:
 - [ ] Dessiner pour chaque voiture de chaque couleur, tourner un peu, moitié, beaucoup et allongé
 - [ ] faire le skin des items (voir liste des items)
-- [ ] dessiner les sprites de routes -> il manque le carrefour
 - [ ] Faire le petit carré pour les items
 - [ ] Faire la mécanique des objets (classe, comportement etc) -> attendre le skin et le circuit (barrières) + oublie pas de pouvoir trail les carapaces verte, rouge et banane et bombe
 - [ ] dessiner des tiles d'environement / un fond (herbe / terre ect ...)
@@ -14,8 +13,9 @@
 ### nathan:
 - [x] fix le this room is full error
 - [x] faire un vrai circuit
-- [ ] faire le track 2 -> attendre le design du carrefour
-- [ ] faire le track 3 -> attendre le design du carrefour
+- [x] dessiner les sprites de routes -> il manque le carrefour
+- [ ] faire le track 2
+- [ ] faire le track 3
 - [ ] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
 - [ ] Enlever le token si quelqu'un se déco
 - [ ] Intégration a la manette
