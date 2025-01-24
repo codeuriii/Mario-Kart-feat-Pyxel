@@ -1,4 +1,9 @@
 
+Vous vous trouvez actuellement sur la branche feat/multi
+Cette branche est tout ce qui est en rapport avec le multi (breaking change oblige une branche)  
+Plusieurs branches sont disponibles  
+main  
+
 # compte rendu:
 ## semaine 1:
 **TO-DO:**
