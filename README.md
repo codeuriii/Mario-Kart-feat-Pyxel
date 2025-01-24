@@ -1,4 +1,8 @@
 
+Vous vous trouvez actuellement sur la branche main  
+Plusieurs branches sont disponibles  
+feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
+
 # compte rendu:
 ## semaine 1:
 **TO-DO:**
