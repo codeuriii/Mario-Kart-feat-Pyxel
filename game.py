@@ -1,6 +1,7 @@
 import asyncio
 import pyxel as p
 from player import Player
+from road import Road
 import websockets
 
 class Game:
@@ -8,12 +9,14 @@ class Game:
         self.websocket = websocket
         self.player = Player(self.websocket)
         self.players = []
+        self.road = Road() 
 
     def update(self):
         self.player.update()
 
     def draw(self):
         p.cls(0)
+        self.road.draw_road()
         self.player.car.draw_car()
 
     def run(self):
