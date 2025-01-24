@@ -32,6 +32,6 @@ class Drawer:
 
     def draw_road_tile(self, x, y, index):
         if type(index) == int:
-            p.blt(x, y, 1, *self.roads_data[index], 0)
+            p.blt(x, y, 1, *self.roads_data[index], p.COLOR_BROWN)
         elif type(index) == str:
-            p.blt(x, y, 1, *self.roads_data[self.roads[index]], 0)
+            p.blt(x, y, 1, *self.roads_data[self.roads[index]], p.COLOR_BROWN)
