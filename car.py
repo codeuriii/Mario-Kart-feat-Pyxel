@@ -15,8 +15,8 @@ class Car:
         self.deceleration = 0.05
     
     def draw_line(self):
-        end_x = self.x + 100 * p.cos(self.angle)
-        end_y = self.y + 100 * p.sin(self.angle)
+        end_x = self.x + 10 * p.cos(self.angle)
+        end_y = self.y + 10 * p.sin(self.angle)
         p.line(self.x, self.y, end_x, end_y, 7)
 
     def move(self):
