@@ -32,10 +32,10 @@ class Drawer:
         self.roads = {
             "vertical": 0,
             "horizontal": 1,
-            "vert_left": 2,
-            "right_vert": 3,
-            "desc_right": 4,
-            "right_desc": 5
+            "haut_gauche": 2,
+            "haut_droite": 3,
+            "bas_droite": 4,
+            "bas_gauche": 5
         }
 
         self.roads_data = {
