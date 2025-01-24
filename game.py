@@ -46,7 +46,7 @@ class Game:
             self.run()
         elif message == "this room is full error":
             print("This room is full.")
-            self.websocket.close()
+            await self.websocket.close()
 
 
     def create_player(self, message):

@@ -27,7 +27,7 @@ async def handler(websocket):
                 try:
                     if message == "load":
                         if client == websocket:
-                            if len(all_tokens) <= len(colors):
+                            if len(all_tokens) < len(colors):
                                 color = colors[len(all_tokens)]
                                 all_tokens.append({
                                     "token": current_token,

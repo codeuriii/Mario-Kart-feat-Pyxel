@@ -2,7 +2,7 @@
 # compte rendu:
 ## semaine 1:
 **TO-DO:**
-ruben:
+### ruben:
 - [ ] Dessiner pour chaque voiture de chaque couleur, tourner un peu, moitié, beaucoup et allongé
 - [ ] dessiner les sprites de routes -> il manque le carrefour
 - [ ] dessiner des tiles d'environement / un fond (herbe / terre ect ...)
@@ -10,8 +10,8 @@ ruben:
 - [ ] faire le skin des items (voir liste des items)
 - [ ] Gérer la caméra
 
-nathan:
-- [ ] fix le this room is full error
+### nathan:
+- [x] fix le this room is full error
 - [ ] faire un vrai circuit
 - [ ] Afficher les autres joueurs avec leur orientation
 
