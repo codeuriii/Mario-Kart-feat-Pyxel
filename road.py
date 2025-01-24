@@ -34,9 +34,19 @@ class Road:
             [roads.empty, roads.empty,       roads.empty,      roads.empty,       roads.empty,       roads.empty,      roads.empty,      roads.empty,      roads.empty]
         ]
 
+        self.track_3 = [
+            [roads.empty, roads.empty,       roads.empty,      roads.bas_droite, roads.horizontal,  roads.horizontal, roads.horizontal, roads.bas_gauche, roads.empty],
+            [roads.empty, roads.empty,       roads.empty,      roads.vertical,    roads.empty,       roads.empty,      roads.empty,      roads.vertical,   roads.empty],
+            [roads.empty, roads.bas_droite,  roads.horizontal,      roads.carrefour,   roads.horizontal,  roads.horizontal, roads.horizontal, roads.haut_gauche, roads.empty],
+            [roads.empty, roads.vertical,    roads.empty,      roads.vertical,    roads.empty,       roads.empty,      roads.empty,      roads.empty,   roads.empty],
+            [roads.empty, roads.vertical,    roads.empty,      roads.haut_droite,    roads.horizontal,       roads.horizontal,      roads.horizontal,      roads.bas_gauche,   roads.empty],
+            [roads.empty, roads.vertical,    roads.empty,      roads.empty,    roads.empty,       roads.empty,      roads.empty,      roads.vertical,   roads.empty],
+            [roads.empty, roads.haut_droite, roads.horizontal,      roads.horizontal,    roads.horizontal,       roads.horizontal,      roads.horizontal,      roads.haut_gauche,   roads.empty]
+        ]
+
     def draw_road(self):
         for y in range(7):
             for x in range(9):
-                tile = self.track_2[y][x]
+                tile = self.track_1[y][x]
                 if tile >= 0:
                     self.drawer.draw_road_tile(x * 32, y * 32, tile)

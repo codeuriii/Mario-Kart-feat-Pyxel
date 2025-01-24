@@ -14,8 +14,8 @@
 - [x] fix le this room is full error
 - [x] faire un vrai circuit
 - [x] dessiner les sprites de routes -> il manque le carrefour
-- [ ] faire le track 2
-- [ ] faire le track 3
+- [x] faire le track 2
+- [x] faire le track 3
 - [ ] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
 - [ ] Enlever le token si quelqu'un se déco
 - [ ] Intégration a la manette
