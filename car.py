@@ -21,8 +21,8 @@ class Car:
         p.line(self.x + 8 , self.y + 8, end_x + 8, end_y + 8, 7)
 
     def correct_angle(self):
-        angle = round(self.angle / 45) * 45 % 360
-        liste = [self.angle for _ in range(100)]
+        angle = round(self.angle / 45) * 45
+        liste = [self.angle for _ in range(3)]
         liste.append(angle)
         self.angle = s.mean(liste)
 
@@ -37,18 +37,20 @@ class Car:
         self.speed *= 0.99
 
     def keyboard_input(self):
-        if p.btn(p.KEY_UP):
+        if p.btn(p.KEY_UP) or p.btn(p.KEY_Z):
             self.speed += self.acceleration
-        elif p.btn(p.KEY_DOWN):
+        elif p.btn(p.KEY_DOWN) or p.btn(p.KEY_S):
             self.speed -= self.deceleration
-        if p.btn(p.KEY_LEFT):
+        if p.btn(p.KEY_LEFT) or p.btn(p.KEY_Q):
             self.angle -= self.speed_turn
-        if p.btn(p.KEY_RIGHT):
+        if p.btn(p.KEY_RIGHT) or p.btn(p.KEY_D):
             self.angle += self.speed_turn
+        
+        if not any([p.btn(p.KEY_LEFT), p.btn(p.KEY_RIGHT), p.btn(p.KEY_Q), p.btn(p.KEY_D)]):
+            self.correct_angle()
 
     def update(self):
         self.move()
-        self.correct_angle()
         self.keyboard_input()
 
     def draw_car(self):
