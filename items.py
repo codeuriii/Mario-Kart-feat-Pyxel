@@ -1,5 +1,5 @@
 from drawer import Drawer
-import math as m
+import pyxel as p
 
 class Items:
     none = -1
@@ -21,22 +21,26 @@ class Item:
         self.y = 0
         self.x_vel = 0
         self.y_vel = 0 
+        self.speed = 5
 
     def update(self):
-        print(f"Before update - x: {self.x}, y: {self.y}")
         self.x += self.x_vel
         self.y += self.y_vel
-        print(f"After update - x: {self.x}, y: {self.y}")
 
     def draw(self):
-        self.draw_item(self.x, self.y)
+        match self.id:
+            case Items.fleur_de_feu:
+                if not self.x == 10 and not self.y == 10:
+                    self.drawer.draw_item(self.x, self.y, self.id)
+                else:
+                    self.draw_item(self.x, self.y)
 
     def draw_item(self, x, y):
         self.drawer.draw_item(x, y, self.id)
 
     def use_fireball(self, player_angle):
-        self.x_vel = m.cos(player_angle)
-        self.y_vel = m.sin(player_angle)
+        self.x_vel = self.speed * p.cos(player_angle)
+        self.y_vel = self.speed * p.sin(player_angle)
 
     def throw_fireball(self):
         pass
