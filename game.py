@@ -1,8 +1,12 @@
 import asyncio
+import pygame
 import pyxel as p
 from player import Player
 from road import Road
+import os
 import websockets
+
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
 class Game:
     def __init__(self, websocket):
@@ -12,6 +16,7 @@ class Game:
         self.road = Road() 
 
     def update(self):
+
         self.player.update()
 
     def draw(self):
@@ -24,6 +29,10 @@ class Game:
         loop.run_in_executor(None, self.start_pyxel)
 
     def start_pyxel(self):
+        joystick_count = pygame.joystick.get_count()
+        if joystick_count > 0:
+            self.player.joystick = pygame.joystick.Joystick(0)
+            self.player.joystick.init()
         p.init(288, 224, fps=60, title="Mario Kart 8.5")
         p.load("images.pyxres")
         p.mouse(True)

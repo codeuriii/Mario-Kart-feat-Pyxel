@@ -1,6 +1,7 @@
 import asyncio
 import websockets
 from game import Game
+import pygame
 
 async def connect_to_server(uri, max_retries=10, retry_delay=1):
     retries = 0
@@ -18,6 +19,8 @@ async def connect_to_server(uri, max_retries=10, retry_delay=1):
 async def main():
     uri = "ws://127.0.0.1:1025"
     try:
+        pygame.init()
+        pygame.joystick.init()
         websocket = await connect_to_server(uri, max_retries=10, retry_delay=1)
         game = Game(websocket)
 
