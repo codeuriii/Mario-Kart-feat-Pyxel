@@ -1,4 +1,6 @@
 
+from drawer import Drawer
+
 class Items:
     boule_de_feu = 0,
     carapace_verte = 1
@@ -11,5 +13,9 @@ class Items:
     bullet_bill = 8
 
 class Item:
-    def __init__(self):
-        pass
+    def __init__(self, id):
+        self.id = id
+        self.drawer = Drawer()
+
+    def draw_item(self, x, y):
+        self.drawer.draw_item(x, y, self.id)

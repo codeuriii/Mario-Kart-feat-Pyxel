@@ -114,3 +114,6 @@ class Drawer:
             p.blt(x, y, 1, *self.roads_data[index], p.COLOR_BROWN)
         elif type(index) == str:
             p.blt(x, y, 1, *self.roads_data[self.roads[index]], p.COLOR_BROWN)
+
+    def draw_item(self, x, y, item):
+        p.blt(x, y, 2, *self.items_data[self.items[item]], 0)

@@ -1,4 +1,5 @@
 from car import Car
+from items import Items, Item
 
 class Player:
     def __init__(self, websocket):
