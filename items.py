@@ -1,5 +1,5 @@
 from drawer import Drawer
-import math as m
+import pyxel as p
 
 class Items:
     none = -1
@@ -14,29 +14,43 @@ class Items:
     bullet_bill = 8
 
 class Item:
-    def __init__(self, id):
+    def __init__(self, id, owner):
         self.id = id
         self.drawer = Drawer()
         self.x = 0
         self.y = 0
         self.x_vel = 0
-        self.y_vel = 0 
+        self.y_vel = 0
+        self.speed = 5
+        self.owner = owner
 
-    def update(self):
+    def update(self, player_angle):
+        match self.id:
+            case Items.fleur_de_feu:
+                self.use_fireball(player_angle)
         print(f"Before update - x: {self.x}, y: {self.y}")
         self.x += self.x_vel
         self.y += self.y_vel
         print(f"After update - x: {self.x}, y: {self.y}")
+        if self.x < 0 or self.x > p.width or self.y < 0 or self.y > p.height:
+            return False
+        return True
 
     def draw(self):
         self.draw_item(self.x, self.y)
 
-    def draw_item(self, x, y):
-        self.drawer.draw_item(x, y, self.id)
+    def draw_item(self, x, y, id=None):
+        if not id:
+            id = self.id
+        
+        if id == Items.fleur_de_feu:
+            self.drawer.draw_item(x, y, Items.boule_de_feu)
+        else:
+            self.drawer.draw_item(x, y, id)
 
     def use_fireball(self, player_angle):
-        self.x_vel = m.cos(player_angle)
-        self.y_vel = m.sin(player_angle)
+        self.x_vel = p.cos(player_angle) * self.speed
+        self.y_vel = p.sin(player_angle) * self.speed
 
     def throw_fireball(self):
         pass

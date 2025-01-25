@@ -1,5 +1,6 @@
 import asyncio
 import pyxel as p
+from items import Item
 from player import Player
 from road import Road
 import websockets
@@ -10,6 +11,7 @@ class Game:
         self.player = Player(self.websocket)
         self.players = []
         self.road = Road() 
+        self.items: list[Item] = []
 
     def update(self):
         self.player.update()
@@ -18,9 +20,10 @@ class Game:
         p.cls(p.COLOR_LIME)
         self.road.draw_road()
         self.player.car.draw_car()
-        self.player.item.update()
-        self.player.item.draw_item(10, 10)
-        self.player.item.draw()
+        for item in self.items:
+            item.update(self.player.car.angle)
+        # self.player.item.draw_item(10, 10)
+        # self.player.item.draw()
 
     def run(self):
         loop = asyncio.get_event_loop()
@@ -49,6 +52,8 @@ class Game:
             print(message)
             print(message.split("/")[1])
             self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
+        elif message.startswith("item"):
+            self.items.append(Item(message.split("-")[0].split("/")[1], message.split("-")[1].split("/")[1]))
         elif message == "run":
             self.run()
         elif message == "this room is full error":
