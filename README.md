@@ -2,7 +2,8 @@
 Vous vous trouvez actuellement sur la branche feat/multi
 Cette branche est tout ce qui est en rapport avec le multi (breaking change oblige une branche)  
 Plusieurs branches sont disponibles  
-main  
+main - La branche principale
+feat/manette - La branche qui gère la manette
 
 # compte rendu:
 ## semaine 1:
