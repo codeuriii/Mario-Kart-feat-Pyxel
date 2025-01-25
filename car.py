@@ -29,7 +29,7 @@ class Car:
             self.speed = -self.speed_max
         self.speed *= 0.99
 
-    def keyboard_input(self):
+    def keyboard_input(self, buttons, axes):
         if p.btn(p.KEY_UP):
             self.speed += self.acceleration
         elif p.btn(p.KEY_DOWN):
@@ -39,9 +39,9 @@ class Car:
         if p.btn(p.KEY_RIGHT):
             self.angle += self.speed_turn
 
-    def update(self):
+    def update(self, buttons, axes):
         self.move()
-        self.keyboard_input()
+        self.keyboard_input(buttons, axes)
 
     def draw_car(self):
         self.draw_line()
