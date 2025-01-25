@@ -42,6 +42,10 @@ class Game:
     async def handle_message(self, message):
         if message.startswith("create_player"):
             self.create_player(message)
+        elif message.startswith("delete-client"):
+            print(message)
+            print(message.split("/")[1])
+            self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
         elif message == "run":
             self.run()
         elif message == "this room is full error":

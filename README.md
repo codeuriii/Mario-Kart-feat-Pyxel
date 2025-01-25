@@ -1,6 +1,7 @@
 
-Vous vous trouvez actuellement sur la branche main  
+Vous vous trouvez actuellement sur la branche fix/removetoken
 Plusieurs branches sont disponibles  
+main - La branche principale  
 feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
 feat/manette - La branche qui gère la manette (étonnant)
 
@@ -23,8 +24,8 @@ feat/manette - La branche qui gère la manette (étonnant)
 - [x] dessiner les sprites de routes -> il manque le carrefour
 - [x] faire le track 2
 - [x] faire le track 3
+- [x] Enlever le token si quelqu'un se déco
 - [ ] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
-- [ ] Enlever le token si quelqu'un se déco
 - [ ] Intégration a la manette
 
 Brainstorm
