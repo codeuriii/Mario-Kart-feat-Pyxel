@@ -1,6 +1,5 @@
 
-Vous vous trouvez actuellement sur la branche feat/manette  
-Cette branche est pour l'intégration de la manette (switch joycon)  
+Vous vous trouvez actuellement sur la branche fix/removetoken
 Plusieurs branches sont disponibles  
 main - La branche principale
 feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
