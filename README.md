@@ -5,6 +5,10 @@ main - La branche principale
 feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
 feat/manette - La branche qui gère la manette (étonnant)
 
+[ ] -> Pas fait
+[>] -> une branche dédiée, en cours
+[x] -> terminé
+
 # compte rendu:
 ## semaine 1:
 **TO-DO:**
@@ -25,8 +29,8 @@ feat/manette - La branche qui gère la manette (étonnant)
 - [x] faire le track 2
 - [x] faire le track 3
 - [x] Enlever le token si quelqu'un se déco
-- [ ] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
-- [ ] Intégration a la manette
+- [>] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
+- [>] Intégration a la manette
 
 Brainstorm
 
