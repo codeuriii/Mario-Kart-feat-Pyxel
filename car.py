@@ -1,4 +1,5 @@
 import pyxel as p
+import statistics as s
 from drawer import Drawer
 
 class Car:
@@ -18,6 +19,12 @@ class Car:
         end_x = self.x + 10 * p.cos(self.angle)
         end_y = self.y + 10 * p.sin(self.angle)
         p.line(self.x + 8 , self.y + 8, end_x + 8, end_y + 8, 7)
+
+    def correct_angle(self):
+        angle = round(self.angle / 45) * 45 % 360
+        liste = [self.angle for _ in range(100)]
+        liste.append(angle)
+        self.angle = s.mean(liste)
 
     def move(self):
         self.x += self.speed * p.cos(self.angle)
@@ -41,6 +48,7 @@ class Car:
 
     def update(self):
         self.move()
+        self.correct_angle()
         self.keyboard_input()
 
     def draw_car(self):
