@@ -1,7 +1,7 @@
 
 Vous vous trouvez actuellement sur la branche fix/removetoken
 Plusieurs branches sont disponibles  
-main - La branche principale
+main - La branche principale  
 feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
 
 # compte rendu:
