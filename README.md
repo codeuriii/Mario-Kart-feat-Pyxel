@@ -1,6 +1,8 @@
 
-Vous vous trouvez actuellement sur la branche main  
+Vous vous trouvez actuellement sur la branche feat/manette  
+Cette branche est pour l'intégration de la manette (switch joycon)  
 Plusieurs branches sont disponibles  
+main - La branche principale
 feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
 
 # compte rendu:
