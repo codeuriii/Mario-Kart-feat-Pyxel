@@ -2,6 +2,9 @@ import asyncio
 import websockets
 from game import Game
 import pygame
+import os
+
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
 async def connect_to_server(uri, max_retries=10, retry_delay=1):
     retries = 0
