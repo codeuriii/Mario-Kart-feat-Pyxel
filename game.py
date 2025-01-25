@@ -12,9 +12,7 @@ class Game:
         self.road = Road() 
 
     def update(self):
-        axes = [self.player.joystick.get_axis(i) for i in range(self.player.joystick.get_numaxes())]
-        buttons = [self.player.joystick.get_button(i) for i in range(self.player.joystick.get_numbuttons())]
-        self.player.update(buttons, axes)
+        self.player.update()
 
     def draw(self):
         p.cls(p.COLOR_LIME)
