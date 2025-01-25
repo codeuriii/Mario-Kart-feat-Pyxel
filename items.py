@@ -23,6 +23,7 @@ class Item:
         self.y_vel = 0
         self.speed = 5
         self.owner = owner
+        self.speed = 5
 
     def update(self, player_angle):
         match self.id:
@@ -37,7 +38,12 @@ class Item:
         return True
 
     def draw(self):
-        self.draw_item(self.x, self.y)
+        match self.id:
+            case Items.fleur_de_feu:
+                if not self.x == 10 and not self.y == 10:
+                    self.drawer.draw_item(self.x, self.y, self.id)
+                else:
+                    self.draw_item(self.x, self.y)
 
     def draw_item(self, x, y, id=None):
         if not id:
@@ -49,8 +55,8 @@ class Item:
             self.drawer.draw_item(x, y, id)
 
     def use_fireball(self, player_angle):
-        self.x_vel = p.cos(player_angle) * self.speed
-        self.y_vel = p.sin(player_angle) * self.speed
+        self.x_vel = self.speed * p.cos(player_angle)
+        self.y_vel = self.speed * p.sin(player_angle)
 
     def throw_fireball(self):
         pass
