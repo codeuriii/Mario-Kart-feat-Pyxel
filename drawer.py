@@ -55,6 +55,30 @@ class Drawer:
             "carrefour": 6
         }
 
+        self.items = {
+            "boule_de_feu": 0,
+            "carapace_verte": 1,
+            "carapace_rouge": 2,
+            "carapace_bleue": 3,
+            "banane": 4,
+            "fleur_de_feu": 5,
+            "bombe": 6,
+            "horn": 7,
+            "bullet_bill": 8,
+        }
+
+        self.items_data = {
+            0: (0, 0, 16, 16),  # Boule de feu
+            1: (16, 0, 16, 16),  # Carapace verte
+            2: (32, 0, 16, 16),  # Carapace rouge
+            3: (48, 0, 16, 16),  # Carapace bleue
+            4: (64, 0, 16, 16),  # Banane
+            5: (80, 0, 16, 16),  # Fleur de feu
+            6: (96, 0, 16, 16),  # Bombe
+            7: (112, 0, 16, 16),  # Horn
+            8: (128, 0, 16, 16),  # Bullet Bill
+        }
+
         self.roads_data = {
             0: (0, 0, 32, 32),   # Vertical road │
             1: (32, 0, 32, 32),  # Horizontal road ─
