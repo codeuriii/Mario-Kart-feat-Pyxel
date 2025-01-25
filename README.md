@@ -14,7 +14,7 @@ feat/manette - La branche qui gère la manette (étonnant)
 **TO-DO:**
 ### ruben:
 - [X] Dessiner pour chaque voiture de chaque couleur en diagonale 
-- [ ] faire le skin des items (voir liste des items)
+- [x] faire le skin des items (voir liste des items)
 - [ ] Faire le petit carré pour les items
 - [ ] Faire la mécanique des objets (classe, comportement etc) -> attendre le skin et le circuit (barrières) + oublie pas de pouvoir trail les carapaces verte, rouge et banane et bombe
 - [ ] dessiner des tiles d'environement / un fond (herbe / terre ect ...)
