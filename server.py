@@ -17,6 +17,7 @@ def generate_token():
     return ''.join(random.choices(string.ascii_letters + string.digits, k=8))
 
 async def handler(websocket):
+    global all_tokens
     connected_clients.add(websocket)
     try:
         current_token = generate_token()
@@ -52,8 +53,11 @@ async def handler(websocket):
                     disconnected_clients.append(client)
             # Nettoyer les clients déconnectés
             for client in disconnected_clients:
+                all_tokens = [token for token in all_tokens if token['token'] != current_token]
                 connected_clients.remove(client)
     except websockets.ConnectionClosed:
+        all_tokens = [token for token in all_tokens if token['token'] != current_token]
+        connected_clients.remove(websocket)
         print("Client disconnected.")
 
 async def main():

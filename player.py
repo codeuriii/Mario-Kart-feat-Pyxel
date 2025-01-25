@@ -1,5 +1,4 @@
 from car import Car
-import pygame
 
 class Player:
     def __init__(self, websocket):
@@ -11,7 +10,6 @@ class Player:
             self.parse_id()
             self.color = self.get_color()
             self.car = Car(10, 10, self.color)
-            self.joystick: pygame.joystick.JoystickType = None
             await self.websocket.send("get_players")
             await self.websocket.send("run")
     
