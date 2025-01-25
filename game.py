@@ -15,7 +15,7 @@ class Game:
         self.player.update()
 
     def draw(self):
-        p.cls(p.COLOR_LIME)
+        p.cls(p.COLOR_BROWN)
         self.road.draw_road()
         self.player.car.draw_car()
         self.player.item.update()
