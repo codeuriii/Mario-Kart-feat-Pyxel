@@ -31,6 +31,7 @@ feat/manette - La branche qui gère la manette (étonnant)
 - [x] Enlever le token si quelqu'un se déco
 - [>] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
 - [>] Intégration a la manette
+- [>] Correction de la direction
 
 Brainstorm
 
