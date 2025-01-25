@@ -68,15 +68,15 @@ class Drawer:
         }
 
         self.items_data = {
-            0: (0, 0, 16, 16),  # Boule de feu
-            1: (16, 0, 16, 16),  # Carapace verte
-            2: (32, 0, 16, 16),  # Carapace rouge
-            3: (48, 0, 16, 16),  # Carapace bleue
-            4: (64, 0, 16, 16),  # Banane
-            5: (80, 0, 16, 16),  # Fleur de feu
-            6: (96, 0, 16, 16),  # Bombe
-            7: (112, 0, 16, 16),  # Horn
-            8: (128, 0, 16, 16),  # Bullet Bill
+            0: (0, 0, 8, 8),  # Boule de feu
+            1: (8, 0, 8, 8),  # Carapace verte
+            2: (16, 0, 8, 8),  # Carapace rouge
+            3: (24, 0, 8, 8),  # Carapace bleue
+            4: (32, 0, 8, 8),  # Peau de banane
+            5: (40, 0, 8, 8),  # Fleur de feu
+            6: (48, 0, 8, 8),  # Bombe
+            7: (56, 0, 8, 8),  # Klaxon
+            8: (64, 0, 8, 8)  # Bullet Bill
         }
 
         self.roads_data = {
@@ -116,4 +116,5 @@ class Drawer:
             p.blt(x, y, 1, *self.roads_data[self.roads[index]], p.COLOR_BROWN)
 
     def draw_item(self, x, y, item):
-        p.blt(x, y, 2, *self.items_data[self.items[item]], 0)
+        if item >= 0:
+            p.blt(x, y, 2, *self.items_data[item], 0)

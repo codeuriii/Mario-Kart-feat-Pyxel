@@ -2,6 +2,7 @@
 from drawer import Drawer
 
 class Items:
+    none = -1
     boule_de_feu = 0,
     carapace_verte = 1
     carapace_rouge = 2

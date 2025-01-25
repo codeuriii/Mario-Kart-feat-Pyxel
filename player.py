@@ -4,7 +4,7 @@ from items import Items, Item
 class Player:
     def __init__(self, websocket):
         self.websocket = websocket
-        self.item = None
+        self.item = Item(Items.none)
 
     async def handle_message(self, message):
         if message.startswith("id"):

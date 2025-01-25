@@ -18,6 +18,7 @@ class Game:
         p.cls(p.COLOR_LIME)
         self.road.draw_road()
         self.player.car.draw_car()
+        self.player.item.draw_item(10, 10)
 
     def run(self):
         loop = asyncio.get_event_loop()
