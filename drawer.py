@@ -107,7 +107,6 @@ class Drawer:
             p.blt(x, y, 0, *self.cars[color]["diagonale bas gauche"], 0)
         elif angle == 45:
             p.blt(x, y, 0, *self.cars[color]["diagonale bas droite"], 0)
-        # p.blt(x, y, 0, *self.cars[color], 0)
 
     def draw_road_tile(self, x, y, index):
         if type(index) == int:
