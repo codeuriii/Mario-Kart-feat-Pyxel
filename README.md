@@ -2,6 +2,7 @@
 Vous vous trouvez actuellement sur la branche main  
 Plusieurs branches sont disponibles  
 feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
+feat/manette - La branche qui gère la manette (étonnant)
 
 # compte rendu:
 ## semaine 1:
