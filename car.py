@@ -12,8 +12,12 @@ class Car:
         self.drawer = Drawer()
         self.speed_turn = 5
         self.speed_max = 3
+        self.speed_max_svgd = self.speed_max
         self.acceleration = 0.1
         self.deceleration = 0.05
+
+    def get_center(self):
+        return self.x + 8, self.y + 8
     
     def draw_line(self):
         end_x = self.x + 10 * p.cos(self.angle)
@@ -26,14 +30,17 @@ class Car:
         liste.append(angle)
         self.angle = s.mean(liste)
 
-    def move(self):
+    def move(self, hors_piste):
         self.x += self.speed * p.cos(self.angle)
         self.y += self.speed * p.sin(self.angle)
         self.speed_turn = max(1, 5 - self.speed * 0.1)
+        if hors_piste:
+            self.speed_max = 1
         if self.speed > self.speed_max:
             self.speed = self.speed_max
         elif self.speed < -self.speed_max:
             self.speed = -self.speed_max
+        self.speed_max = self.speed_max_svgd
         self.speed *= 0.99
 
     def keyboard_input(self):
@@ -49,8 +56,8 @@ class Car:
         if not any([p.btn(p.KEY_LEFT), p.btn(p.KEY_RIGHT), p.btn(p.KEY_Q), p.btn(p.KEY_D)]):
             self.correct_angle()
 
-    def update(self):
-        self.move()
+    def update(self, hors_piste):
+        self.move(hors_piste)
         self.keyboard_input()
 
     def draw_car(self):
