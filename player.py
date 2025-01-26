@@ -7,7 +7,7 @@ import asyncio
 class Player:
     def __init__(self, websocket):
         self.websocket = websocket
-        self.item = Item(Items.fleur_de_feu, self)
+        self.item = Item(Items.bullet_bill, self)
 
     async def handle_message(self, message):
         if message.startswith("id"):
