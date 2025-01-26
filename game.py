@@ -2,6 +2,7 @@ import asyncio
 import pyxel as p
 from items import Item
 from player import Player
+import player
 from road import Road, Roads
 import websockets
 
@@ -48,7 +49,7 @@ class Game:
     def update(self):
         self.player.update(self.check_hors_piste())
         for item in self.items:
-            item.update()
+            item.update(self.player.car.x, self.player.car.y, self.player.car.angle)
     
     def check_hors_piste(self):
         car_x, car_y = self.player.car.get_center()
@@ -63,8 +64,7 @@ class Game:
         self.player.car.draw_car()
         for item in self.items:
             item.draw()
-        # self.player.item.draw_item(10, 10)
-        # self.player.item.draw()
+            # print(f"item x {item.x}, item y {item.y}")
 
     def run(self):
         loop = asyncio.get_event_loop()

@@ -1,13 +1,12 @@
 from car import Car
 import pyxel as p
 from items import Items, Item
-import items
 import asyncio
 
 class Player:
     def __init__(self, websocket):
         self.websocket = websocket
-        self.item = Item(Items.fleur_de_feu, self)
+        self.item = Item(Items.carapace_verte, self)
 
     async def handle_message(self, message):
         if message.startswith("id"):

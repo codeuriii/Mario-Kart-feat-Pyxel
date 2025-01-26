@@ -115,5 +115,8 @@ class Drawer:
             p.blt(x, y, 1, *self.roads_data[self.roads[index]], p.COLOR_BROWN)
 
     def draw_item(self, x, y, item):
-        if item >= 0:
-            p.blt(x, y, 2, *self.items_data[item], 0)
+        if isinstance(item, int):
+            if item >= 0:
+                p.blt(x, y, 2, *self.items_data[item], 0)
+        else:
+            print(f"Expected an integer for id ({item}), but got {type(item)}")

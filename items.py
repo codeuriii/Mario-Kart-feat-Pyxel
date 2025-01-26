@@ -12,7 +12,7 @@ class Items:
     bullet_bill = 8
 
 class Item:
-    def __init__(self, id, owner):
+    def __init__(self, id):
         self.id = id
         self.drawer = Drawer()
         self.x = 0
@@ -20,10 +20,11 @@ class Item:
         self.x_vel = 0
         self.y_vel = 0
         self.speed = 5
-        self.owner = owner
         self.speed = 5
 
-    def update(self):
+    def update(self, player_x, player_y, player_angle):
+        self.check_item_use(player_x, player_y, player_angle)
+
         self.x += self.x_vel
         self.y += self.y_vel
 
@@ -31,14 +32,25 @@ class Item:
             return False
         return True
 
-    def draw(self):
-        pass 
+    def check_item_use(self, player_x, player_y, player_angle):
+        if p.btnp(p.KEY_E):
+            print(f"id: {self.id}; id type: {type(self.id)} Items.carapace_verte = {Items.carapace_verte}")
+            match int(self.id):
+                case Items.carapace_verte:
+                    self.x = player_x
+                    self.y = player_y
+                    print(f"coor = {self.x, self.y}")
+                    self.launch_green_shell(player_angle)
 
-    def draw_item(self, x, y, id=None):
+    def draw(self):
+        self.draw_item(self.x, self.y, int(self.id))
+
+    def draw_item(self, x, y, id):
         self.drawer.draw_item(x, y, id)
 
-    def launch_green_shell(self):
-        pass
+    def launch_green_shell(self, player_angle):
+        self.x_vel = self.speed * p.cos(player_angle)
+        self.y_vel = self.speed * p.sin(player_angle)
 
     def launch_red_shell(self):
         pass
