@@ -24,6 +24,8 @@ async def main():
     try:
         websocket = await connect_to_server(uri, max_retries=10, retry_delay=1)
         game = Game(websocket)
+        pygame.init()
+        pygame.joystick.init()
 
         print("Starting game tasks...")
         await asyncio.gather(

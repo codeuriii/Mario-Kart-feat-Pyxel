@@ -9,6 +9,7 @@ class Player:
         self.websocket = websocket
         self.item = Item(Items.fleur_de_feu, self)
         self.joystick = None
+        print(pygame.joystick.get_count())
         if pygame.joystick.get_count() > 0:
             self.joystick = pygame.joystick.Joystick(0)
             self.joystick.init()
