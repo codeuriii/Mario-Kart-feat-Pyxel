@@ -46,7 +46,6 @@ Liste des items
 - Carapace verte
 - Carapace rouge
 - Bleue ?
-- Fleur de feu
 - Bombe
 - Bullet bill ?
 - Horn
