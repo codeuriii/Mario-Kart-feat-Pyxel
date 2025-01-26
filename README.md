@@ -35,6 +35,7 @@ feat/correctdirection - La branche pour ajuster l'angle de la voiture pour l'ali
 - [x] Faire le hors piste
 - [>] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
 - [>] Intégration a la manette
+- [ ] Faire le comportement du bullet bill
 
 Brainstorm
 
