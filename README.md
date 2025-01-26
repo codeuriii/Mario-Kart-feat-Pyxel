@@ -31,9 +31,10 @@ feat/correctdirection - La branche pour ajuster l'angle de la voiture pour l'ali
 - [x] faire le track 2
 - [x] faire le track 3
 - [x] Enlever le token si quelqu'un se déco
+- [x] Correction de la direction
 - [>] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
 - [>] Intégration a la manette
-- [>] Correction de la direction
+- [ ] Faire le hors piste
 
 Brainstorm
 
