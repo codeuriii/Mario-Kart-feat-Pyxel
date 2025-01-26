@@ -1,13 +1,17 @@
+import pygame
 from car import Car
 import pyxel as p
 from items import Items, Item
-import items
 import asyncio
 
 class Player:
     def __init__(self, websocket):
         self.websocket = websocket
         self.item = Item(Items.fleur_de_feu, self)
+        self.joystick = None
+        if pygame.joystick.get_count() > 0:
+            self.joystick = pygame.joystick.Joystick(0)
+            self.joystick.init()
 
     async def handle_message(self, message):
         if message.startswith("id"):
@@ -34,11 +38,3 @@ class Player:
     def check_use_item(self):
         if p.btnp(p.KEY_E):
             asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.infos["id"]}"))
-    
-    # def use_item(self):
-    #     match self.item.id:
-    #         case Items.fleur_de_feu:
-    #             self.item.x = self.car.x
-    #             self.item.y = self.car.y
-    #             self.item.use_fireball(self.car.angle)
-        

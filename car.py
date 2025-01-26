@@ -44,15 +44,17 @@ class Car:
         self.speed *= 0.99
 
     def keyboard_input(self, buttons, axes):
-        if p.btn(p.KEY_UP) or p.btn(p.KEY_Z):
-            self.speed += self.acceleration
-        if p.btn(p.KEY_DOWN) or p.btn(p.KEY_S):
-            self.speed -= self.deceleration
-        if p.btn(p.KEY_LEFT) or p.btn(p.KEY_Q):
-            self.angle -= self.speed_turn
-        if p.btn(p.KEY_RIGHT) or p.btn(p.KEY_D):
-            self.angle += self.speed_turn
-    
+        if not (buttons and axes):
+            if p.btn(p.KEY_UP) or p.btn(p.KEY_Z):
+                self.speed += self.acceleration
+            if p.btn(p.KEY_DOWN) or p.btn(p.KEY_S):
+                self.speed -= self.deceleration
+            if p.btn(p.KEY_LEFT) or p.btn(p.KEY_Q):
+                self.angle -= self.speed_turn
+            if p.btn(p.KEY_RIGHT) or p.btn(p.KEY_D):
+                self.angle += self.speed_turn
+        else:
+            pass
 
     def update(self, hors_piste, buttons, axes):
         self.move(hors_piste)

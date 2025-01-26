@@ -46,15 +46,18 @@ class Game:
         self.items: list[Item] = []
 
     def update(self):
-        axes = [self.player.joystick.get_axis(i) for i in range(self.player.joystick.get_numaxes())]
-        buttons = [self.player.joystick.get_button(i) for i in range(self.player.joystick.get_numbuttons())]
-        name = self.player.joystick.get_name()
-        if "HORIPAD" in name:
-            buttons.extend(reversed([axes.pop(), axes.pop()]))
-            buttons[-1] = 1 if buttons[-1] > 0 else 0
-            buttons[-2] = 1 if buttons[-2] > 0 else 0
+        buttons = []
+        axes = []
+        if self.player.joystick:
+            axes = [self.player.joystick.get_axis(i) for i in range(self.player.joystick.get_numaxes())]
+            buttons = [self.player.joystick.get_button(i) for i in range(self.player.joystick.get_numbuttons())]
+            name = self.player.joystick.get_name()
+            if "HORIPAD" in name:
+                buttons.extend(reversed([axes.pop(), axes.pop()]))
+                buttons[-1] = 1 if buttons[-1] > 0 else 0
+                buttons[-2] = 1 if buttons[-2] > 0 else 0
 
-        print(buttons.index(1) if 1 in buttons else None)
+            print(buttons.index(1) if 1 in buttons else None)
         self.player.update(self.check_hors_piste(), buttons, axes)
     
     def check_hors_piste(self):
