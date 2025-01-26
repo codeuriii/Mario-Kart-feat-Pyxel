@@ -34,7 +34,7 @@ class Item:
 
 
     def check_item_use(self, player_x, player_y, player_angle):
-        if p.btnp(p.KEY_E):
+        if p.btnp(p.KEY_E) and self.id:
             match int(self.id):
                 case Items.carapace_verte:
                     self.x = player_x
@@ -42,7 +42,8 @@ class Item:
                     self.launch_green_shell(player_angle)
 
     def draw(self):
-        self.draw_item(self.x, self.y, int(self.id))
+        if self.id: 
+            self.draw_item(self.x, self.y, int(self.id))
 
     def draw_item(self, x, y, id):
         self.drawer.draw_item(x, y, id)

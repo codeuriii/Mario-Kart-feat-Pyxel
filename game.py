@@ -48,7 +48,8 @@ class Game:
 
     def update(self):
         self.player.update(self.check_hors_piste())
-        for item in self.items:
+        for item in self.items: 
+            print(f"id {item.id}")
             item.update(self.player.car.x, self.player.car.y, self.player.car.angle)
     
     def check_hors_piste(self):
