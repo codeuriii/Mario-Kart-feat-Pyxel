@@ -1,4 +1,3 @@
-from asyncio import set_child_watcher
 from drawer import Drawer
 import pyxel as p
 
