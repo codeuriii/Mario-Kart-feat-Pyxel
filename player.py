@@ -33,3 +33,4 @@ class Player:
     def check_use_item(self):
         if p.btnp(p.KEY_E):
             asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.infos["id"]}"))
+            self.item.id = Items.none
