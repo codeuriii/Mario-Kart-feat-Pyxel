@@ -35,7 +35,7 @@ class Car:
         self.y += self.speed * p.sin(self.angle)
         self.speed_turn = max(1, 5 - self.speed * 0.1)
         if hors_piste:
-            self.speed_max = 1
+            self.speed_max = .5
         if self.speed > self.speed_max:
             self.speed = self.speed_max
         elif self.speed < -self.speed_max:
