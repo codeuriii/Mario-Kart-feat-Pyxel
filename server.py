@@ -48,6 +48,9 @@ async def handler(websocket):
                     elif message == "run":
                         if client == websocket:
                             await client.send("run")
+                    
+                    elif message.startswith("item"):
+                        await client.send(message)
 
                 except websockets.ConnectionClosed:
                     disconnected_clients.append(client)
