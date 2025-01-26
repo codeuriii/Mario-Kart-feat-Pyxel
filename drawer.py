@@ -117,3 +117,6 @@ class Drawer:
     def draw_item(self, x, y, item):
         if item >= 0:
             p.blt(x, y, 2, *self.items_data[item], 0)
+
+    def draw_item_case(self):
+        p.rectb(p.width - 24, 6, 16, 16, p.COLOR_BLACK)

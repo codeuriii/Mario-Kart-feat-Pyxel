@@ -61,10 +61,11 @@ class Game:
         p.cls(p.COLOR_LIME)
         self.road.draw_road(self.track)
         self.player.car.draw_car()
+        self.player.item.draw_item_case()
+        if self.player.item is not None:
+            self.player.item.draw_item(p.width - 20, 10)
         for item in self.items:
             item.draw()
-        # self.player.item.draw_item(10, 10)
-        # self.player.item.draw()
 
     def run(self):
         loop = asyncio.get_event_loop()

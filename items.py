@@ -34,7 +34,12 @@ class Item:
     def draw(self):
         pass 
 
+    def draw_item_case(self):
+        self.drawer.draw_item_case()
+
     def draw_item(self, x, y, id=None):
+        if not id:
+            id = self.id
         self.drawer.draw_item(x, y, id)
 
     def launch_green_shell(self):
