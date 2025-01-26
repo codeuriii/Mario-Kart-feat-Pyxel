@@ -24,6 +24,8 @@ class Item:
         self.speed = 5
         self.owner = owner
         self.speed = 5
+        self.fireball_arr = []
+        self.item_timer = 100 # temporary number for testing: TODO: adjust
 
     def update(self, player_angle):
         match self.id:
@@ -36,6 +38,14 @@ class Item:
         if self.x < 0 or self.x > p.width or self.y < 0 or self.y > p.height:
             return False
         return True
+
+    def draw(self):
+        match self.id:
+            case Items.fleur_de_feu:
+                if not self.x == 10 and not self.y == 10:
+                    self.drawer.draw_item(self.x, self.y, Items.boule_de_feu)
+                else:
+                    self.draw_item(self.x, self.y)
 
     def draw_item(self, x, y, id=None):
         if not id:
