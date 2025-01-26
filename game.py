@@ -94,7 +94,7 @@ class Game:
             print(message.split("/")[1])
             self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
         elif message.startswith("item"):
-            self.items.append(Item(message.split("-")[0].split("/")[1], message.split("-")[1].split("/")[1]))
+            self.items.append(Item(message.split("-")[0].split("/")[1]))
         elif message == "run":
             self.run()
         elif message == "this room is full error":

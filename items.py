@@ -1,3 +1,4 @@
+from asyncio import set_child_watcher
 from drawer import Drawer
 import pyxel as p
 
@@ -21,8 +22,13 @@ class Item:
         self.y_vel = 0
         self.speed = 5
         self.speed = 5
+        self.is_single_use = False
+        self.used = False
 
     def update(self, player_x, player_y, player_angle):
+        print(f"used? {self.used}")
+        print(f"single use? {self.is_single_use}")
+        self.check_single_use()
         self.check_item_use(player_x, player_y, player_angle)
 
         self.x += self.x_vel
@@ -32,14 +38,22 @@ class Item:
             return False
         return True
 
+    def check_single_use(self):
+        match int(self.id):
+            case Items.carapace_verte:
+                self.is_single_use = True
+
     def check_item_use(self, player_x, player_y, player_angle):
+        if self.used:
+            return
+
         if p.btnp(p.KEY_E):
-            print(f"id: {self.id}; id type: {type(self.id)} Items.carapace_verte = {Items.carapace_verte}")
+            if self.is_single_use:
+                self.used = True
             match int(self.id):
                 case Items.carapace_verte:
                     self.x = player_x
                     self.y = player_y
-                    print(f"coor = {self.x, self.y}")
                     self.launch_green_shell(player_angle)
 
     def draw(self):
