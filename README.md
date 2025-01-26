@@ -5,6 +5,7 @@ feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change 
 feat/manette - La branche qui gère la manette (étonnant)  
 fix/removetoken - La branche pour pouvoir se déconecter du serveur et actualiser les joueurs
 feat/horspiste - La branche pour ralentir dans le hors piste
+feat/correctdirection - La branche pour ajuster l'angle de la voiture pour l'aligner sur la route
 
 [ ] -> Pas fait  
 [>] -> une branche dédiée, en cours  
