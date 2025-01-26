@@ -41,7 +41,7 @@ class Item:
         match self.id:
             case Items.fleur_de_feu:
                 if not self.x == 10 and not self.y == 10:
-                    self.drawer.draw_item(self.x, self.y, self.id)
+                    self.drawer.draw_item(self.x, self.y, Items.boule_de_feu)
                 else:
                     self.draw_item(self.x, self.y)
 
