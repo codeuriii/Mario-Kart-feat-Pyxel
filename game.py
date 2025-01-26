@@ -10,43 +10,52 @@ class Game:
         self.player = Player(self.websocket)
         self.players = []
         self.road = Road()
-        roads = Roads()
+        self.roads = Roads()
         self.track_1 = [
-            [roads.empty, roads.bas_droite,  roads.horizontal, roads.horizontal,  roads.horizontal,  roads.horizontal, roads.horizontal, roads.bas_gauche,  roads.empty],
-            [roads.empty, roads.vertical,    roads.empty,      roads.empty,       roads.empty,       roads.empty,      roads.empty,      roads.vertical,    roads.empty],
-            [roads.empty, roads.haut_droite, roads.horizontal, roads.horizontal,  roads.bas_gauche,  roads.empty,      roads.empty,      roads.vertical,    roads.empty],
-            [roads.empty, roads.empty,       roads.empty,      roads.empty,       roads.vertical,    roads.empty,      roads.empty,      roads.vertical,    roads.empty],
-            [roads.empty, roads.bas_droite,  roads.horizontal, roads.horizontal,  roads.haut_gauche, roads.empty,      roads.empty,      roads.vertical,    roads.empty],
-            [roads.empty, roads.vertical,    roads.empty,      roads.empty,       roads.empty,       roads.empty,      roads.empty,      roads.vertical,    roads.empty],
-            [roads.empty, roads.haut_droite, roads.horizontal, roads.horizontal,  roads.horizontal,  roads.horizontal, roads.horizontal, roads.haut_gauche, roads.empty]
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.bas_gauche,  self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.haut_gauche, self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
         ]
 
         self.track_2 = [
-            [roads.empty, roads.empty,       roads.empty,      roads.empty,       roads.empty,       roads.empty,      roads.empty,      roads.empty,       roads.empty],
-            [roads.empty, roads.bas_droite,  roads.horizontal, roads.bas_gauche,  roads.empty,       roads.empty,      roads.empty,      roads.empty,       roads.empty],
-            [roads.empty, roads.vertical,    roads.empty,      roads.vertical,    roads.empty,       roads.empty,      roads.empty,      roads.empty,       roads.empty],
-            [roads.empty, roads.haut_droite, roads.horizontal, roads.carrefour,   roads.horizontal,  roads.horizontal, roads.horizontal, roads.bas_gauche,  roads.empty],
-            [roads.empty, roads.empty,       roads.empty,      roads.vertical,    roads.empty,       roads.empty,      roads.empty,      roads.vertical,    roads.empty],
-            [roads.empty, roads.empty,       roads.empty,      roads.haut_droite, roads.horizontal,  roads.horizontal, roads.horizontal, roads.haut_gauche, roads.empty],
-            [roads.empty, roads.empty,       roads.empty,      roads.empty,       roads.empty,       roads.empty,      roads.empty,      roads.empty,       roads.empty]
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.haut_droite, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty]
         ]
 
         self.track_3 = [
-            [roads.empty, roads.empty,       roads.empty,      roads.bas_droite,  roads.horizontal, roads.horizontal, roads.horizontal, roads.bas_gauche,  roads.empty],
-            [roads.empty, roads.empty,       roads.empty,      roads.vertical,    roads.empty,      roads.empty,      roads.empty,      roads.vertical,    roads.empty],
-            [roads.empty, roads.bas_droite,  roads.horizontal, roads.carrefour,   roads.horizontal, roads.horizontal, roads.horizontal, roads.haut_gauche, roads.empty],
-            [roads.empty, roads.vertical,    roads.empty,      roads.vertical,    roads.empty,      roads.empty,      roads.empty,      roads.empty,       roads.empty],
-            [roads.empty, roads.vertical,    roads.empty,      roads.haut_droite, roads.horizontal, roads.horizontal, roads.horizontal, roads.bas_gauche,  roads.empty],
-            [roads.empty, roads.vertical,    roads.empty,      roads.empty,       roads.empty,      roads.empty,      roads.empty,      roads.vertical,    roads.empty],
-            [roads.empty, roads.haut_droite, roads.horizontal, roads.horizontal,  roads.horizontal, roads.horizontal, roads.horizontal, roads.haut_gauche, roads.empty]
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
         ]
 
+        self.track = self.track_3
+
     def update(self):
-        self.player.update()
+        self.player.update(self.check_hors_piste())
+    
+    def check_hors_piste(self):
+        car_x, car_y = self.player.car.get_center()
+        tile_x, tile_y = int(car_x // 32), int(car_y // 32)
+        if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
+            return self.track[tile_y][tile_x] == self.roads.empty
+        return True
 
     def draw(self):
         p.cls(p.COLOR_LIME)
-        self.road.draw_road(self.track_3)
+        self.road.draw_road(self.track)
         self.player.car.draw_car()
         self.player.item.draw_item(10, 10)
 
