@@ -1,5 +1,5 @@
 
-Vous vous trouvez actuellement sur la branche fix/removetoken
+Vous vous trouvez actuellement sur la branche feat/horspiste
 Plusieurs branches sont disponibles  
 main - La branche principale  
 feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
