@@ -1,8 +1,8 @@
 import asyncio
-import pygame
 import pyxel as p
+from items import Item
 from player import Player
-from road import Road
+from road import Road, Roads
 import websockets
 
 class Game:
@@ -10,7 +10,40 @@ class Game:
         self.websocket = websocket
         self.player = Player(self.websocket)
         self.players = []
-        self.road = Road() 
+        self.road = Road()
+        self.roads = Roads()
+        self.track_1 = [
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.bas_gauche,  self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.haut_gauche, self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
+        ]
+
+        self.track_2 = [
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.haut_droite, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty]
+        ]
+
+        self.track_3 = [
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
+        ]
+
+        self.track = self.track_3
+        self.items: list[Item] = []
 
     def update(self):
         axes = [self.player.joystick.get_axis(i) for i in range(self.player.joystick.get_numaxes())]
@@ -22,22 +55,29 @@ class Game:
             buttons[-2] = 1 if buttons[-2] > 0 else 0
 
         print(buttons.index(1) if 1 in buttons else None)
-        self.player.update(buttons, axes)
+        self.player.update(self.check_hors_piste(), buttons, axes)
+    
+    def check_hors_piste(self):
+        car_x, car_y = self.player.car.get_center()
+        tile_x, tile_y = int(car_x // 32), int(car_y // 32)
+        if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
+            return self.track[tile_y][tile_x] == self.roads.empty
+        return True
 
     def draw(self):
         p.cls(p.COLOR_LIME)
-        self.road.draw_road()
+        self.road.draw_road(self.track)
         self.player.car.draw_car()
+        for item in self.items:
+            item.update(self.player.car.angle)
+        # self.player.item.draw_item(10, 10)
+        # self.player.item.draw()
 
     def run(self):
         loop = asyncio.get_event_loop()
         loop.run_in_executor(None, self.start_pyxel)
 
     def start_pyxel(self):
-        joystick_count = pygame.joystick.get_count()
-        if joystick_count > 0:
-            self.player.joystick = pygame.joystick.Joystick(0)
-            self.player.joystick.init()
         p.init(288, 224, fps=60, title="Mario Kart 8.5")
         p.load("images.pyxres")
         p.mouse(True)
@@ -56,6 +96,12 @@ class Game:
     async def handle_message(self, message):
         if message.startswith("create_player"):
             self.create_player(message)
+        elif message.startswith("delete-client"):
+            print(message)
+            print(message.split("/")[1])
+            self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
+        elif message.startswith("item"):
+            self.items.append(Item(message.split("-")[0].split("/")[1], message.split("-")[1].split("/")[1]))
         elif message == "run":
             self.run()
         elif message == "this room is full error":
@@ -74,4 +120,3 @@ class Game:
     
     async def send_id_request(self):
         await self.websocket.send("load")
-    
