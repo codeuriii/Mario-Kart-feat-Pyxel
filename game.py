@@ -1,7 +1,7 @@
 import asyncio
 import pyxel as p
 from player import Player
-from road import Road
+from road import Road, Roads
 import websockets
 
 class Game:
@@ -9,14 +9,44 @@ class Game:
         self.websocket = websocket
         self.player = Player(self.websocket)
         self.players = []
-        self.road = Road() 
+        self.road = Road()
+        roads = Roads()
+        self.track_1 = [
+            [roads.empty, roads.bas_droite,  roads.horizontal, roads.horizontal,  roads.horizontal,  roads.horizontal, roads.horizontal, roads.bas_gauche, roads.empty],
+            [roads.empty, roads.vertical,    roads.empty,      roads.empty,       roads.empty,       roads.empty,      roads.empty,      roads.vertical,   roads.empty],
+            [roads.empty, roads.haut_droite, roads.horizontal, roads.horizontal,  roads.bas_gauche,  roads.empty,      roads.empty,      roads.vertical,   roads.empty],
+            [roads.empty, roads.empty,       roads.empty,      roads.empty,       roads.vertical,    roads.empty,      roads.empty,      roads.vertical,   roads.empty],
+            [roads.empty, roads.bas_droite,  roads.horizontal, roads.horizontal,  roads.haut_gauche, roads.empty,      roads.empty,      roads.vertical,   roads.empty],
+            [roads.empty, roads.vertical,    roads.empty,      roads.empty,       roads.empty,       roads.empty,      roads.empty,      roads.vertical,   roads.empty],
+            [roads.empty, roads.haut_droite, roads.horizontal, roads.horizontal,  roads.horizontal,  roads.horizontal, roads.horizontal, roads.haut_gauche, roads.empty]
+        ]
+
+        self.track_2 = [
+            [roads.empty, roads.empty,       roads.empty,      roads.empty,       roads.empty,       roads.empty,      roads.empty,      roads.empty,      roads.empty],
+            [roads.empty, roads.bas_droite, roads.horizontal, roads.bas_gauche, roads.empty,       roads.empty,      roads.empty,      roads.empty,      roads.empty],
+            [roads.empty, roads.vertical,    roads.empty,      roads.vertical,    roads.empty,       roads.empty,      roads.empty,      roads.empty,      roads.empty],
+            [roads.empty, roads.haut_droite, roads.horizontal, roads.carrefour,   roads.horizontal,  roads.horizontal, roads.horizontal, roads.bas_gauche, roads.empty],
+            [roads.empty, roads.empty,       roads.empty,      roads.vertical,    roads.empty,       roads.empty,      roads.empty,      roads.vertical,    roads.empty],
+            [roads.empty, roads.empty,       roads.empty,      roads.haut_droite, roads.horizontal,  roads.horizontal, roads.horizontal, roads.haut_gauche, roads.empty],
+            [roads.empty, roads.empty,       roads.empty,      roads.empty,       roads.empty,       roads.empty,      roads.empty,      roads.empty,      roads.empty]
+        ]
+
+        self.track_3 = [
+            [roads.empty, roads.empty,       roads.empty,      roads.bas_droite, roads.horizontal,  roads.horizontal, roads.horizontal, roads.bas_gauche, roads.empty],
+            [roads.empty, roads.empty,       roads.empty,      roads.vertical,    roads.empty,       roads.empty,      roads.empty,      roads.vertical,   roads.empty],
+            [roads.empty, roads.bas_droite,  roads.horizontal,      roads.carrefour,   roads.horizontal,  roads.horizontal, roads.horizontal, roads.haut_gauche, roads.empty],
+            [roads.empty, roads.vertical,    roads.empty,      roads.vertical,    roads.empty,       roads.empty,      roads.empty,      roads.empty,   roads.empty],
+            [roads.empty, roads.vertical,    roads.empty,      roads.haut_droite,    roads.horizontal,       roads.horizontal,      roads.horizontal,      roads.bas_gauche,   roads.empty],
+            [roads.empty, roads.vertical,    roads.empty,      roads.empty,    roads.empty,       roads.empty,      roads.empty,      roads.vertical,   roads.empty],
+            [roads.empty, roads.haut_droite, roads.horizontal,      roads.horizontal,    roads.horizontal,       roads.horizontal,      roads.horizontal,      roads.haut_gauche,   roads.empty]
+        ]
 
     def update(self):
         self.player.update()
 
     def draw(self):
         p.cls(p.COLOR_LIME)
-        self.road.draw_road()
+        self.road.draw_road(self.track_3)
         self.player.car.draw_car()
         self.player.item.draw_item(10, 10)
 
