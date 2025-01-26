@@ -48,7 +48,7 @@ class Game:
     def update(self):
         self.player.update(self.check_hors_piste())
         for item in self.items:
-            item.update(self.player.car.angle)
+            item.update()
     
     def check_hors_piste(self):
         car_x, car_y = self.player.car.get_center()

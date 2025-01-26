@@ -34,11 +34,3 @@ class Player:
     def check_use_item(self):
         if p.btnp(p.KEY_E):
             asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.infos["id"]}"))
-    
-    # def use_item(self):
-    #     match self.item.id:
-    #         case Items.fleur_de_feu:
-    #             self.item.x = self.car.x
-    #             self.item.y = self.car.y
-    #             self.item.use_fireball(self.car.angle)
-        

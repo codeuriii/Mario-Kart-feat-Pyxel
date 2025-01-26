@@ -3,12 +3,10 @@ import pyxel as p
 
 class Items:
     none = -1
-    boule_de_feu = 0
     carapace_verte = 1
     carapace_rouge = 2
     carapace_bleue = 3
     peau_de_banane = 4
-    fleur_de_feu = 5
     bombe = 6
     horn = 7
     bullet_bill = 8
@@ -24,14 +22,8 @@ class Item:
         self.speed = 5
         self.owner = owner
         self.speed = 5
-        self.fireball_arr = []
-        self.item_timer = 100 # temporary number for testing: TODO: adjust
 
-    def update(self, player_angle):
-        match self.id:
-            case Items.fleur_de_feu:
-                self.use_fireball(player_angle)
-
+    def update(self):
         self.x += self.x_vel
         self.y += self.y_vel
 
@@ -40,25 +32,10 @@ class Item:
         return True
 
     def draw(self):
-        match self.id:
-            case Items.fleur_de_feu:
-                if not self.x == 10 and not self.y == 10:
-                    self.drawer.draw_item(self.x, self.y, Items.boule_de_feu)
-                else:
-                    self.draw_item(self.x, self.y)
+        pass 
 
     def draw_item(self, x, y, id=None):
-        if not id:
-            id = self.id
-        
-        if id == Items.fleur_de_feu:
-            self.drawer.draw_item(x, y, Items.boule_de_feu)
-        else:
-            self.drawer.draw_item(x, y, id)
-
-    def use_fireball(self, player_angle):
-        self.x_vel = self.speed * p.cos(player_angle)
-        self.y_vel = self.speed * p.sin(player_angle)
+        self.drawer.draw_item(x, y, id)
 
     def launch_green_shell(self):
         pass
