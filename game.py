@@ -70,7 +70,6 @@ class Game:
     def draw(self):
         p.cls(p.COLOR_LIME)
         self.road.draw_road(self.track)
-        self.player.car.draw_car()
         self.draw_players()
         self.player.item.draw_item_case()
         if self.player.item is not None:
@@ -93,11 +92,7 @@ class Game:
             async for message in self.websocket:
                 print(f"Received from server: {message}")
                 await self.player.handle_message(message)
-                try:
-                    self.player.infos["id"]
-                    await self.handle_message(message)
-                except:
-                    pass
+                await self.handle_message(message)
         except websockets.ConnectionClosed:
             print("Disconnected from server.")
 
@@ -105,10 +100,11 @@ class Game:
     async def handle_message(self, message):
         if message.startswith("move"):
             for player in self.players:
-                if player["id"] != message.split("/")[1]:
-                    player["x"] = int(message.split("/")[2])
-                    player["y"] = int(message.split("/")[3])
-                    player["angle"] = int(message.split("/")[4])
+                if player["id"] == message.split("/")[1]:
+                    player["x"] = int(float(message.split("/")[2]))
+                    player["y"] = int(float(message.split("/")[3]))
+                    player["angle"] = int(float(message.split("/")[-1]))
+
         elif message.startswith("create_player"):
             self.create_player(message)
         elif message.startswith("delete-client"):
