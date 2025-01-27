@@ -54,14 +54,11 @@ class Game:
                 player["x"] = self.player.car.x
                 player["y"] = self.player.car.y
         self.player.infos["id"]
-        
+
         for item in self.items:
             item.update()
 
-    def draw(self):
-        p.cls(p.COLOR_LIME)
-        self.road.draw_road()
-        self.draw_players()
+        asyncio.run(self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}"))
     
     def check_hors_piste(self):
         car_x, car_y = self.player.car.get_center()
@@ -74,6 +71,7 @@ class Game:
         p.cls(p.COLOR_LIME)
         self.road.draw_road(self.track)
         self.player.car.draw_car()
+        self.draw_players()
         self.player.item.draw_item_case()
         if self.player.item is not None:
             self.player.item.draw_item(p.width - 20, 10)
@@ -81,7 +79,6 @@ class Game:
             item.draw()
 
     async def run(self):
-        await self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}")
         loop = asyncio.get_event_loop()
         loop.run_in_executor(None, self.start_pyxel)
 
@@ -112,7 +109,6 @@ class Game:
                     player["x"] = int(message.split("/")[2])
                     player["y"] = int(message.split("/")[3])
                     player["angle"] = int(message.split("/")[4])
-            await self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}")
         elif message.startswith("create_player"):
             self.create_player(message)
         elif message.startswith("delete-client"):
