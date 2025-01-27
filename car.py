@@ -1,4 +1,6 @@
 import pyxel as p
+from math import pi
+from items import * 
 from drawer import Drawer
 
 class Car:
@@ -17,7 +19,7 @@ class Car:
     def draw_line(self):
         end_x = self.x + 10 * p.cos(self.angle)
         end_y = self.y + 10 * p.sin(self.angle)
-        p.line(self.x, self.y, end_x, end_y, 7)
+        p.line(self.x + 8 , self.y + 8, end_x + 8, end_y + 8, 7)
 
     def move(self):
         self.x += self.speed * p.cos(self.angle)
@@ -45,4 +47,8 @@ class Car:
 
     def draw_car(self):
         self.draw_line()
-        # self.drawer.draw_car(self.color, self.x, self.y, self.angle)
+        self.drawer.draw_car(self.color, self.x, self.y, self.angle)
+
+    def use_item(self):
+        pass
+

@@ -25,6 +25,8 @@ class Game:
         p.cls(p.COLOR_LIME)
         self.road.draw_road()
         self.draw_players()
+        self.player.car.draw_car()
+        self.player.item.draw_item(10, 10)
 
     async def run(self):
         await self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}")
@@ -61,6 +63,10 @@ class Game:
             await self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}")
         elif message.startswith("create_player"):
             self.create_player(message)
+        elif message.startswith("delete-client"):
+            print(message)
+            print(message.split("/")[1])
+            self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
         elif message == "run":
             await self.run()
         elif message == "this room is full error":

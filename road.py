@@ -47,6 +47,6 @@ class Road:
     def draw_road(self):
         for y in range(7):
             for x in range(9):
-                tile = self.track_1[y][x]
+                tile = self.track_3[y][x]
                 if tile >= 0:
                     self.drawer.draw_road_tile(x * 32, y * 32, tile)
