@@ -12,23 +12,6 @@ class Game:
         self.player = Player(self.websocket)
         self.players = []
         self.drawer = Drawer()
-        self.road = Road() 
-
-    def update(self):
-        self.player.update(self.check_hors_piste())
-        for player in self.players:
-            if player["id"] == self.player.infos["id"]:
-                player["x"] = self.player.car.x
-                player["y"] = self.player.car.y
-        self.player.infos["id"]
-        
-        for item in self.items:
-            item.update()
-
-    def draw(self):
-        p.cls(p.COLOR_LIME)
-        self.road.draw_road()
-        self.draw_players()
         self.road = Road()
         self.roads = Roads()
         self.track_1 = [
@@ -63,6 +46,22 @@ class Game:
 
         self.track = self.track_3
         self.items: list[Item] = []
+
+    def update(self):
+        self.player.update(self.check_hors_piste())
+        for player in self.players:
+            if player["id"] == self.player.infos["id"]:
+                player["x"] = self.player.car.x
+                player["y"] = self.player.car.y
+        self.player.infos["id"]
+        
+        for item in self.items:
+            item.update()
+
+    def draw(self):
+        p.cls(p.COLOR_LIME)
+        self.road.draw_road()
+        self.draw_players()
     
     def check_hors_piste(self):
         car_x, car_y = self.player.car.get_center()
