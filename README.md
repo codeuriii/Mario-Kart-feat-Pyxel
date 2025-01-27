@@ -1,13 +1,15 @@
 
-Vous vous trouvez actuellement sur la branche fix/removetoken
+Vous vous trouvez actuellement sur la branche main  
 Plusieurs branches sont disponibles  
-main - La branche principale  
 feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
-feat/manette - La branche qui gère la manette (étonnant)
+feat/manette - La branche qui gère la manette (étonnant)  
+fix/removetoken - La branche pour pouvoir se déconecter du serveur et actualiser les joueurs
+feat/horspiste - La branche pour ralentir dans le hors piste
+feat/correctdirection - La branche pour ajuster l'angle de la voiture pour l'aligner sur la route
 
-[ ] -> Pas fait
-[>] -> une branche dédiée, en cours
-[x] -> terminé
+[ ] -> Pas fait  
+[>] -> une branche dédiée, en cours  
+[x] -> terminé  
 
 # compte rendu:
 ## semaine 1:
@@ -29,9 +31,11 @@ feat/manette - La branche qui gère la manette (étonnant)
 - [x] faire le track 2
 - [x] faire le track 3
 - [x] Enlever le token si quelqu'un se déco
+- [x] Correction de la direction
+- [x] Faire le hors piste
 - [>] Afficher les autres joueurs avec leur orientation + afficher les objets (attendre les objets)
 - [>] Intégration a la manette
-- [>] Correction de la direction
+- [ ] Faire le comportement du bullet bill
 
 Brainstorm
 
@@ -40,7 +44,6 @@ Liste des items
 - Carapace verte
 - Carapace rouge
 - Bleue ?
-- Fleur de feu
 - Bombe
 - Bullet bill ?
 - Horn

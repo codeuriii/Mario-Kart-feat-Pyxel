@@ -107,7 +107,6 @@ class Drawer:
             p.blt(x, y, 0, *self.cars[color]["diagonale bas gauche"], 0)
         elif angle == 45:
             p.blt(x, y, 0, *self.cars[color]["diagonale bas droite"], 0)
-        # p.blt(x, y, 0, *self.cars[color], 0)
 
     def draw_road_tile(self, x, y, index):
         if type(index) == int:
@@ -118,3 +117,6 @@ class Drawer:
     def draw_item(self, x, y, item):
         if item >= 0:
             p.blt(x, y, 2, *self.items_data[item], 0)
+
+    def draw_item_case(self):
+        p.rectb(p.width - 24, 6, 16, 16, p.COLOR_BLACK)

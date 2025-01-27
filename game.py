@@ -1,8 +1,9 @@
 import asyncio
 import pyxel as p
 from drawer import Drawer
+from items import Item
 from player import Player
-from road import Road
+from road import Road, Roads
 import websockets
 
 class Game:
@@ -14,19 +15,71 @@ class Game:
         self.road = Road() 
 
     def update(self):
-        self.player.update()
+        self.player.update(self.check_hors_piste())
         for player in self.players:
             if player["id"] == self.player.infos["id"]:
                 player["x"] = self.player.car.x
                 player["y"] = self.player.car.y
         self.player.infos["id"]
+        
+        for item in self.items:
+            item.update()
 
     def draw(self):
         p.cls(p.COLOR_LIME)
         self.road.draw_road()
         self.draw_players()
+        self.road = Road()
+        self.roads = Roads()
+        self.track_1 = [
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.bas_gauche,  self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.haut_gauche, self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
+        ]
+
+        self.track_2 = [
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.haut_droite, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty]
+        ]
+
+        self.track_3 = [
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
+        ]
+
+        self.track = self.track_3
+        self.items: list[Item] = []
+    
+    def check_hors_piste(self):
+        car_x, car_y = self.player.car.get_center()
+        tile_x, tile_y = int(car_x // 32), int(car_y // 32)
+        if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
+            return self.track[tile_y][tile_x] == self.roads.empty
+        return True
+
+    def draw(self):
+        p.cls(p.COLOR_LIME)
+        self.road.draw_road(self.track)
         self.player.car.draw_car()
-        self.player.item.draw_item(10, 10)
+        self.player.item.draw_item_case()
+        if self.player.item is not None:
+            self.player.item.draw_item(p.width - 20, 10)
+        for item in self.items:
+            item.draw()
 
     async def run(self):
         await self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}")
@@ -67,6 +120,8 @@ class Game:
             print(message)
             print(message.split("/")[1])
             self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
+        elif message.startswith("item"):
+            self.items.append(Item(message.split("-")[0].split("/")[1], message.split("-")[1].split("/")[1]))
         elif message == "run":
             await self.run()
         elif message == "this room is full error":

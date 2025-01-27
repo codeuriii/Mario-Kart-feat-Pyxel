@@ -1,10 +1,13 @@
 from car import Car
+import pyxel as p
 from items import Items, Item
+import items
+import asyncio
 
 class Player:
     def __init__(self, websocket):
         self.websocket = websocket
-        self.item = Item(Items.none)
+        self.item = Item(Items.bullet_bill, self)
 
     async def handle_message(self, message):
         if message.startswith("id"):
@@ -15,8 +18,9 @@ class Player:
             await self.websocket.send("get_players")
             await self.websocket.send("run")
     
-    def update(self):
-        self.car.update()
+    def update(self, hors_piste):
+        self.car.update(hors_piste)
+        self.check_use_item()
             
     def set_id(self, id):
         self.id = id
@@ -26,4 +30,7 @@ class Player:
 
     def get_color(self):
         return self.infos['color']
-    
+
+    def check_use_item(self):
+        if p.btnp(p.KEY_E):
+            asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.infos["id"]}"))
