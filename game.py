@@ -1,6 +1,6 @@
 import asyncio
 import pyxel as p
-from items import Item
+from items import Item, Items
 from player import Player
 import player
 from road import Road, Roads
@@ -51,6 +51,8 @@ class Game:
         for item in self.items: 
             print(f"id {item.id}")
             item.update(self.player.car.x, self.player.car.y, self.player.car.angle)
+            if self.player.item.id == Items.none:
+                self.items = [item for item in self.items if item.id != Items.none]
     
     def check_hors_piste(self):
         car_x, car_y = self.player.car.get_center()

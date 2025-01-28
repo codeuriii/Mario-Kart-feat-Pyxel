@@ -31,7 +31,8 @@ class Player:
         return self.infos['color']
 
     def check_use_item(self):
-        if p.btnp(p.KEY_E):
-            if self.item.id == Items.none:
-                asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.infos["id"]}-x/{self.car.x}-y/{self.car.y}-angle/{self.car.angle}"))
-                self.item.id = Items.none
+        if self.item.id != Items.none:
+            if p.btnp(p.KEY_E):
+                asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.infos['id']}-x/{self.car.x}-y/{self.car.y}-angle/{self.car.angle}"))
+                print(f"id keypress {self.item.id}")
+                self.item.id = Items.none 
