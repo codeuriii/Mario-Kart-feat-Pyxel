@@ -46,19 +46,22 @@ class Game:
         self.track = self.track_3
         self.items: list[Item] = []
 
-    def update(self):
-        self.player.update(self.check_hors_piste())
-        for item in self.items:
-            print(f"id {item.id}")
-            item.update(self.player.car.x, self.player.car.y, self.player.car.angle)
     
-    def check_hors_piste(self):
-        car_x, car_y = self.player.car.get_center()
+    def check_hors_piste(self, x, y):
+        return self.get_tuile(x, y) == self.roads.empty
+    
+    def get_tuile(self, car_x, car_y):
         tile_x, tile_y = int(car_x // 32), int(car_y // 32)
         if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
-            return self.track[tile_y][tile_x] == self.roads.empty
-        return True
+            return self.track[tile_y][tile_x]
+        return self.roads.empty
 
+    def update(self):
+        self.player.update(self.check_hors_piste(*self.player.car.get_center()))
+        for item in self.items:
+            # print(f"id {item.id}")
+            item.update(self.get_tuile(item.x, item.y))
+    
     def draw(self):
         p.cls(p.COLOR_LIME)
         self.road.draw_road(self.track)
@@ -95,7 +98,12 @@ class Game:
             print(message.split("/")[1])
             self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
         elif message.startswith("item"):
-            self.items.append(Item(message.split("-")[0].split("/")[1]))
+            self.items.append(Item(
+                message.split("-")[0].split("/")[1],
+                message.split("-")[2].split("/")[1],
+                message.split("-")[3].split("/")[1],
+                message.split("-")[4].split("/")[1]
+            ))
         elif message == "run":
             self.run()
         elif message == "this room is full error":
