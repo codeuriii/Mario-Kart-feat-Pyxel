@@ -47,9 +47,9 @@ class Game:
 
     
     def check_hors_piste(self, x, y):
-        return self.get_tuile(x, y) == self.roads.empty
+        return self.get_tile(x, y) == self.roads.empty
     
-    def get_tuile(self, car_x, car_y):
+    def get_tile(self, car_x, car_y):
         tile_x, tile_y = int(car_x // 32), int(car_y // 32)
         if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
             return self.track[tile_y][tile_x]
