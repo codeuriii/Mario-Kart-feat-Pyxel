@@ -58,7 +58,7 @@ class Game:
     def update(self):
         self.player.update(self.check_hors_piste(*self.player.car.get_center()))
         for item in self.items:
-            item.update(self.get_tuile(item.x, item.y), self.get_tuile(item.svgd_x, item.svgd_y))
+            item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y))
     
     def draw(self):
         p.cls(p.COLOR_LIME)
