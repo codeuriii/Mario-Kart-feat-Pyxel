@@ -44,7 +44,6 @@ class Item:
                 
             case "dont move":
                 pass
-
             case "follow road":
                 def go_up():
                     self.y_vel = -self.speed
