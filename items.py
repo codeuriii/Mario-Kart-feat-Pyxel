@@ -24,9 +24,9 @@ class Item:
         self.svgd_x = self.x
         self.svgd_y = self.y
         self.x_vel = 0
-        self.y_vel = 5
+        self.y_vel = 3
         self.angle = float(angle)
-        self.speed = 5
+        self.speed = 3
         self.roads = Roads()
         self.deplacement = ""
         if self.id in Items.is_line:
@@ -103,9 +103,4 @@ class Item:
 
     def draw_item(self, x, y, id):
         self.drawer.draw_item(x, y, id)
-
-    def launch_red_shell(self):
-        pass
-
-        
-
+       
