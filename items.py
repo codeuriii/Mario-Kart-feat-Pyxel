@@ -17,10 +17,12 @@ class Items:
 
 class Item:
     def __init__(self, id, x, y, angle):
-        self.id = id
+        self.id = int(id)
         self.drawer = Drawer()
         self.x = float(x)
         self.y = float(y)
+        self.x_vel = 0
+        self.y_vel = 0
         self.angle = float(angle)
         self.speed = 5
         self.roads = Roads()
@@ -32,7 +34,7 @@ class Item:
         elif self.id in Items.follow_road:
             self.deplacement = "follow road"
 
-    def update(self, tuile, old_tuile       ):
+    def update(self, tuile, old_tuile):
         match self.deplacement:
             case "line":
                 self.x_vel = self.speed * p.cos(self.angle)
@@ -40,14 +42,12 @@ class Item:
             case "dont move":
                 pass
             case "follow road":
-                # Ca va etre chiant mdr
                 # Récupérer les coos de l'item
-                self.x, self.y  # Ct facil
+                self.x, self.y
                 # Récupérer la tuile correspondante
-                tuile  # ct pa tro facil
+                tuile
                 # a partir de la tuile correspondante, regarder d'ou tu viens, et donc eliminer d'ou tu viens et donc savoir dans quelle direction aller (il n'y a que deux entrée dans une road)
                 # SI c'est un carrefour, savoir d'ou tu vient et aller tout droit.
-                print("hell naw")
                 pass
 
         self.x += self.x_vel

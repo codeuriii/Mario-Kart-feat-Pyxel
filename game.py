@@ -2,7 +2,6 @@ import asyncio
 import pyxel as p
 from items import Item, Items
 from player import Player
-import player
 from road import Road, Roads
 import websockets
 
@@ -59,8 +58,8 @@ class Game:
     def update(self):
         self.player.update(self.check_hors_piste(*self.player.car.get_center()))
         for item in self.items:
-            # print(f"id {item.id}")
-            item.update(self.get_tuile(item.x, item.y))
+            old_tuile = None # placeholder
+            item.update(self.get_tuile(item.x, item.y), old_tuile)
     
     def draw(self):
         p.cls(p.COLOR_LIME)
@@ -68,7 +67,6 @@ class Game:
         self.player.car.draw_car()
         for item in self.items:
             item.draw()
-            # print(f"item x {item.x}, item y {item.y}")
 
     def run(self):
         loop = asyncio.get_event_loop()
