@@ -39,8 +39,10 @@ class Item:
             case "line":
                 self.x_vel = self.speed * p.cos(self.angle)
                 self.y_vel = self.speed * p.sin(self.angle)
+                
             case "dont move":
                 pass
+
             case "follow road":
                 # Récupérer les coos de l'item
                 self.x, self.y
@@ -58,7 +60,7 @@ class Item:
         return True
 
     def draw(self):
-        if int(self.id) != Items.none: 
+        if self.id != Items.none: 
             self.draw_item(self.x, self.y, int(self.id))
 
     def draw_item(self, x, y, id):
