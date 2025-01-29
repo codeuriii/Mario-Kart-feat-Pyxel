@@ -21,6 +21,8 @@ class Item:
         self.drawer = Drawer()
         self.x = float(x)
         self.y = float(y)
+        self.svgd_x = self.x
+        self.svgd_y = self.y
         self.x_vel = 0
         self.y_vel = 0
         self.angle = float(angle)
@@ -44,14 +46,29 @@ class Item:
                 pass
 
             case "follow road":
-                # Récupérer les coos de l'item
-                self.x, self.y
-                # Récupérer la tuile correspondante
-                tuile
+                def go_up():
+                    self.y_vel = self.speed
+                def go_down():
+                    self.y_vel = -self.speed
+                def reset_up_down():
+                    self.y_vel = 0
+                
+                def go_right():
+                    self.x_vel = self.speed
+                def go_left():
+                    self.x_vel = -self.speed
+                def reset_right_left():
+                    self.x_vel = 0
+
+                if tuile != old_tuile:
+                    match tuile:
+                        case self.roads.horizontal:
+                            pass
                 # a partir de la tuile correspondante, regarder d'ou tu viens, et donc eliminer d'ou tu viens et donc savoir dans quelle direction aller (il n'y a que deux entrée dans une road)
                 # SI c'est un carrefour, savoir d'ou tu vient et aller tout droit.
-                pass
 
+        self.svgd_x = self.x
+        self.svgd_y = self.y
         self.x += self.x_vel
         self.y += self.y_vel
 
