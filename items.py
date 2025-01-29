@@ -24,7 +24,7 @@ class Item:
         self.svgd_x = self.x
         self.svgd_y = self.y
         self.x_vel = 0
-        self.y_vel = 0
+        self.y_vel = 5
         self.angle = float(angle)
         self.speed = 5
         self.roads = Roads()
@@ -47,9 +47,9 @@ class Item:
 
             case "follow road":
                 def go_up():
-                    self.y_vel = self.speed
-                def go_down():
                     self.y_vel = -self.speed
+                def go_down():
+                    self.y_vel = self.speed
                 def reset_up_down():
                     self.y_vel = 0
                 
@@ -61,9 +61,30 @@ class Item:
                     self.x_vel = 0
 
                 if tuile != old_tuile:
-                    match tuile:
+                    match old_tuile:
                         case self.roads.horizontal:
-                            pass
+                            # Si on arrive d'un horizontal
+                            # On a horizontal, donc on arrive d'un coté, donc on monte
+                            if tuile in [self.roads.haut_droite, self.roads.haut_gauche]:
+                                reset_right_left()
+                                go_up()
+                            # On arrive d'un coté et le virage contient une connection en bas et sur un coté, donc on descend
+                            elif tuile in [self.roads.bas_droite, self.roads.bas_gauche]:
+                                reset_right_left()
+                                go_down()
+                            # On s'en fiche du carrefour car on va tout droit donc on change rien (on vient d'horizontal)
+                        
+                        case self.roads.vertical:
+                            # Si on arrive d'une route verticale
+                            # On a verticale, donc on arrive soit d'en haut, soit d'en bas
+                            if tuile in [self.roads.haut_droite, self.roads.bas_droite]:
+                                reset_up_down()
+                                go_right()
+                            elif tuile in [self.roads.haut_gauche, self.roads.bas_gauche]:
+                                reset_up_down()
+                                go_left()
+                            # Pareil pour le carrefour, on ne change rien
+                        
                 # a partir de la tuile correspondante, regarder d'ou tu viens, et donc eliminer d'ou tu viens et donc savoir dans quelle direction aller (il n'y a que deux entrée dans une road)
                 # SI c'est un carrefour, savoir d'ou tu vient et aller tout droit.
 
