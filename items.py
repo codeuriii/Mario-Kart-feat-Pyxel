@@ -35,8 +35,10 @@ class Item:
             self.deplacement = "dont move"
         elif self.id in Items.follow_road:
             self.deplacement = "follow road"
+        self.item_offset_timer = 0.2
 
     def update(self, tuile, old_tuile):
+        tile_x, tile_y = int(self.x // 32) * 32, int(self.y // 32) * 32
         match self.deplacement:
             case "line":
                 self.x_vel = self.speed * p.cos(self.angle)
@@ -44,6 +46,7 @@ class Item:
                 
             case "dont move":
                 pass
+
             case "follow road":
                 def go_up():
                     self.y_vel = -self.speed
@@ -65,8 +68,14 @@ class Item:
                             # Si on arrive d'un horizontal
                             # On a horizontal, donc on arrive d'un coté, donc on monte
                             if tuile in [self.roads.haut_droite, self.roads.haut_gauche]:
-                                reset_right_left()
-                                go_up()
+                                print(f"self.x {self.x}, svgd_x {self.svgd_x}, tile_x {tile_x}")
+                                if self.x >= tile_x + 16:
+                                    reset_right_left()
+                                    go_up()
+                                if self.x <= tile_x - 16:
+                                    reset_right_left()
+                                    go_up()
+
                             # On arrive d'un coté et le virage contient une connection en bas et sur un coté, donc on descend
                             elif tuile in [self.roads.bas_droite, self.roads.bas_gauche]:
                                 reset_right_left()
