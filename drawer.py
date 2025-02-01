@@ -88,6 +88,20 @@ class Drawer:
             5: (32, 32, 32, -32),  # Le bas vers la gauche
             6: (0, 64, 32, 32)  # Carrefour
         }
+
+        self.backgrounds = {
+            "flowers": [
+                (0, 104, 16, 16),
+                # Mirroir
+                (8, 104, 16, 16),
+                # Mirroir
+                (16, 104, 16, 16),
+                # Mirroir
+                (24, 104, 16, 16),
+                # Mirroir
+                (32, 104, 16, 16)
+            ]
+        }
     
     def draw_car(self, color, x, y, angle):
         angle = round(angle / 45) * 45 % 360  # Ensure rounding to nearest 45°
