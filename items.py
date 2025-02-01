@@ -35,7 +35,23 @@ class Item:
             self.deplacement = "dont move"
         elif self.id in Items.follow_road:
             self.deplacement = "follow road"
-        self.item_offset_timer = 0.2
+        self.item_offset_timer = []
+        self.item_offset_callbacks = []
+        self.is_waiting_for_offset = False
+
+    def set_callbacks_for_offset(self, callbacks):
+        self.is_waiting_for_offset = True
+        self.item_offset_callbacks = callbacks
+
+    def wait_for_changing(self):
+        if self.is_waiting_for_offset:
+            self.item_offset_timer.append("hehe")
+        if len(self.item_offset_timer) > 4:
+            for callback in self.item_offset_callbacks:
+                callback()
+            self.is_waiting_for_offset = False
+            self.item_offset_callbacks.clear()
+            self.item_offset_timer.clear()
 
     def update(self, tuile, old_tuile):
         tile_x, tile_y = int(self.x // 32) * 32, int(self.y // 32) * 32
@@ -68,33 +84,27 @@ class Item:
                             # Si on arrive d'un horizontal
                             # On a horizontal, donc on arrive d'un coté, donc on monte
                             if tuile in [self.roads.haut_droite, self.roads.haut_gauche]:
-                                print(f"self.x {self.x}, svgd_x {self.svgd_x}, tile_x {tile_x}")
-                                if self.x >= tile_x + 16:
-                                    reset_right_left()
-                                    go_up()
-                                if self.x <= tile_x - 16:
-                                    reset_right_left()
-                                    go_up()
+                                # print(f"self.x {self.x}, svgd_x {self.svgd_x}, tile_x {tile_x}")
+                                self.set_callbacks_for_offset([reset_right_left, go_up])
 
                             # On arrive d'un coté et le virage contient une connection en bas et sur un coté, donc on descend
                             elif tuile in [self.roads.bas_droite, self.roads.bas_gauche]:
-                                reset_right_left()
-                                go_down()
+                                self.set_callbacks_for_offset([reset_right_left, go_down])
                             # On s'en fiche du carrefour car on va tout droit donc on change rien (on vient d'horizontal)
                         
                         case self.roads.vertical:
                             # Si on arrive d'une route verticale
                             # On a verticale, donc on arrive soit d'en haut, soit d'en bas
                             if tuile in [self.roads.haut_droite, self.roads.bas_droite]:
-                                reset_up_down()
-                                go_right()
+                                self.set_callbacks_for_offset([reset_up_down, go_right])
                             elif tuile in [self.roads.haut_gauche, self.roads.bas_gauche]:
-                                reset_up_down()
-                                go_left()
+                                self.set_callbacks_for_offset([reset_up_down, go_left])
                             # Pareil pour le carrefour, on ne change rien
                         
                 # a partir de la tuile correspondante, regarder d'ou tu viens, et donc eliminer d'ou tu viens et donc savoir dans quelle direction aller (il n'y a que deux entrée dans une road)
                 # SI c'est un carrefour, savoir d'ou tu vient et aller tout droit.
+
+        self.wait_for_changing()
 
         self.svgd_x = self.x
         self.svgd_y = self.y
