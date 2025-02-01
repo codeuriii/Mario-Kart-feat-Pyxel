@@ -1,4 +1,5 @@
 import asyncio
+import random
 import pyxel as p
 from drawer import Drawer
 from items import Item
@@ -56,7 +57,11 @@ class Game:
         ]
 
         self.track = self.track_4
-        self.current_bg = "flowers"
+        # Plus c petit, plus il y a de décorations
+        self.frequence_bg = 2
+        self.flower_bg = ["grass"] * self.frequence_bg + ["flowers"]
+        self.dirt_bg = ["dirt"] * self.frequence_bg + ["rocks"]
+        self.current_bg = self.flower_bg
         self.bgs = []
         self.items: list[Item] = []
         self.set_backgrounds()
@@ -65,7 +70,7 @@ class Game:
         for _ in range(14):
             current_list = []
             for _ in range(18):
-                current_list.append(self.drawer.get_random_background(self.current_bg))
+                current_list.append(self.drawer.get_random_background(random.choice(self.current_bg)))
             self.bgs.append(current_list)
 
     def check_hors_piste(self, x, y):
