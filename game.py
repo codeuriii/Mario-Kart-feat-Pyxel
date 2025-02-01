@@ -54,9 +54,7 @@ class Game:
         for _ in range(14):
             current_list = []
             for _ in range(18):
-                match self.current_bg:
-                    case "flowers":
-                        current_list.append(self.drawer.get_random_flower())
+                current_list.append(self.drawer.get_random_background(self.current_bg))
             self.bgs.append(current_list)
 
     def check_hors_piste(self, x, y):

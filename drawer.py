@@ -116,11 +116,17 @@ class Drawer:
                 (32, 104, 16, -16),
                 (32, 104, -16, 16),
                 (32, 104, -16, -16)
+            ],
+            "grass": [
+                (48, 104, 16, 16),
+                (48, 104, 16, -16),
+                (48, 104, -16, 16),
+                (48, 104, -16, -16)
             ]
         }
     
-    def get_random_flower(self):
-        return random.choice(self.backgrounds["flowers"])
+    def get_random_background(self, background):
+        return random.choice(self.backgrounds[background])
     
     def draw_car(self, color, x, y, angle):
         angle = round(angle / 45) * 45 % 360  # Ensure rounding to nearest 45°
