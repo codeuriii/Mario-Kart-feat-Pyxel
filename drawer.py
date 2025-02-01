@@ -100,6 +100,7 @@ class Drawer:
                 (24, 104, 16, 16),
                 # Mirroir
                 (32, 104, 16, 16)
+                # Mirroir
             ]
         }
     
