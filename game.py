@@ -5,6 +5,7 @@ from items import Item
 from player import Player
 from road import Road, Roads
 import websockets
+import re
 
 class Game:
     def __init__(self, websocket):
@@ -122,11 +123,13 @@ class Game:
             print(message.split("/")[1])
             self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
         elif message.startswith("item"):
+            angle_match = re.search(r'angle/(-?\d+\.?\d*)', message)
+            angle = float(angle_match.group(1)) if angle_match else 0.0
             self.items.append(Item(
                 message.split("-")[0].split("/")[1],
                 message.split("-")[2].split("/")[1],
                 message.split("-")[3].split("/")[1],
-                message.split("-")[4].split("/")[1]
+                angle
             ))
         elif message == "run":
             self.run()
