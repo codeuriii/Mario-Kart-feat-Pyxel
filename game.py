@@ -58,10 +58,9 @@ class Game:
 
         self.track = self.track_4
         # Plus c petit, plus il y a de décorations
-        self.frequence_bg = 2
-        self.flower_bg = ["grass"] * self.frequence_bg + ["flowers"]
-        self.dirt_bg = ["dirt"] * self.frequence_bg + ["rocks"]
-        self.current_bg = self.flower_bg
+        self.flower_bg = ["grass"] * 2 + ["flowers"]
+        self.dirt_bg = ["dirt"] * 3 + ["rocks"]
+        self.current_bg = self.dirt_bg
         self.bgs = []
         self.items: list[Item] = []
         self.set_backgrounds()
