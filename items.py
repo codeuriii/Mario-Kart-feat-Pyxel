@@ -38,15 +38,17 @@ class Item:
         self.item_offset_timer = []
         self.item_offset_callbacks = []
         self.is_waiting_for_offset = False
+        self.n_iterations = 4
 
-    def set_callbacks_for_offset(self, callbacks):
+    def set_callbacks_for_offset(self, callbacks, n=4):
         self.is_waiting_for_offset = True
         self.item_offset_callbacks = callbacks
+        self.n_iterations = n
 
     def wait_for_changing(self):
         if self.is_waiting_for_offset:
             self.item_offset_timer.append("hehe")
-        if len(self.item_offset_timer) > 4:
+        if len(self.item_offset_timer) > self.n_iterations:
             for callback in self.item_offset_callbacks:
                 callback()
             self.is_waiting_for_offset = False
@@ -89,7 +91,7 @@ class Item:
 
                             # On arrive d'un coté et le virage contient une connection en bas et sur un coté, donc on descend
                             elif tuile in [self.roads.bas_droite, self.roads.bas_gauche]:
-                                self.set_callbacks_for_offset([reset_right_left, go_down])
+                                self.set_callbacks_for_offset([reset_right_left, go_down], 6 if tuile == self.roads.bas_droite else 5)
                             # On s'en fiche du carrefour car on va tout droit donc on change rien (on vient d'horizontal)
                         
                         case self.roads.vertical:
@@ -98,7 +100,7 @@ class Item:
                             if tuile in [self.roads.haut_droite, self.roads.bas_droite]:
                                 self.set_callbacks_for_offset([reset_up_down, go_right])
                             elif tuile in [self.roads.haut_gauche, self.roads.bas_gauche]:
-                                self.set_callbacks_for_offset([reset_up_down, go_left])
+                                self.set_callbacks_for_offset([reset_up_down, go_left], 6 if tuile == self.roads.bas_gauche else 4)
                             # Pareil pour le carrefour, on ne change rien
                         
                 # a partir de la tuile correspondante, regarder d'ou tu viens, et donc eliminer d'ou tu viens et donc savoir dans quelle direction aller (il n'y a que deux entrée dans une road)
