@@ -1,7 +1,7 @@
 import asyncio
 import pyxel as p
 from drawer import Drawer
-from items import Item, Items
+from items import Item
 from player import Player
 from road import Road, Roads
 import websockets
