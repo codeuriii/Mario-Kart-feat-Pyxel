@@ -78,7 +78,6 @@ class Game:
                 self.drawer.draw_background(x * 16, y * 16, tile)
     
     def draw(self):
-        # p.cls(p.COLOR_LIME)
         self.draw_background()
         self.road.draw_road(self.track)
         self.player.car.draw_car()
