@@ -153,3 +153,6 @@ class Drawer:
                 p.blt(x, y, 2, *self.items_data[item], 0)
         else:
             print(f"Expected an integer for id ({item}), but got {type(item)}")
+
+    def draw_flower(self, x, y):
+        p.blt(x, y, *self.get_random_flower())
