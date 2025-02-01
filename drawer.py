@@ -1,3 +1,4 @@
+import random
 import pyxel as p
 
 class Drawer:
@@ -117,6 +118,9 @@ class Drawer:
                 (32, 104, -16, -16)
             ]
         }
+    
+    def get_random_flower(self):
+        return random.choice(self.backgrounds["flowers"])
     
     def draw_car(self, color, x, y, angle):
         angle = round(angle / 45) * 45 % 360  # Ensure rounding to nearest 45°
