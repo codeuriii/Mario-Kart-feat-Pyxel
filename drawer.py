@@ -154,5 +154,5 @@ class Drawer:
         else:
             print(f"Expected an integer for id ({item}), but got {type(item)}")
 
-    def draw_flower(self, x, y):
-        p.blt(x, y, *self.get_random_flower())
+    def draw_background(self, x, y, tile):
+        p.blt(x, y, 1, *tile)

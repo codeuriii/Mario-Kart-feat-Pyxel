@@ -1,5 +1,6 @@
 import asyncio
 import pyxel as p
+from drawer import Drawer
 from items import Item, Items
 from player import Player
 from road import Road, Roads
@@ -9,6 +10,7 @@ class Game:
     def __init__(self, websocket):
         self.websocket = websocket
         self.player = Player(self.websocket)
+        self.drawer = Drawer()
         self.players = []
         self.road = Road()
         self.roads = Roads()
@@ -43,9 +45,20 @@ class Game:
         ]
 
         self.track = self.track_3
+        self.current_bg = "flowers"
+        self.bgs = []
         self.items: list[Item] = []
+        self.set_backgrounds()
 
-    
+    def set_backgrounds(self):
+        for _ in range(14):
+            current_list = []
+            for _ in range(18):
+                match self.current_bg:
+                    case "flowers":
+                        current_list.append(self.drawer.get_random_flower())
+            self.bgs.append(current_list)
+
     def check_hors_piste(self, x, y):
         return self.get_tile(x, y) == self.roads.empty
     
@@ -59,9 +72,16 @@ class Game:
         self.player.update(self.check_hors_piste(*self.player.car.get_center()))
         for item in self.items:
             item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y))
+
+    def draw_background(self):
+        for y in range(14):
+            for x in range(18):
+                tile = self.bgs[y][x]
+                self.drawer.draw_background(x * 16, y * 16, tile)
     
     def draw(self):
-        p.cls(p.COLOR_LIME)
+        # p.cls(p.COLOR_LIME)
+        self.draw_background()
         self.road.draw_road(self.track)
         self.player.car.draw_car()
         for item in self.items:
