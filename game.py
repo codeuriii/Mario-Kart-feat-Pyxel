@@ -14,7 +14,6 @@ class Game:
         self.player = Player(self.websocket)
         self.drawer = Drawer()
         self.players = []
-        self.drawer = Drawer()
         self.road = Road()
         self.roads = Roads()
         self.track_1 = [
