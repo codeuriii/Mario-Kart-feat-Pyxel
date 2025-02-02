@@ -6,7 +6,8 @@ import asyncio
 class Player:
     def __init__(self, websocket):
         self.websocket = websocket
-        self.item = Item(Items.carapace_bleue, 10, 10, 270)
+        self.item = Item(Items.peau_de_banane, 10, 10, 270)
+        self.protected = False
 
     async def handle_message(self, message):
         if message.startswith("id"):
@@ -17,9 +18,20 @@ class Player:
             await self.websocket.send("get_players")
             await self.websocket.send("run")
     
-    def update(self, hors_piste):
+    def update(self, hors_piste, items):
         self.car.update(hors_piste)
-        self.check_use_item()
+        if self.check_use_item():
+            self.protected = True
+
+        for item in items:
+            if abs(self.car.x - item.x) <= 5 and abs(self.car.y - item.y) <= 5:
+                if not self.protected:
+                    # self.hit()
+                    print('hit')
+            else:
+                if self.protected:
+                    self.protected = False
+                
             
     def set_id(self, id):
         self.id = id
@@ -36,3 +48,5 @@ class Player:
                 asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.infos['id']}-x/{self.car.x}-y/{self.car.y}-angle/{self.car.angle}"))
                 print(f"id keypress {self.item.id}")
                 self.item.id = Items.none 
+                return True
+        return False
