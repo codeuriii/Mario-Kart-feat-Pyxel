@@ -59,6 +59,9 @@ class Car:
     def update(self, hors_piste):
         self.move(hors_piste)
         self.keyboard_input()
+        self.x = round(self.x, 3)
+        self.y = round(self.y, 3)
+        self.angle = round(self.angle, 3)
 
     def draw_car(self):
         self.draw_line()
