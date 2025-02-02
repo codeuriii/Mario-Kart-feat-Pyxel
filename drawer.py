@@ -206,6 +206,8 @@ class Drawer:
                 (32, 152, -16, -16)
             ]
         }
+
+        self.item_box = (0, 8, 16, 16)
     
     def get_random_background(self, background):
         return random.choice(self.backgrounds[background])
@@ -241,6 +243,9 @@ class Drawer:
                 p.blt(x, y, 2, *self.items_data[item], 0)
         else:
             print(f"Expected an integer for id ({item}), but got {type(item)}")
+    
+    def draw_item_box(self, x, y):
+        p.blt(x, y, 2, *self.item_box, p.COLOR_BLACK)
 
     def draw_background(self, x, y, tile):
         p.blt(x, y, 1, *tile)

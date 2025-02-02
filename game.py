@@ -1,10 +1,10 @@
 import asyncio
 import random
 import pyxel as p
+from boxes import Box
 from drawer import Drawer
 from items import Item
 from player import Player
-import player
 from road import Road, Roads
 import websockets
 import re
@@ -47,17 +47,25 @@ class Game:
             [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
         ]
 
-        self.track_4 = [
-            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty],
-            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.haut_gauche, self.roads.empty,      self.roads.empty,       self.roads.empty]
-        ]
+        self.track_4 = {
+            "track": [
+                [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty],
+                [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.haut_gauche, self.roads.empty,      self.roads.empty,       self.roads.empty]
+            ],
+            "item boxes": [
+                Box(1, 5, True),
+                Box(6, 4, False)
+            ]
+        }
 
-        self.track = self.track_4
+        self.current_track = self.track_4
+        self.track = self.current_track["track"]
+        self.item_boxes: list[Box] = self.current_track["item boxes"]
         # Plus c petit, plus il y a de décorations
         self.flower_bg = ["grass"] * 2 + ["flowers"]
         self.dirt_bg = ["dirt"] * 3 + ["rocks"]
@@ -65,7 +73,7 @@ class Game:
         self.bgs = []
         self.items: list[Item] = []
         self.set_backgrounds()
-
+    
     def set_backgrounds(self):
         for _ in range(14):
             current_list = []
@@ -97,6 +105,8 @@ class Game:
     def draw(self):
         self.draw_background()
         self.road.draw_road(self.track)
+        for box in self.item_boxes:
+            box.draw()
         self.player.car.draw_car()
         for item in self.items:
             item.draw()
