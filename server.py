@@ -42,7 +42,7 @@ async def handler(websocket):
                     elif message == "get_players":
                         for element in all_tokens:
                             token = element['token']
-                            color = element['color']
+                            color = element['color'] 
                             await client.send(f"create_player/{token}-color/{color}")
                     
                     elif message == "run":
