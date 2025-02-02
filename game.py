@@ -135,13 +135,18 @@ class Game:
                 message.split("-")[0].split("/")[1],
                 message.split("-")[2].split("/")[1],
                 message.split("-")[3].split("/")[1],
-                angle
+                angle,
+                message.split("-")[1].split("/")[1]
             ))
         elif message == "run":
             self.run()
         elif message == "this room is full error":
             print("This room is full.")
             await self.websocket.close()
+        elif message.startswith("remove_item"):
+            for item in self.items:
+                if item.token == message.split("/")[1]:
+                    self.items.remove(item)
 
 
     def create_player(self, message):

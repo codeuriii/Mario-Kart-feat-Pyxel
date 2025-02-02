@@ -1,6 +1,8 @@
 from drawer import Drawer
 import pyxel as p
 from road import Roads
+import random
+import string
 
 class Items:
     none = -1
@@ -16,8 +18,12 @@ class Items:
     follow_road = [2, 3, 8]
 
 class Item:
-    def __init__(self, id, x, y, angle):
+    def __init__(self, id, x, y, angle, token=None):
         self.id = int(id)
+        if not token:
+            self.token = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+        else:
+            self.token = token
         self.drawer = Drawer()
         self.x = float(x)
         self.y = float(y)

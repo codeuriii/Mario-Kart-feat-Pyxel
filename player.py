@@ -19,7 +19,7 @@ class Player:
             await self.websocket.send("get_players")
             await self.websocket.send("run")
     
-    def update(self, hors_piste, items):
+    def update(self, hors_piste, items: list[Item]):
         self.car.update(hors_piste)
         if self.check_use_item():
             self.protected = True
@@ -28,6 +28,7 @@ class Player:
             if abs(self.car.x - item.x) <= 5 and abs(self.car.y - item.y) <= 5:
                 if not self.protected:
                     self.hit()
+                    asyncio.run(self.websocket.send(f"remove_item/{item.token}"))
             else:
                 if self.protected:
                     self.protected = False
@@ -42,6 +43,8 @@ class Player:
                 if elapsed_frames < 20:
                     self.car.angle += 18
                 self.car.speed = 0
+            else:
+                self.spin_start_frame = None
             
     def set_id(self, id):
         self.id = id
@@ -59,7 +62,7 @@ class Player:
     def check_use_item(self):
         if self.item.id != Items.none:
             if p.btnp(p.KEY_E):
-                asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.infos['id']}-x/{self.car.x}-y/{self.car.y}-angle/{self.car.angle}"))
+                asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.item.token}-x/{self.car.x}-y/{self.car.y}-angle/{self.car.angle}"))
                 print(f"id keypress {self.item.id}")
                 self.item.id = Items.none 
                 return True
