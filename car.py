@@ -20,8 +20,8 @@ class Car:
         return self.x + 8, self.y + 8
     
     def draw_line(self):
-        end_x = self.x + 10 * p.cos(self.angle)
-        end_y = self.y + 10 * p.sin(self.angle)
+        end_x = self.x + 7 * p.cos(self.angle)
+        end_y = self.y + 7 * p.sin(self.angle)
         p.line(self.x + 8 , self.y + 8, end_x + 8, end_y + 8, 7)
 
     def correct_angle(self):

@@ -104,6 +104,7 @@ class Game:
     def draw(self):
         self.draw_background()
         self.road.draw_road(self.track)
+        self.player.car.draw_line()
         self.draw_players()
         self.player.item.draw_item_case()
         if self.player.item is not None:
