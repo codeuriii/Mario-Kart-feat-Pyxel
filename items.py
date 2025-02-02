@@ -24,7 +24,7 @@ class Item:
         self.svgd_x = self.x
         self.svgd_y = self.y
         self.x_vel = 0
-        self.y_vel = 3
+        self.y_vel = 0
         self.angle = float(angle)
         self.speed = 3
         self.roads = Roads()
