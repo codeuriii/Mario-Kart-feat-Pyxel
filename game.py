@@ -112,6 +112,8 @@ class Game:
             self.player.item.draw_item(p.width - 20, 10)
         for item in self.items:
             item.draw()
+        
+        self.drawer.draw_rank(self.player.rank)
 
     async def run(self):
         loop = asyncio.get_event_loop()

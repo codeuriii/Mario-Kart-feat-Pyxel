@@ -251,3 +251,6 @@ class Drawer:
 
     def draw_item_case(self):
         p.rectb(p.width - 24, 6, 16, 16, p.COLOR_BLACK)
+
+    def draw_rank(self, rank):
+        p.blt(5, p.height - 21, 2, *self.ranks[str(rank)], 0)
