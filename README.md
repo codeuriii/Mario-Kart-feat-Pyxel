@@ -21,6 +21,9 @@ feat/items - La branche pour gérer le comportement des objets
 - [>] Faire la mécanique des objets (classe, comportement etc) -> attendre le skin et le circuit (barrières) + oublie pas de pouvoir trail les carapaces verte, rouge et banane et bombe
     - [X] ajouter l'usage unique 
 - [X] dessiner des tiles d'environement / un fond (herbe / terre ect ...)
+- [X] dessiner les nombres
+- [ ] faire un player.hit() avec une rotation
+- [ ] regler la desynchronisation des items quand lag
 - [ ] Design les lignes d'item sur le terrain
 - [ ] dessiner et implementer des particules de poussiere
 - [ ] arreter le momentum du joueur si jamais il touche un bord + collision
