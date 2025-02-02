@@ -208,6 +208,8 @@ class Drawer:
         }
 
         self.item_box = (0, 8, 16, 16)
+        self.damier_vertical = (64, 0, 16, 32)
+        self.damier_horizontal = (80, 0, 32, 16)
     
     def get_random_background(self, background):
         return random.choice(self.backgrounds[background])
@@ -236,6 +238,16 @@ class Drawer:
             p.blt(x, y, 1, *self.roads_data[index], p.COLOR_BROWN)
         elif type(index) == str:
             p.blt(x, y, 1, *self.roads_data[self.roads[index]], p.COLOR_BROWN)
+
+    def draw_damier(self, x, y, inline):
+        x *= 32
+        y *= 32
+        if inline:
+            y += 8
+            p.blt(x, y, 1, *self.damier_horizontal, p.COLOR_BROWN)
+        else:
+            x += 8
+            p.blt(x, y, 1, *self.damier_vertical, p.COLOR_BROWN)
 
     def draw_item(self, x, y, item):
         if isinstance(item, int):

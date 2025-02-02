@@ -17,6 +17,8 @@ class Game:
         self.players = []
         self.road = Road()
         self.roads = Roads()
+        self.flower_bg = ["grass"] * 2 + ["flowers"]
+        self.dirt_bg = ["dirt"] * 3 + ["rocks"]
 
         self.track_1 = {
             "track": [
@@ -31,7 +33,9 @@ class Game:
             "item boxes": [
                 Box(3, 2, False),
                 Box(7, 5, True)
-            ]
+            ],
+            "damier": (3, 6, False),
+            "background": self.flower_bg
         }
 
         self.track_2 = {
@@ -46,7 +50,9 @@ class Game:
             ],
             "item boxes": [
                 Box(4, 3, False)
-            ]
+            ],
+            "damier": (4, 5, False),
+            "background": self.dirt_bg
         }
 
         self.track_3 = {
@@ -62,7 +68,9 @@ class Game:
             "item boxes": [
                 Box(6, 0, False),
                 Box(2, 6, False)
-            ]
+            ],
+            "damier": (4, 4, False),
+            "background": self.flower_bg
         }
 
         self.track_4 = {
@@ -76,18 +84,19 @@ class Game:
                 [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.haut_gauche, self.roads.empty,      self.roads.empty,       self.roads.empty]
             ],
             "item boxes": [
-                Box(1, 5, True),
+                Box(1, 4, True),
                 Box(6, 4, False)
-            ]
+            ],
+            "damier": (2, 6, False),
+            "background": self.dirt_bg
         }
 
         self.current_track = self.track_4
         self.track = self.current_track["track"]
         self.item_boxes: list[Box] = self.current_track["item boxes"]
-        # Plus c petit, plus il y a de décorations
-        self.flower_bg = ["grass"] * 2 + ["flowers"]
-        self.dirt_bg = ["dirt"] * 3 + ["rocks"]
-        self.current_bg = self.dirt_bg
+        self.damier = self.current_track["damier"]
+        self.current_bg = self.current_track["background"]
+
         self.bgs = []
         self.items: list[Item] = []
         self.set_backgrounds()
@@ -123,6 +132,7 @@ class Game:
     def draw(self):
         self.draw_background()
         self.road.draw_road(self.track)
+        self.drawer.draw_damier(*self.damier)
         for box in self.item_boxes:
             box.draw()
         self.player.car.draw_car()
