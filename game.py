@@ -1,15 +1,18 @@
 import asyncio
+import random
 import pyxel as p
 from drawer import Drawer
 from items import Item
 from player import Player
 from road import Road, Roads
 import websockets
+import re
 
 class Game:
     def __init__(self, websocket):
         self.websocket = websocket
         self.player = Player(self.websocket)
+        self.drawer = Drawer()
         self.players = []
         self.drawer = Drawer()
         self.road = Road()
@@ -44,8 +47,25 @@ class Game:
             [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
         ]
 
-        self.track = self.track_3
+        self.track_4 = [
+            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty],
+            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.haut_gauche, self.roads.empty,      self.roads.empty,       self.roads.empty]
+        ]
+
+        self.track = self.track_4
+        # Plus c petit, plus il y a de décorations
+        self.flower_bg = ["grass"] * 2 + ["flowers"]
+        self.dirt_bg = ["dirt"] * 3 + ["rocks"]
+        self.current_bg = self.dirt_bg
+        self.bgs = []
         self.items: list[Item] = []
+        self.set_backgrounds()
+
 
     def update(self):
         self.player.update(self.check_hors_piste())
@@ -59,16 +79,36 @@ class Game:
             item.update()
 
         asyncio.run(self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}"))
+
+    def set_backgrounds(self):
+        for _ in range(14):
+            current_list = []
+            for _ in range(18):
+                current_list.append(self.drawer.get_random_background(random.choice(self.current_bg)))
+            self.bgs.append(current_list)
+
+    def check_hors_piste(self, x, y):
+        return self.get_tile(x, y) == self.roads.empty
     
-    def check_hors_piste(self):
-        car_x, car_y = self.player.car.get_center()
+    def get_tile(self, car_x, car_y):
         tile_x, tile_y = int(car_x // 32), int(car_y // 32)
         if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
-            return self.track[tile_y][tile_x] == self.roads.empty
-        return True
+            return self.track[tile_y][tile_x]
+        return self.roads.empty
 
+    def update(self):
+        self.player.update(self.check_hors_piste(*self.player.car.get_center()))
+        for item in self.items:
+            item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y))
+
+    def draw_background(self):
+        for y in range(14):
+            for x in range(18):
+                tile = self.bgs[y][x]
+                self.drawer.draw_background(x * 16, y * 16, tile)
+    
     def draw(self):
-        p.cls(p.COLOR_LIME)
+        self.draw_background()
         self.road.draw_road(self.track)
         self.draw_players()
         self.player.item.draw_item_case()
@@ -112,7 +152,14 @@ class Game:
             print(message.split("/")[1])
             self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
         elif message.startswith("item"):
-            self.items.append(Item(message.split("-")[0].split("/")[1], message.split("-")[1].split("/")[1]))
+            angle_match = re.search(r'angle/(-?\d+\.?\d*)', message)
+            angle = float(angle_match.group(1)) if angle_match else 0.0
+            self.items.append(Item(
+                message.split("-")[0].split("/")[1],
+                message.split("-")[2].split("/")[1],
+                message.split("-")[3].split("/")[1],
+                angle
+            ))
         elif message == "run":
             await self.run()
         elif message == "this room is full error":

@@ -1,11 +1,12 @@
 
-Vous vous trouvez actuellement sur la branche main  
+Vous vous trouvez actuellement sur la branche feat/items
 Plusieurs branches sont disponibles  
 feat/multi - La branche dédiée a l'affichage de multi joueur (breaking change oblige)  
 feat/manette - La branche qui gère la manette (étonnant)  
 fix/removetoken - La branche pour pouvoir se déconecter du serveur et actualiser les joueurs
 feat/horspiste - La branche pour ralentir dans le hors piste
 feat/correctdirection - La branche pour ajuster l'angle de la voiture pour l'aligner sur la route
+feat/items - La branche pour gérer le comportement des objets
 
 [ ] -> Pas fait  
 [>] -> une branche dédiée, en cours  
@@ -17,8 +18,9 @@ feat/correctdirection - La branche pour ajuster l'angle de la voiture pour l'ali
 ### ruben:
 - [X] Dessiner pour chaque voiture de chaque couleur en diagonale 
 - [x] faire le skin des items (voir liste des items)
-- [ ] Faire le petit carré pour les items
-- [ ] Faire la mécanique des objets (classe, comportement etc) -> attendre le skin et le circuit (barrières) + oublie pas de pouvoir trail les carapaces verte, rouge et banane et bombe
+- [>] Faire le petit carré pour les items
+- [>] Faire la mécanique des objets (classe, comportement etc) -> attendre le skin et le circuit (barrières) + oublie pas de pouvoir trail les carapaces verte, rouge et banane et bombe
+    - [>] ajouter l'usage unique 
 - [ ] dessiner des tiles d'environement / un fond (herbe / terre ect ...)
 - [ ] Design les lignes d'item sur le terrain
 - [ ] dessiner et implementer des particules de poussiere
