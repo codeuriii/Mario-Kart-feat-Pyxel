@@ -8,6 +8,7 @@ class Player:
         self.websocket = websocket
         self.item = Item(Items.peau_de_banane, 10, 10, 270)
         self.protected = False
+        self.spin_start_frame = None # for animation puropses
 
     async def handle_message(self, message):
         if message.startswith("id"):
@@ -26,12 +27,21 @@ class Player:
         for item in items:
             if abs(self.car.x - item.x) <= 5 and abs(self.car.y - item.y) <= 5:
                 if not self.protected:
-                    # self.hit()
-                    print('hit')
+                    self.hit()
             else:
                 if self.protected:
                     self.protected = False
                 
+        if self.spin_start_frame != None:
+            elapsed_frames = p.frame_count - self.spin_start_frame
+            if elapsed_frames < 60:
+                if elapsed_frames < 5:
+                    self.car.color = "white"
+                else:
+                    self.car.color = self.get_color()
+                if elapsed_frames < 20:
+                    self.car.angle += 18
+                self.car.speed = 0
             
     def set_id(self, id):
         self.id = id
@@ -41,6 +51,10 @@ class Player:
 
     def get_color(self):
         return self.infos['color']
+
+    def hit(self):
+        self.car.speed = 0
+        self.spin_start_frame = p.frame_count
 
     def check_use_item(self):
         if self.item.id != Items.none:

@@ -4,6 +4,7 @@ import pyxel as p
 from drawer import Drawer
 from items import Item
 from player import Player
+import player
 from road import Road, Roads
 import websockets
 import re

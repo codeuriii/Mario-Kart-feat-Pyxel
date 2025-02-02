@@ -43,6 +43,16 @@ class Drawer:
                 "diagonale haut gauche" : (48, 32, -16, 16),
                 "diagonale bas droite" : (48, 32, 16, -16),
                 "diagonale bas gauche" : (48, 32, -16, -16),
+            },
+            "white": {
+                "haut": (80, 0, 16, 16),
+                "bas": (80, 0, 16, -16),
+                "gauche": (80, 16, 16, 16),
+                "droite": (80, 16, -16, 16),
+                "diagonale haut droite" : (80, 32, 16, 16),
+                "diagonale haut gauche" : (80, 32, -16, 16),
+                "diagonale bas droite" : (80, 32, 16, -16),
+                "diagonale bas gauche" : (80, 32, -16, -16),
             }
         }
 
