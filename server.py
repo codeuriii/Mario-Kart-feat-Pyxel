@@ -78,7 +78,7 @@ async def main():
 
     local_ip = get_local_ip()
     print(f"Server will be accessible on ws://{local_ip}:1025")
-    async with websockets.serve(handler, "127.0.0.1", 1025, ping_interval=20, ping_timeout=20):
+    async with websockets.serve(handler, "0.0.0.0", 1025, ping_interval=20, ping_timeout=20):
         await asyncio.Future()
 
 if __name__ == "__main__":
