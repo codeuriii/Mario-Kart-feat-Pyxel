@@ -8,6 +8,7 @@ class Player:
         self.websocket = websocket
         self.item = Item(Items.peau_de_banane, 10, 10, 270)
         self.protected = False
+        self.rank = 1
 
     async def handle_message(self, message):
         if message.startswith("id"):

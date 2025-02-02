@@ -196,6 +196,20 @@ class Drawer:
                 (32, 152, -16, -16)
             ]
         }
+
+        self.ranks = {
+            "1": (0, 24, 16, 16),
+            "2": (16, 24, 16, 16),
+            "3": (32, 24, 16, 16),
+            "4": (48, 24, 16, 16),
+        }
+
+        self.numbers = {
+            "1": (0, 40, 16, 16),
+            "2": (16, 40, 16, 16),
+            "3": (32, 40, 16, 16),
+            "!": (48, 40, 16, 16)
+        }
     
     def get_random_background(self, background):
         return random.choice(self.backgrounds[background])
