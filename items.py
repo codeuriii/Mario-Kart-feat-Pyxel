@@ -119,7 +119,7 @@ class Item:
 
     def draw(self):
         if self.id != Items.none: 
-            self.draw_item(self.x, self.y, int(self.id))
+            self.draw_item(self.x, self.y)
 
     def draw_item_case(self):
         self.drawer.draw_item_case()
