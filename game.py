@@ -67,9 +67,10 @@ class Game:
 
 
     def update(self):
-        self.player.update(self.check_hors_piste(*self.player.car.get_center()))
+        self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
         for item in self.items:
-            item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y))
+            if not item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y)):
+                self.items.remove(item)
         
         for player in self.players:
             if player["id"] == self.player.infos["id"]:
@@ -94,12 +95,6 @@ class Game:
         if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
             return self.track[tile_y][tile_x]
         return self.roads.empty
-
-    def update(self):
-        self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
-        for item in self.items:
-            if not item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y)):
-                self.items.remove(item)
 
     def draw_background(self):
         for y in range(14):
