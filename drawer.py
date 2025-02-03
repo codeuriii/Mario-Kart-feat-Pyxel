@@ -261,3 +261,6 @@ class Drawer:
 
     def draw_background(self, x, y, tile):
         p.blt(x, y, 1, *tile)
+
+    def draw_item_case(self):
+        p.rectb(p.width - 24, 6, 16, 16, p.COLOR_BLACK)
