@@ -9,7 +9,14 @@ class Player:
         self.x = x * 32 + 8
         self.y = y * 32 + 8
         self.face = face
-        self.item = Item(Items.peau_de_banane, 10, 10, 270)
+        self.facing = {
+            "haut": 270,
+            "bas": 90,
+            "droite": 0,
+            "gauche": 180
+        }
+
+        self.item = Item(Items.peau_de_banane, self.x, self.y, self.facing[self.face])
         self.protected = False
         self.spin_start_frame = None # for animation puropses
 

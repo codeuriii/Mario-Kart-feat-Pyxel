@@ -129,3 +129,5 @@ class Item:
     def draw_item(self, x, y, id):
         self.drawer.draw_item(x, y, id)
        
+    def draw_item_case(self):
+        self.drawer.draw_item_case()

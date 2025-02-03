@@ -3,7 +3,7 @@ import random
 import pyxel as p
 from boxes import Box
 from drawer import Drawer
-from items import Item
+from items import Item, Items
 from player import Player
 from road import Road, Roads
 import websockets
@@ -139,6 +139,9 @@ class Game:
         self.draw_background()
         self.road.draw_road(self.track)
         self.drawer.draw_damier(*self.damier)
+        self.player.item.draw_item_case()
+        if self.player.item.id is not Items.none:
+            self.player.item.draw_item(p.width - 20, 10, self.player.item.id)
         for box in self.item_boxes:
             box.draw()
         self.player.car.draw_car()
