@@ -159,8 +159,8 @@ class Game:
                     message.split("-")[3].split("/")[1],
                     angle
                 ))
-            except:
-                print("wtf")
+            except Exception as e:
+                print("wtf", e)
         elif message == "run":
             await self.run()
         elif message == "this room is full error":
