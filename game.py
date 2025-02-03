@@ -12,7 +12,6 @@ import re
 class Game:
     def __init__(self, websocket):
         self.websocket = websocket
-        self.player = Player(self.websocket)
         self.drawer = Drawer()
         self.players = []
         self.road = Road()
@@ -35,7 +34,8 @@ class Game:
                 Box(7, 5, True)
             ],
             "damier": (3, 6, False),
-            "background": self.flower_bg
+            "background": self.flower_bg,
+            "spawn": (4, 6, "gauche")
         }
 
         self.track_2 = {
@@ -52,7 +52,8 @@ class Game:
                 Box(4, 3, False)
             ],
             "damier": (4, 5, False),
-            "background": self.dirt_bg
+            "background": self.dirt_bg,
+            "spawn": (5, 5, "gauche")
         }
 
         self.track_3 = {
@@ -70,7 +71,8 @@ class Game:
                 Box(2, 6, False)
             ],
             "damier": (4, 4, False),
-            "background": self.flower_bg
+            "background": self.flower_bg,
+            "spawn": (5, 4, "gauche")
         }
 
         self.track_4 = {
@@ -88,7 +90,8 @@ class Game:
                 Box(6, 4, False)
             ],
             "damier": (2, 6, False),
-            "background": self.dirt_bg
+            "background": self.dirt_bg,
+            "spawn": (3, 6, "gauche")
         }
 
         self.current_track = self.track_4
@@ -96,6 +99,9 @@ class Game:
         self.item_boxes: list[Box] = self.current_track["item boxes"]
         self.damier = self.current_track["damier"]
         self.current_bg = self.current_track["background"]
+        self.spawn_point = self.current_track["spawn"]
+
+        self.player = Player(self.websocket, *self.spawn_point)
 
         self.bgs = []
         self.items: list[Item] = []

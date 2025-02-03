@@ -4,8 +4,11 @@ from items import Items, Item
 import asyncio
 
 class Player:
-    def __init__(self, websocket):
+    def __init__(self, websocket, x, y, face):
         self.websocket = websocket
+        self.x = x * 32 + 8
+        self.y = y * 32 + 8
+        self.face = face
         self.item = Item(Items.peau_de_banane, 10, 10, 270)
         self.protected = False
         self.spin_start_frame = None # for animation puropses
@@ -15,7 +18,7 @@ class Player:
             self.set_id(message)
             self.parse_id()
             self.color = self.get_color()
-            self.car = Car(10, 10, self.color)
+            self.car = Car(self.x, self.y, self.color, self.face)
             await self.websocket.send("get_players")
             await self.websocket.send("run")
     

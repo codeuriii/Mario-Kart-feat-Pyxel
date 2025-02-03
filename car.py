@@ -3,11 +3,17 @@ import statistics as s
 from drawer import Drawer
 
 class Car:
-    def __init__(self, x, y, color):
+    def __init__(self, x, y, color, angle):
         self.x = x
         self.y = y
         self.speed = 0
-        self.angle = 270
+        self.facing = {
+            "haut": 270,
+            "bas": 90,
+            "droite": 0,
+            "gauche": 180
+        }
+        self.angle = self.facing[angle]
         self.color = color
         self.drawer = Drawer()
         self.speed_turn = 5
