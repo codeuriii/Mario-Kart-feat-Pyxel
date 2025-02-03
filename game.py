@@ -138,10 +138,13 @@ class Game:
     async def handle_message(self, message):
         if message.startswith("move"):
             for player in self.players:
-                if player["id"] == message.split("/")[1]:
-                    player["x"] = int(float(message.split("/")[2]))
-                    player["y"] = int(float(message.split("/")[3]))
-                    player["angle"] = int(float(message.split("/")[-1]))
+                try:
+                    if player["id"] == message.split("/")[1]:
+                        player["x"] = int(float(message.split("/")[2]))
+                        player["y"] = int(float(message.split("/")[3]))
+                        player["angle"] = int(float(message.split("/")[-1]))
+                except Exception as e:
+                    print("wtf player", e)
 
         elif message.startswith("create_player"):
             self.create_player(message)
