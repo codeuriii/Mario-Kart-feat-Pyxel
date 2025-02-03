@@ -150,14 +150,17 @@ class Game:
             print(message.split("/")[1])
             self.players = [player for player in self.players if player["id"] != message.split("/")[1]]
         elif message.startswith("item"):
-            angle_match = re.search(r'angle/(-?\d+\.?\d*)', message)
-            angle = float(angle_match.group(1)) if angle_match else 0.0
-            self.items.append(Item(
-                message.split("-")[0].split("/")[1],
-                message.split("-")[2].split("/")[1],
-                message.split("-")[3].split("/")[1],
-                angle
-            ))
+            try:
+                angle_match = re.search(r'angle/(-?\d+\.?\d*)', message)
+                angle = float(angle_match.group(1)) if angle_match else 0.0
+                self.items.append(Item(
+                    message.split("-")[0].split("/")[1],
+                    message.split("-")[2].split("/")[1],
+                    message.split("-")[3].split("/")[1],
+                    angle
+                ))
+            except:
+                print("wtf")
         elif message == "run":
             await self.run()
         elif message == "this room is full error":
