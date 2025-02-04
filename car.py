@@ -17,10 +17,10 @@ class Car:
         self.color = color
         self.drawer = Drawer()
         self.speed_turn = 5
-        self.speed_max = 3
+        self.speed_max = 2.5
         self.speed_max_svgd = self.speed_max
-        self.acceleration = 0.1
-        self.deceleration = 0.05
+        self.acceleration = 0.05
+        self.deceleration = 0.025
 
     def get_center(self):
         return self.x + 8, self.y + 8
@@ -41,7 +41,7 @@ class Car:
         self.y += self.speed * p.sin(self.angle)
         self.speed_turn = max(1, 5 - self.speed * 0.1)
         if hors_piste:
-            self.speed_max = .5
+            self.speed_max = .25
         if self.speed > self.speed_max:
             self.speed = self.speed_max
         elif self.speed < -self.speed_max:
