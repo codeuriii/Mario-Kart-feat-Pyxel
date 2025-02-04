@@ -26,7 +26,7 @@ feat/items - La branche pour gérer le comportement des objets
 - [ ] regler la desynchronisation des items quand lag
 - [ ] Design les lignes d'item sur le terrain
 - [ ] dessiner et implementer des particules de poussiere
-- [ ] arreter le momentum du joueur si jamais il touche un bord + collision
+- [ ] arreter le momentum du joueur si jamais il touche un bord + collision 
 
 ### nathan:
 - [x] fix le this room is full error
