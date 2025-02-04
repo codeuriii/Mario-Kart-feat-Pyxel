@@ -16,7 +16,7 @@ class Player:
             "gauche": 180
         }
 
-        self.item = Item(Items.peau_de_banane, self.x, self.y, self.facing[self.face])
+        self.item = Item(Items.none, self.x, self.y, self.facing[self.face])
         self.protected = False
         self.spin_start_frame = None # for animation puropses
 
