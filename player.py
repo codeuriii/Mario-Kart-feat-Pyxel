@@ -35,7 +35,7 @@ class Player:
             self.protected = True
 
         for item in items:
-            if abs(self.car.x - item.x) <= 5 and abs(self.car.y - item.y) <= 5:
+            if abs(self.car.get_center()[0] - item.x) <= 10 and abs(self.car.get_center()[1] - item.y) <= 10:
                 if not self.protected:
                     self.hit()
                     asyncio.run(self.websocket.send(f"remove_item/{item.token}"))
