@@ -122,12 +122,21 @@ class Game:
         if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
             return self.track[tile_y][tile_x]
         return self.roads.empty
+    
+    def update_item(self):
+        tile_x, tile_y = self.player.car.get_center()[0] // 32, self.player.car.get_center()[1] // 32
+        for box in self.item_boxes:
+            if box.x == tile_x and box.y == tile_y:
+                if self.player.item.id == Items.none:
+                    self.player.item = Item(random.choice(Items.items), *self.player.car.get_center(), self.player.car.angle)
 
     def update(self):
         self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
         for item in self.items:
             if not item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y)):
                 self.items.remove(item)
+
+        self.update_item()
 
     def draw_background(self):
         for y in range(14):

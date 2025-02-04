@@ -4,6 +4,8 @@ from drawer import Drawer
 class Box:
     def __init__(self, x: int, y: int, inline: bool):
         self.drawer = Drawer()
+        self.x = x
+        self.y = y
         x *= 32
         y *= 32
         if inline:
