@@ -210,6 +210,7 @@ class Drawer:
         self.item_box = (0, 8, 16, 16)
         self.damier_vertical = (64, 0, 16, 32)
         self.damier_horizontal = (80, 0, 32, 16)
+        self.item_case = (72, 0, 16, 16)
     
     def get_random_background(self, background):
         return random.choice(self.backgrounds[background])
@@ -263,4 +264,4 @@ class Drawer:
         p.blt(x, y, 1, *tile)
 
     def draw_item_case(self):
-        p.rectb(p.width - 24, 6, 16, 16, p.COLOR_BLACK)
+        p.blt(p.width - 24, 6, 2, *self.item_case, p.COLOR_BLACK)
