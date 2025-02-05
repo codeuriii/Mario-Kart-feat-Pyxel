@@ -13,7 +13,6 @@ feat/items - La branche pour gérer le comportement des objets
 [x] -> terminé  
 
 # compte rendu:
-## semaine 1:
 **TO-DO:**
 ### ruben:
 - [X] Dessiner pour chaque voiture de chaque couleur en diagonale 
