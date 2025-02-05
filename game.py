@@ -187,10 +187,17 @@ class Game:
         elif message.startswith("item"):
             angle_match = re.search(r'angle/(-?\d+\.?\d*)', message)
             angle = float(angle_match.group(1)) if angle_match else 0.0
+
+            x_match = re.search(r'x/(-?\d+\.?\d*)', message)
+            x = float(x_match.group(1)) if x_match else 0.0
+
+            y_match = re.search(r'y/(-?\d+\.?\d*)', message)
+            y = float(y_match.group(1)) if y_match else 0.0
+
             self.items.append(Item(
                 message.split("-")[0].split("/")[1],
-                message.split("-")[2].split("/")[1],
-                message.split("-")[3].split("/")[1],
+                x,
+                y,
                 angle,
                 message.split("-")[1].split("/")[1]
             ))
