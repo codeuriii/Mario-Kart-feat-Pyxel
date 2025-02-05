@@ -132,7 +132,9 @@ class Game:
 
     def update(self):
         self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
+        print(f"self item {self.items}")
         for item in self.items:
+            print(f"item {item}")
             if not item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y)):
                 self.items.remove(item)
 
