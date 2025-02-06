@@ -16,6 +16,7 @@ class Game:
         self.players = []
         self.road = Road()
         self.roads = Roads()
+        self.send_move = 0
         self.track_1 = [
             [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
             [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
@@ -78,7 +79,9 @@ class Game:
                 player["y"] = self.player.car.y
         self.player.infos["id"]
 
-        asyncio.run(self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}"))
+        if self.send_move % 4 == 0:
+            asyncio.run(self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}"))
+        self.send_move += 1
 
     def set_backgrounds(self):
         for _ in range(14):
@@ -145,6 +148,7 @@ class Game:
                         player["angle"] = int(float(message.split("/")[-1]))
                 except Exception as e:
                     print("wtf player", e)
+                    continue
 
         elif message.startswith("create_player"):
             self.create_player(message)
