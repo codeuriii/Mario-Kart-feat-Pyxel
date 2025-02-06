@@ -249,12 +249,19 @@ class Game:
     def create_player(self, message):
         player_id = message.split("-")[0].split("/")[1]
         if not any(player["id"] == player_id for player in self.players):
+            self.facing = {
+                "haut": 270,
+                "bas": 90,
+                "droite": 0,
+                "gauche": 180
+            }
             self.players.append({
                 "id": player_id,
                 "color": message.split("-")[1].split("/")[1],
-                "x": 10,
-                "y": 10,
-                "angle": 270
+                "svgd_color": message.split("-")[1].split("/")[1],
+                "x": self.spawn_point[0]*32+8,
+                "y": self.spawn_point[1]*32+8,
+                "angle": self.facing[self.spawn_point[2]]
             })
         print(self.players)
     
