@@ -1,8 +1,9 @@
 import asyncio
 import random
 import pyxel as p
+from boxes import Box
 from drawer import Drawer
-from items import Item
+from items import Item, Items
 from player import Player
 from road import Road, Roads
 import websockets
@@ -11,61 +12,125 @@ import re
 class Game:
     def __init__(self, websocket):
         self.websocket = websocket
-        self.player = Player(self.websocket)
         self.drawer = Drawer()
         self.players = []
         self.road = Road()
         self.roads = Roads()
         self.send_move = 0
-        self.track_1 = [
-            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.bas_gauche,  self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.haut_gauche, self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
-        ]
-
-        self.track_2 = [
-            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
-            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
-            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
-            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.haut_droite, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
-            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty]
-        ]
-
-        self.track_3 = [
-            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
-            [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
-        ]
-
-        self.track_4 = [
-            [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
-            [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty],
-            [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.haut_gauche, self.roads.empty,      self.roads.empty,       self.roads.empty]
-        ]
-
-        self.track = self.track_4
-        # Plus c petit, plus il y a de décorations
         self.flower_bg = ["grass"] * 2 + ["flowers"]
         self.dirt_bg = ["dirt"] * 3 + ["rocks"]
-        self.current_bg = self.dirt_bg
+
+        self.track_1 = {
+            "track": [
+                [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.bas_gauche,  self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.haut_gauche, self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
+            ],
+            "item boxes": [
+                Box(3, 2, False),
+                Box(7, 5, True)
+            ],
+            "damier": (3, 6, False),
+            "background": self.flower_bg,
+            "spawn": (4, 6, "gauche")
+        }
+
+        self.track_2 = {
+            "track": [
+                [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+                [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+                [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+                [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.haut_droite, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+                [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty]
+            ],
+            "item boxes": [
+                Box(4, 3, False)
+            ],
+            "damier": (4, 5, False),
+            "background": self.dirt_bg,
+            "spawn": (5, 5, "gauche")
+        }
+
+        self.track_3 = {
+            "track": [
+                [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+                [self.roads.empty, self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.empty,       self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,      self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal, self.roads.horizontal, self.roads.haut_gauche, self.roads.empty]
+            ],
+            "item boxes": [
+                Box(6, 0, False),
+                Box(2, 6, False)
+            ],
+            "damier": (4, 4, False),
+            "background": self.flower_bg,
+            "spawn": (5, 4, "gauche")
+        }
+
+        self.track_4 = {
+            "track": [
+                [self.roads.empty, self.roads.bas_droite,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.bas_droite,  self.roads.horizontal, self.roads.bas_gauche,  self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.vertical,    self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.haut_droite, self.roads.horizontal, self.roads.carrefour,   self.roads.horizontal, self.roads.haut_gauche, self.roads.empty],
+                [self.roads.empty, self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty,      self.roads.vertical,    self.roads.empty,      self.roads.empty,       self.roads.empty],
+                [self.roads.empty, self.roads.haut_droite, self.roads.horizontal, self.roads.horizontal,  self.roads.horizontal, self.roads.haut_gauche, self.roads.empty,      self.roads.empty,       self.roads.empty]
+            ],
+            "item boxes": [
+                Box(1, 4, True),
+                Box(6, 4, False)
+            ],
+            "damier": (2, 6, False),
+            "background": self.dirt_bg,
+            "spawn": (3, 6, "gauche")
+        }
+
+        self.current_track = self.track_4
+        self.track = self.current_track["track"]
+        self.item_boxes: list[Box] = self.current_track["item boxes"]
+        self.damier = self.current_track["damier"]
+        self.current_bg = self.current_track["background"]
+        self.spawn_point = self.current_track["spawn"]
+
+        self.player = Player(self.websocket, *self.spawn_point)
+
         self.bgs = []
         self.items: list[Item] = []
         self.set_backgrounds()
 
+
+    def set_backgrounds(self):
+        for _ in range(14):
+            current_list = []
+            for _ in range(18):
+                current_list.append(self.drawer.get_random_background(random.choice(self.current_bg)))
+            self.bgs.append(current_list)
+
+    def check_hors_piste(self, x, y):
+        return self.get_tile(x, y) == self.roads.empty
+    
+    def get_tile(self, car_x, car_y):
+        tile_x, tile_y = int(car_x // 32), int(car_y // 32)
+        if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
+            return self.track[tile_y][tile_x]
+        return self.roads.empty
+    
+    def update_item(self):
+        tile_x, tile_y = self.player.car.get_center()[0] // 32, self.player.car.get_center()[1] // 32
+        for box in self.item_boxes:
+            if box.x == tile_x and box.y == tile_y:
+                if self.player.item.id == Items.none:
+                    self.player.item = Item(random.choice(Items.items), *self.player.car.get_center(), self.player.car.angle)
 
     def update(self):
         self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
@@ -83,21 +148,7 @@ class Game:
             asyncio.run(self.websocket.send(f"move/{self.player.infos["id"]}/{self.player.car.x}/{self.player.car.y}/{self.player.car.angle}"))
         self.send_move += 1
 
-    def set_backgrounds(self):
-        for _ in range(14):
-            current_list = []
-            for _ in range(18):
-                current_list.append(self.drawer.get_random_background(random.choice(self.current_bg)))
-            self.bgs.append(current_list)
-
-    def check_hors_piste(self, x, y):
-        return self.get_tile(x, y) == self.roads.empty
-    
-    def get_tile(self, car_x, car_y):
-        tile_x, tile_y = int(car_x // 32), int(car_y // 32)
-        if 0 <= tile_y < len(self.track) and 0 <= tile_x < len(self.track[0]):
-            return self.track[tile_y][tile_x]
-        return self.roads.empty
+        self.update_item()
 
     def draw_background(self):
         for y in range(14):
@@ -108,11 +159,13 @@ class Game:
     def draw(self):
         self.draw_background()
         self.road.draw_road(self.track)
-        self.player.car.draw_line()
-        self.draw_players()
+        self.drawer.draw_damier(*self.damier)
         self.player.item.draw_item_case()
-        if self.player.item is not None:
+        if self.player.item.id is not Items.none:
             self.player.item.draw_item(p.width - 20, 10)
+        for box in self.item_boxes:
+            box.draw()
+        self.draw_players()
         for item in self.items:
             item.draw()
         

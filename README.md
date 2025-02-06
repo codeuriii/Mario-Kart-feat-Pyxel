@@ -13,7 +13,6 @@ feat/items - La branche pour gérer le comportement des objets
 [x] -> terminé  
 
 # compte rendu:
-## semaine 1:
 **TO-DO:**
 ### ruben:
 - [X] Dessiner pour chaque voiture de chaque couleur en diagonale 
@@ -22,11 +21,11 @@ feat/items - La branche pour gérer le comportement des objets
     - [X] ajouter l'usage unique 
 - [X] dessiner des tiles d'environement / un fond (herbe / terre ect ...)
 - [X] dessiner les nombres
-- [ ] faire un player.hit() avec une rotation
+- [X] faire un player.hit() avec une rotation
 - [ ] regler la desynchronisation des items quand lag
 - [ ] Design les lignes d'item sur le terrain
 - [ ] dessiner et implementer des particules de poussiere
-- [ ] arreter le momentum du joueur si jamais il touche un bord + collision
+- [ ] arreter le momentum du joueur si jamais il touche un bord + collision 
 
 ### nathan:
 - [x] fix le this room is full error

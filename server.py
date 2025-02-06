@@ -42,7 +42,7 @@ async def handler(websocket):
                     elif message == "get_players":
                         for element in all_tokens:
                             token = element['token']
-                            color = element['color']
+                            color = element['color'] 
                             await client.send(f"create_player/{token}-color/{color}")
                     
                     elif message == "run":
@@ -52,6 +52,9 @@ async def handler(websocket):
                     elif message.startswith("move"):
                         await client.send(message)
                     elif message.startswith("item"):
+                        await client.send(message)
+
+                    elif message.startswith("remove_item"):
                         await client.send(message)
 
                 except websockets.ConnectionClosed:

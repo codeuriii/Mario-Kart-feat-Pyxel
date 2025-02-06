@@ -43,6 +43,16 @@ class Drawer:
                 "diagonale haut gauche" : (48, 32, -16, 16),
                 "diagonale bas droite" : (48, 32, 16, -16),
                 "diagonale bas gauche" : (48, 32, -16, -16),
+            },
+            "white": {
+                "haut": (80, 0, 16, 16),
+                "bas": (80, 0, 16, -16),
+                "gauche": (80, 16, 16, 16),
+                "droite": (80, 16, -16, 16),
+                "diagonale haut droite" : (80, 32, 16, 16),
+                "diagonale haut gauche" : (80, 32, -16, 16),
+                "diagonale bas droite" : (80, 32, 16, -16),
+                "diagonale bas gauche" : (80, 32, -16, -16),
             }
         }
 
@@ -210,6 +220,10 @@ class Drawer:
             "3": (32, 40, 16, 16),
             "!": (48, 40, 16, 16)
         }
+        self.item_box = (0, 8, 16, 16)
+        self.damier_vertical = (64, 0, 16, 32)
+        self.damier_horizontal = (80, 0, 32, 16)
+        self.item_case = (72, 0, 16, 16)
     
     def get_random_background(self, background):
         return random.choice(self.backgrounds[background])
@@ -239,18 +253,31 @@ class Drawer:
         elif type(index) == str:
             p.blt(x, y, 1, *self.roads_data[self.roads[index]], p.COLOR_BROWN)
 
+    def draw_damier(self, x, y, inline):
+        x *= 32
+        y *= 32
+        if inline:
+            y += 8
+            p.blt(x, y, 1, *self.damier_horizontal, p.COLOR_BROWN)
+        else:
+            x += 8
+            p.blt(x, y, 1, *self.damier_vertical, p.COLOR_BROWN)
+
     def draw_item(self, x, y, item):
         if isinstance(item, int):
             if item >= 0:
                 p.blt(x, y, 2, *self.items_data[item], 0)
         else:
             print(f"Expected an integer for id ({item}), but got {type(item)}")
+    
+    def draw_item_box(self, x, y):
+        p.blt(x, y, 2, *self.item_box, p.COLOR_BLACK)
 
     def draw_background(self, x, y, tile):
         p.blt(x, y, 1, *tile)
 
     def draw_item_case(self):
-        p.rectb(p.width - 24, 6, 16, 16, p.COLOR_BLACK)
+        p.blt(p.width - 24, 6, 2, *self.item_case, p.COLOR_BLACK)
 
     def draw_rank(self, rank):
         p.blt(5, p.height - 21, 2, *self.ranks[str(rank)], 0)
