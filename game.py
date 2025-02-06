@@ -233,6 +233,11 @@ class Game:
         elif message == "this room is full error":
             print("This room is full.")
             await self.websocket.close()
+        
+        elif message.startswith("remove_item"):
+            for item in self.items:
+                if item.token == message.split("/")[1]:
+                    self.items.remove(item)
 
     def draw_car(self, color, x, y, angle):
         self.drawer.draw_car(color, x, y, angle)
