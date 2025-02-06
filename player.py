@@ -17,7 +17,7 @@ class Player:
         }
 
         self.item = Item(Items.none, self.x, self.y, self.facing[self.face])
-        self.protected = False
+        self.protected = {}
         self.spin_start_frame = None # for animation puropses
 
     async def handle_message(self, message):
@@ -31,17 +31,18 @@ class Player:
     
     def update(self, hors_piste, items: list[Item]):
         self.car.update(hors_piste)
-        if self.check_use_item():
-            self.protected = True
+        result = self.check_use_item()
+        if result[0]:
+            self.protected[result[1]] = True
 
         for item in items:
             if abs(self.car.get_center()[0] - item.x) <= 10 and abs(self.car.get_center()[1] - item.y) <= 10:
-                if not self.protected:
+                if not self.protected.get(item.token):
                     self.hit()
                     asyncio.run(self.websocket.send(f"remove_item/{item.token}"))
             else:
-                if self.protected:
-                    self.protected = False
+                if self.protected.get(item.token):
+                    self.protected[item.token] = False
                 
         if self.spin_start_frame != None:
             elapsed_frames = p.frame_count - self.spin_start_frame
@@ -75,5 +76,5 @@ class Player:
                 asyncio.run(self.websocket.send(f"item/{self.item.id}-id/{self.item.token}-x/{self.car.get_center()[0]-4}-y/{self.car.get_center()[1]-4}-angle/{self.car.angle}"))
                 print(f"id keypress {self.item.id}")
                 self.item.id = Items.none 
-                return True
-        return False
+                return (True, self.item.token)
+        return (False, "")
