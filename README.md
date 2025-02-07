@@ -22,6 +22,7 @@ feat/items - La branche pour gérer le comportement des objets
 - [X] dessiner des tiles d'environement / un fond (herbe / terre ect ...)
 - [X] dessiner les nombres
 - [X] faire un player.hit() avec une rotation
+- [ ] reglr le fait que les items ne partent pas 
 - [ ] regler la desynchronisation des items quand lag
 - [x] Design les lignes d'item sur le terrain
 - [ ] dessiner et implementer des particules de poussiere
