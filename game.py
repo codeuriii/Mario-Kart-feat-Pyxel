@@ -224,7 +224,8 @@ class Game:
                     message.split("-")[0].split("/")[1],
                     x,
                     y,
-                    angle
+                    angle,
+                    message.split("-")[1].split("/")[1]
                 ))
             except Exception as e:
                 print("wtf", e)
