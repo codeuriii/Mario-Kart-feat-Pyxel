@@ -33,6 +33,7 @@ class Player:
     def update(self, hors_piste, items: list[Item]):
         self.car.update(hors_piste)
         result = self.check_use_item()
+        print(self.item.token)
         if result[0]:
             self.protected[result[1]] = True
 
