@@ -39,6 +39,26 @@ class Car:
     def move(self, hors_piste):
         self.x += self.speed * p.cos(self.angle)
         self.y += self.speed * p.sin(self.angle)
+
+        # Collision with the left border
+        if self.x < 0:
+            self.x = 0
+            self.speed = 0
+
+        # Collision with the right border
+        if self.x > p.width - 16:
+            self.x = p.width - 16
+            self.speed = 0
+
+        # Collision with the top border
+        if self.y < 0:
+            self.y = 0
+            self.speed = 0
+
+        # Collision with the bottom border
+        if self.y > p.height - 16:
+            self.y = p.height - 16
+            self.speed = 0
         self.speed_turn = max(1, 5 - self.speed * 0.1)
         if hors_piste:
             self.speed_max = .25
