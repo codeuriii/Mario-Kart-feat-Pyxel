@@ -1,3 +1,4 @@
+import math
 from drawer import Drawer
 import pyxel as p
 from road import Roads
@@ -20,7 +21,7 @@ class Items:
     items = [1, 2,  3, 4, 6, 7, 8]
 
 class Item:
-    def __init__(self, id, x, y, angle, token=None):
+    def __init__(self, id, x, y, angle, token=None, websocket=None):
         self.id = int(id)
         if not token:
             self.token = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
@@ -47,6 +48,8 @@ class Item:
         self.item_offset_callbacks = []
         self.is_waiting_for_offset = False
         self.n_iterations = 4
+        self.bounce_count = 0
+        self.websocket = websocket
 
     def set_callbacks_for_offset(self, callbacks, n=4):
         self.is_waiting_for_offset = True
@@ -68,18 +71,23 @@ class Item:
             case "line":
                 self.x_vel = self.speed * p.cos(self.angle)
                 self.y_vel = self.speed * p.sin(self.angle)
+                print("hello there")
 
                 if self.x <= 0 or self.x >= p.width:
-                    self.angle = p.pi - self.angle
+                    print("x bound")
+                    self.angle = 180
                     self.x_vel = -self.x_vel
-                    self.bounce_count = getattr(self, 'bounce_count', 0) + 1
+                    self.bounce_count += 1
 
                 if self.y <= 0 or self.y >= p.height:
+                    print("y bound")
                     self.angle = -self.angle
                     self.y_vel = -self.y_vel
-                    self.bounce_count = getattr(self, 'bounce_count', 0) + 1
+                    self.bounce_count += 1
 
-                if getattr(self, 'bounce_count', 0) >= 3:
+                if self.bounce_count >= 3:
+                    print("battu")
+                    self.bounce_count = 0
                     asyncio.run(self.websocket.send(f"remove_item/{self.token}"))
                 
             case "dont move":
@@ -133,9 +141,6 @@ class Item:
         self.x += self.x_vel
         self.y += self.y_vel
 
-        if self.x < 0 or self.x > p.width or self.y < 0 or self.y > p.height:
-            return False
-        return True
 
     def draw(self):
         if self.id != Items.none: 

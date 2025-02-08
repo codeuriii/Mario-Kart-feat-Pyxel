@@ -130,13 +130,12 @@ class Game:
         for box in self.item_boxes:
             if box.x == tile_x and box.y == tile_y:
                 if self.player.item.id == Items.none:
-                    self.player.item = Item(random.choice(Items.items), *self.player.car.get_center(), self.player.car.angle)
+                    self.player.item = Item(random.choice([Items.carapace_verte]), *self.player.car.get_center(), self.player.car.angle, None, self.websocket)
 
     def update(self):
         self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
         for item in self.items:
-            if not item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y)):
-                self.items.remove(item)
+            item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y))
         
         for player in self.players:
             if player["id"] == self.player.infos["id"]:
@@ -225,7 +224,8 @@ class Game:
                     x,
                     y,
                     angle,
-                    message.split("-")[1].split("/")[1]
+                    message.split("-")[1].split("/")[1],
+                    self.websocket
                 ))
             except Exception as e:
                 print("wtf", e)
