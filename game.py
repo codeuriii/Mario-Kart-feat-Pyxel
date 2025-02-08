@@ -229,6 +229,23 @@ class Game:
                 ))
             except Exception as e:
                 print("wtf", e)
+
+        elif message.startswith("horn"):
+            try:
+                horn_token = re.search(r'horn/([^/]+)', message).group(1).split("-")[0]
+                horn_id = re.search(r'id/([^/]+)', message).group(1).split("-")[0]
+                horn_x = float(re.search(r'x/(-?\d+\.?\d*)', message).group(1))
+                horn_y = float(re.search(r'y/(-?\d+\.?\d*)', message).group(1))
+
+                for player in self.players:
+                    print(player["id"], horn_id)
+                    if player["id"] != horn_id:
+                        player_x, player_y = player["x"], player["y"]
+                        if abs(player_x - horn_x) <= 25 and abs(player_y - horn_y) <= 25:
+                            print(f"Player {player['id']} was hit by horn {horn_token}")
+                            self.player.hit()
+            except Exception as e:
+                print("Error processing horn message:", e)
         elif message == "run":
             await self.run()
         elif message == "this room is full error":

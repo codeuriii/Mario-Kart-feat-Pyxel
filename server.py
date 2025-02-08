@@ -56,6 +56,8 @@ async def handler(websocket):
 
                     elif message.startswith("remove_item"):
                         await client.send(message)
+                    elif message.startswith("horn"):
+                        await client.send(message)
 
                 except websockets.ConnectionClosed:
                     disconnected_clients.append(client)
