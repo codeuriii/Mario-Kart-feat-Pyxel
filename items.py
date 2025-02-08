@@ -3,6 +3,7 @@ import pyxel as p
 from road import Roads
 import random
 import string
+import asyncio
 
 class Items:
     none = -1
@@ -67,6 +68,19 @@ class Item:
             case "line":
                 self.x_vel = self.speed * p.cos(self.angle)
                 self.y_vel = self.speed * p.sin(self.angle)
+
+                if self.x <= 0 or self.x >= p.width:
+                    self.angle = p.pi - self.angle
+                    self.x_vel = -self.x_vel
+                    self.bounce_count = getattr(self, 'bounce_count', 0) + 1
+
+                if self.y <= 0 or self.y >= p.height:
+                    self.angle = -self.angle
+                    self.y_vel = -self.y_vel
+                    self.bounce_count = getattr(self, 'bounce_count', 0) + 1
+
+                if getattr(self, 'bounce_count', 0) >= 3:
+                    asyncio.run(self.websocket.send(f"remove_item/{self.token}"))
                 
             case "dont move":
                 pass
