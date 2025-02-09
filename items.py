@@ -71,22 +71,18 @@ class Item:
             case "line":
                 self.x_vel = self.speed * p.cos(self.angle)
                 self.y_vel = self.speed * p.sin(self.angle)
-                print("hello there")
 
-                if self.x <= 0 or self.x >= p.width:
-                    print("x bound")
-                    self.angle = 180
+                if self.x <= 0 or self.x >= p.width - 8:
                     self.x_vel = -self.x_vel
+                    self.angle = math.degrees(math.atan2(self.y_vel, self.x_vel))
                     self.bounce_count += 1
 
-                if self.y <= 0 or self.y >= p.height:
-                    print("y bound")
-                    self.angle = -self.angle
+                if self.y <= 0 or self.y >= p.height - 8:
                     self.y_vel = -self.y_vel
+                    self.angle = math.degrees(math.atan2(self.y_vel, self.x_vel))
                     self.bounce_count += 1
 
-                if self.bounce_count >= 3:
-                    print("battu")
+                if self.bounce_count > 3:
                     self.bounce_count = 0
                     asyncio.run(self.websocket.send(f"remove_item/{self.token}"))
                 
