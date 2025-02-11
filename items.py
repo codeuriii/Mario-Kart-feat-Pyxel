@@ -19,6 +19,7 @@ class Items:
     dont_move = [4, 6, 7]
     follow_road = [2, 3, 8]
     items = [1, 2,  3, 4, 6, 7, 8]
+    usables = [1, 2, 4, 7]
 
 class Item:
     def __init__(self, id, x, y, angle, token=None, websocket=None):
