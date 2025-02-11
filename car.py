@@ -41,23 +41,23 @@ class Car:
         self.y += self.speed * p.sin(self.angle)
 
         # Collision with the left border
-        if self.x < 0:
-            self.x = 0
+        if self.x < -8:
+            self.x = -8
             self.speed = 0
 
         # Collision with the right border
-        if self.x > p.width - 16:
-            self.x = p.width - 16
+        if self.x > p.width - 8:
+            self.x = p.width - 8
             self.speed = 0
 
         # Collision with the top border
-        if self.y < 0:
-            self.y = 0
+        if self.y < -8:
+            self.y = -8
             self.speed = 0
 
         # Collision with the bottom border
-        if self.y > p.height - 16:
-            self.y = p.height - 16
+        if self.y > p.height - 8:
+            self.y = p.height - 8
             self.speed = 0
         self.speed_turn = max(1, 5 - self.speed * 0.1)
         if hors_piste:
