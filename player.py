@@ -20,6 +20,8 @@ class Player:
         self.protected = {}
         self.spin_start_frame = None # for animation puropses
         self.rank = 1
+        self.checkpoints_reached = 0
+        self.laps_completed = 0
 
     async def handle_message(self, message):
         if message.startswith("id"):

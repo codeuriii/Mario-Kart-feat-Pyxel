@@ -36,7 +36,8 @@ class Game:
             ],
             "damier": (3, 6, False),
             "background": self.flower_bg,
-            "spawn": (4, 6, "gauche")
+            "spawn": (4, 6, "gauche"),
+            "checkpoints": [(2, 2), (4, 4), (6, 6)]  # Ajoutez les coordonnées des checkpoints
         }
 
         self.track_2 = {
@@ -95,7 +96,7 @@ class Game:
             "spawn": (3, 6, "gauche")
         }
 
-        self.current_track = self.track_4
+        self.current_track = self.track_1
         self.track = self.current_track["track"]
         self.item_boxes: list[Box] = self.current_track["item boxes"]
         self.damier = self.current_track["damier"]
@@ -134,6 +135,8 @@ class Game:
 
     def update(self):
         self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
+        self.check_checkpoints()
+        self.update_positions()
         for item in self.items:
             item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y))
         
@@ -148,6 +151,24 @@ class Game:
         self.send_move += 1
 
         self.update_item()
+
+    def update_positions(self):
+        self.players.sort(key=lambda p: (p["laps_completed"], p["checkpoints_reached"]), reverse=True)
+        for i, player in enumerate(self.players):
+            if player["id"] == self.player.infos["id"]:
+                self.player.rank = i + 1
+
+    def check_checkpoints(self):
+        for checkpoint in self.current_track["checkpoints"]:
+            if self.is_near_checkpoint(self.player.car.get_center(), checkpoint):
+                self.player.checkpoints_reached += 1
+                if self.player.checkpoints_reached == len(self.current_track["checkpoints"]):
+                    self.player.laps_completed += 1
+                    self.player.checkpoints_reached = 0
+
+    def is_near_checkpoint(self, car_center, checkpoint):
+        checkpoint_x, checkpoint_y = checkpoint[0] * 32, checkpoint[1] * 32
+        return abs(car_center[0] - checkpoint_x) < 16 and abs(car_center[1] - checkpoint_y) < 16
 
     def draw_background(self):
         for y in range(14):
@@ -279,7 +300,9 @@ class Game:
                 "svgd_color": message.split("-")[1].split("/")[1],
                 "x": self.spawn_point[0]*32+8,
                 "y": self.spawn_point[1]*32+8,
-                "angle": self.facing[self.spawn_point[2]]
+                "angle": self.facing[self.spawn_point[2]],
+                "laps_completed": 0,
+                "checkpoints_reached": 0
             })
         print(self.players)
     
