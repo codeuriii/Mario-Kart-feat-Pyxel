@@ -22,7 +22,7 @@ class Items:
     usables = [1, 2, 4, 7]
 
 class Item:
-    def __init__(self, id, x, y, angle, token=None, websocket=None):
+    def __init__(self, id, x, y, angle, token=None, websocket=None, tuile=None):
         self.id = int(id)
         if not token:
             self.token = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
@@ -104,6 +104,20 @@ class Item:
                     self.x_vel = -self.speed
                 def reset_right_left():
                     self.x_vel = 0
+
+                if tuile == self.roads.horizontal:
+                    print(round(self.angle, 0) % 360)
+                    if 0 <= round(self.angle, 0) % 360 <= 45:
+                        self.set_callbacks_for_offset([go_right])
+                        print("hello world")
+                    elif 225 <= self.angle <= 315:
+                        self.set_callbacks_for_offset([go_left])
+                    print("hého")
+                elif tuile == self.roads.vertical:
+                    if 135 < self.angle < 225:
+                        self.set_callbacks_for_offset([go_down])
+                    else:
+                        self.set_callbacks_for_offset([go_up])
 
                 if tuile != old_tuile:
                     match old_tuile:

@@ -2,6 +2,7 @@ from car import Car
 import pyxel as p
 from items import Items, Item
 import asyncio
+from road import Roads
 
 class Player:
     def __init__(self, websocket, x, y, face):
@@ -16,7 +17,7 @@ class Player:
             "gauche": 180
         }
 
-        self.item = Item(Items.none, self.x, self.y, self.facing[self.face], None, self.websocket)
+        self.item = Item(Items.none, self.x, self.y, self.facing[self.face], None, self.websocket, Roads.horizontal)
         self.protected = {}
         self.spin_start_frame = None # for animation puropses
         self.rank = 1
