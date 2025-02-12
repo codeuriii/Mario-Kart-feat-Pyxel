@@ -51,6 +51,7 @@ class Item:
         self.n_iterations = 4
         self.bounce_count = 0
         self.websocket = websocket
+        self.lauch = True
 
     def set_callbacks_for_offset(self, callbacks, n=4):
         self.is_waiting_for_offset = True
@@ -105,19 +106,39 @@ class Item:
                 def reset_right_left():
                     self.x_vel = 0
 
-                if tuile == self.roads.horizontal:
-                    print(round(self.angle, 0) % 360)
-                    if 0 <= round(self.angle, 0) % 360 <= 45:
-                        self.set_callbacks_for_offset([go_right])
-                        print("hello world")
-                    elif 225 <= self.angle <= 315:
-                        self.set_callbacks_for_offset([go_left])
-                    print("hého")
-                elif tuile == self.roads.vertical:
-                    if 135 < self.angle < 225:
-                        self.set_callbacks_for_offset([go_down])
+                if self.lauch:
+                    self.lauch = False
+                    if tuile == self.roads.horizontal:
+                        print(round(self.angle, 0) % 360)
+                        if 0 <= round(self.angle, 0) % 360 <= 45 or 315 <= round(self.angle, 0) % 360 <= 360:
+                            self.set_callbacks_for_offset([go_right])
+                            print("hello world")
+                        elif 135 <= round(self.angle, 0) % 360 <= 225:
+                            self.set_callbacks_for_offset([go_left])
+                        print("hého")
+                    elif tuile == self.roads.vertical:
+                        if 45 <= round(self.angle, 0) % 360 <= 135:
+                            self.set_callbacks_for_offset([go_down])
+                        elif 225 <= round(self.angle, 0) % 360 <= 315:
+                            self.set_callbacks_for_offset([go_up])
                     else:
-                        self.set_callbacks_for_offset([go_up])
+                        angle_rounded = round(self.angle / 45) * 45 % 360
+                        if angle_rounded == 0 or angle_rounded == 360:
+                            self.set_callbacks_for_offset([go_right])
+                        elif angle_rounded == 45:
+                            self.set_callbacks_for_offset([go_down, go_right])
+                        elif angle_rounded == 90:
+                            self.set_callbacks_for_offset([go_down])
+                        elif angle_rounded == 135:
+                            self.set_callbacks_for_offset([go_down, go_left])
+                        elif angle_rounded == 180:
+                            self.set_callbacks_for_offset([go_left])
+                        elif angle_rounded == 225:
+                            self.set_callbacks_for_offset([go_up, go_left])
+                        elif angle_rounded == 270:
+                            self.set_callbacks_for_offset([go_up])
+                        elif angle_rounded == 315:
+                            self.set_callbacks_for_offset([go_up, go_right])
 
                 if tuile != old_tuile:
                     match old_tuile:
