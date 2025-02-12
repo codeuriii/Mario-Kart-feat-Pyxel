@@ -111,15 +111,17 @@ class Item:
                     if tuile == self.roads.horizontal:
                         print(round(self.angle, 0) % 360)
                         if 0 <= round(self.angle, 0) % 360 <= 45 or 315 <= round(self.angle, 0) % 360 <= 360:
+                            self.x += 16
                             self.set_callbacks_for_offset([go_right])
-                            print("hello world")
                         elif 135 <= round(self.angle, 0) % 360 <= 225:
+                            self.x -= 16
                             self.set_callbacks_for_offset([go_left])
-                        print("hého")
                     elif tuile == self.roads.vertical:
                         if 45 <= round(self.angle, 0) % 360 <= 135:
+                            self.y += 16
                             self.set_callbacks_for_offset([go_down])
                         elif 225 <= round(self.angle, 0) % 360 <= 315:
+                            self.y -= 16
                             self.set_callbacks_for_offset([go_up])
                     else:
                         angle_rounded = round(self.angle / 45) * 45 % 360
