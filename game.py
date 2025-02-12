@@ -308,4 +308,4 @@ class Game:
     
     async def send_id_request(self):
         await self.websocket.send("load")
-    
+
