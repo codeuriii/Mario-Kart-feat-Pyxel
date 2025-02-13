@@ -189,7 +189,8 @@ class Game:
         for item in self.items:
             item.draw()
         
-        self.drawer.draw_rank(self.player.rank)
+        if self.player.rank < 0:
+            self.drawer.draw_rank(self.player.rank)
 
     async def run(self):
         loop = asyncio.get_event_loop()
