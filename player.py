@@ -20,7 +20,7 @@ class Player:
         self.item = Item(Items.none, self.x, self.y, self.facing[self.face], None, self.websocket, Roads.horizontal)
         self.protected = {}
         self.spin_start_frame = None # for animation puropses
-        self.rank = 1
+        self.rank = 0
         self.checkpoints_reached = 0
         self.laps_completed = 0
 
