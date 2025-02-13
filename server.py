@@ -12,12 +12,13 @@ colors = [
     "green",
     "yellow"
 ]
+rank = 0
 
 def generate_token():
     return ''.join(random.choices(string.ascii_letters + string.digits, k=8))
 
 async def handler(websocket):
-    global all_tokens
+    global all_tokens, rank
     connected_clients.add(websocket)
     try:
         current_token = generate_token()
@@ -58,6 +59,12 @@ async def handler(websocket):
                         await client.send(message)
                     elif message.startswith("horn"):
                         await client.send(message)
+                    elif message == "rank":
+                        if client == websocket:
+                            await client.send(f"rank/{rank}")
+                            rank += 1
+                            rank %= len(connected_clients)
+                            rank += 1
 
                 except websockets.ConnectionClosed:
                     disconnected_clients.append(client)

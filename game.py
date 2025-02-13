@@ -102,6 +102,7 @@ class Game:
         self.damier = self.current_track["damier"]
         self.current_bg = self.current_track["background"]
         self.spawn_point = self.current_track["spawn"]
+        self.first_lap = True
 
         self.player = Player(self.websocket, *self.spawn_point)
 
@@ -135,6 +136,13 @@ class Game:
 
     def update(self):
         self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
+        if self.is_near_checkpoint((self.player.car.x, self.player.car.y), self.damier):
+            if self.first_lap:
+                self.first_lap = False
+            elif not self.first_lap:
+                asyncio.run(self.websocket.send("rank"))
+                print("send rank request")
+                self.first_lap = None
         # self.check_checkpoints()
         # self.update_positions()
         for item in self.items:
@@ -189,7 +197,7 @@ class Game:
         for item in self.items:
             item.draw()
         
-        if self.player.rank < 0:
+        if self.player.rank > 0:
             self.drawer.draw_rank(self.player.rank)
 
     async def run(self):
@@ -223,6 +231,9 @@ class Game:
                 except Exception as e:
                     print("wtf player", e)
                     continue
+        elif message.startswith("rank"):
+            self.player.rank = int(message.split("/")[1])
+            print(self.player.rank)
 
         elif message.startswith("create_player"):
             self.create_player(message)
