@@ -135,8 +135,8 @@ class Game:
 
     def update(self):
         self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
-        self.check_checkpoints()
-        self.update_positions()
+        # self.check_checkpoints()
+        # self.update_positions()
         for item in self.items:
             item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y))
         
