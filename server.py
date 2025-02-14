@@ -23,7 +23,8 @@ async def handler(websocket):
     try:
         current_token = generate_token()
         async for message in websocket:
-            print(f"Received from client: {message}")
+            if not message.startswith("move"):
+                print(f"Received from client: {message}")
             disconnected_clients = []
             for client in connected_clients:
                 try:
@@ -61,10 +62,9 @@ async def handler(websocket):
                         await client.send(message)
                     elif message == "rank":
                         if client == websocket:
+                            rank += 1
                             await client.send(f"rank/{rank}")
-                            rank += 1
                             rank %= len(connected_clients)
-                            rank += 1
 
                 except websockets.ConnectionClosed:
                     disconnected_clients.append(client)

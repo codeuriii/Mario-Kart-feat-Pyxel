@@ -135,14 +135,12 @@ class Game:
                     self.player.item = Item(random.choice(Items.usables), *self.player.car.get_center(), self.player.car.angle, None, self.websocket, self.get_tile(*self.player.car.get_center()))
 
     def update(self):
+        global svgd_damier
         self.player.update(self.check_hors_piste(*self.player.car.get_center()), self.items)
-        if self.is_near_checkpoint((self.player.car.x, self.player.car.y), self.damier):
-            if self.first_lap:
-                self.first_lap = False
-            elif not self.first_lap:
-                asyncio.run(self.websocket.send("rank"))
-                print("send rank request")
-                self.first_lap = None
+        is_damier = self.is_near_checkpoint((self.player.car.x, self.player.car.y), self.damier)
+        if is_damier and not svgd_damier:
+            asyncio.run(self.websocket.send("rank"))
+            print("send rank request")
         # self.check_checkpoints()
         # self.update_positions()
         for item in self.items:
@@ -159,6 +157,7 @@ class Game:
         self.send_move += 1
 
         self.update_item()
+        svgd_damier = self.is_near_checkpoint((self.player.car.x, self.player.car.y), self.damier)
 
     def update_positions(self):
         self.players.sort(key=lambda p: (p["laps_completed"], p["checkpoints_reached"]), reverse=True)
@@ -176,7 +175,7 @@ class Game:
 
     def is_near_checkpoint(self, car_center, checkpoint):
         checkpoint_x, checkpoint_y = checkpoint[0] * 32, checkpoint[1] * 32
-        return abs(car_center[0] - checkpoint_x) < 16 and abs(car_center[1] - checkpoint_y) < 16
+        return abs(car_center[0] - checkpoint_x) <= 32 and abs(car_center[1] - checkpoint_y) <= 32
 
     def draw_background(self):
         for y in range(14):
@@ -213,7 +212,8 @@ class Game:
     async def receive_message(self):
         try:
             async for message in self.websocket:
-                print(f"Received from server: {message}")
+                if not message.startswith("move"):
+                    print(f"Received from server: {message}")
                 await self.player.handle_message(message)
                 await self.handle_message(message)
         except websockets.ConnectionClosed:
@@ -233,7 +233,6 @@ class Game:
                     continue
         elif message.startswith("rank"):
             self.player.rank = int(message.split("/")[1])
-            print(self.player.rank)
 
         elif message.startswith("create_player"):
             self.create_player(message)
