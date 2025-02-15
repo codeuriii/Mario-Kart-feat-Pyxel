@@ -90,5 +90,4 @@ class Car:
         self.angle = round(self.angle, 3)
 
     def draw_car(self):
-        # self.draw_line()
         self.drawer.draw_car(self.color, self.x, self.y, self.angle)
