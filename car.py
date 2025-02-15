@@ -25,10 +25,10 @@ class Car:
     def get_center(self):
         return self.x + 8, self.y + 8
     
-    def draw_line(self):
-        end_x = self.x + 10 * p.cos(self.angle)
-        end_y = self.y + 10 * p.sin(self.angle)
-        p.line(self.x + 8 , self.y + 8, end_x + 8, end_y + 8, 7)
+    # def draw_line(self):
+    #     end_x = self.x + 10 * p.cos(self.angle)
+    #     end_y = self.y + 10 * p.sin(self.angle)
+    #     p.line(self.x + 8 , self.y + 8, end_x + 8, end_y + 8, 7)
 
     def correct_angle(self):
         angle = round(self.angle / 45) * 45
@@ -67,5 +67,5 @@ class Car:
         self.keyboard_input()
 
     def draw_car(self):
-        self.draw_line()
+        # self.draw_line()
         self.drawer.draw_car(self.color, self.x, self.y, self.angle)

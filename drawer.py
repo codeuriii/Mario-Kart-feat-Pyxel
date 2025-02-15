@@ -216,23 +216,24 @@ class Drawer:
         return random.choice(self.backgrounds[background])
     
     def draw_car(self, color, x, y, angle):
-        angle = round(angle / 45) * 45 % 360  # Ensure rounding to nearest 45°
-        if angle == 0:
-            p.blt(x, y, 0, *self.cars[color]["gauche"], 0) 
-        elif angle == 180:
-            p.blt(x, y, 0, *self.cars[color]["droite"], 0)
-        elif angle == 270:
-            p.blt(x, y, 0, *self.cars[color]["haut"], 0)
-        elif angle == 90:
-            p.blt(x, y, 0, *self.cars[color]["bas"], 0)
-        elif angle == 315:
-            p.blt(x, y, 0, *self.cars[color]["diagonale haut droite"], 0)
-        elif angle == 225:
-            p.blt(x, y, 0, *self.cars[color]["diagonale haut gauche"], 0)
-        elif angle == 135:
-            p.blt(x, y, 0, *self.cars[color]["diagonale bas gauche"], 0)
-        elif angle == 45:
-            p.blt(x, y, 0, *self.cars[color]["diagonale bas droite"], 0)
+        p.blt(x, y, 0, 0, 0, 16, 16, 0, rotate=-angle - 90)
+        # if angle == 0:
+        #     p.blt(x, y, 0, *self.cars[color]["gauche"], 0) 
+        # elif angle == 180:
+        #     p.blt(x, y, 0, *self.cars[color]["droite"], 0)
+        # elif angle == 270:
+        #     p.blt(x, y, 0, *self.cars[color]["haut"], 0)
+        # elif angle == 90:
+        #     p.blt(x, y, 0, *self.cars[color]["bas"], 0)
+        # elif angle == 315:
+        #     p.blt(x, y, 0, *self.cars[color]["diagonale haut droite"], 0)
+        # elif angle == 225:
+        #     p.blt(x, y, 0, *self.cars[color]["diagonale haut gauche"], 0)
+        # elif angle == 135:
+        #     p.blt(x, y, 0, *self.cars[color]["diagonale bas gauche"], 0)
+        # elif angle == 45:
+        #     p.blt(x, y, 0, *self.cars[color]["diagonale bas droite"], 0)
+        #
 
     def draw_road_tile(self, x, y, index):
         if type(index) == int:
