@@ -1,6 +1,16 @@
 import asyncio
 import websockets
 from game import Game
+import sys
+import re
+
+args = sys.argv
+ip_pattern = r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$"
+is_ip = len(args) > 1 and re.match(ip_pattern, args[-1])
+if is_ip:
+    ip_address = args[-1]
+else:
+    ip_address = None
 
 async def connect_to_server(uri, max_retries=10, retry_delay=1):
     retries = 0
@@ -16,7 +26,10 @@ async def connect_to_server(uri, max_retries=10, retry_delay=1):
     raise ConnectionError(f"Failed to connect to server after {max_retries} attempts.")
 
 async def main():
-    uri = "ws://127.0.0.1:1025"
+    if ip_address:
+        uri = f"ws://{ip_address}:1025"
+    else:
+        uri = "ws://127.0.0.1:1025"
     try:
         websocket = await connect_to_server(uri, max_retries=10, retry_delay=1)
         game = Game(websocket)
