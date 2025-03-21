@@ -144,7 +144,7 @@ class Game:
         # self.check_checkpoints()
         # self.update_positions()
         for item in self.items:
-            item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y))
+            item.update(self.get_tile(item.x, item.y), self.get_tile(item.svgd_x, item.svgd_y), self.player.car.angle)
         
         for player in self.players:
             if player["id"] == self.player.infos["id"]:
