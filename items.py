@@ -37,6 +37,8 @@ class Item:
         self.x_vel = 0
         self.y_vel = 0
         self.angle = float(angle)
+        if self.id == Items.carapace_verte:
+            self.angle += 180
         self.speed = 3
         self.roads = Roads()
         self.deplacement = ""

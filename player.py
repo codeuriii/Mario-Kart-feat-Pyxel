@@ -16,8 +16,14 @@ class Player:
             "droite": 180,
             "gauche": 0
         }
+        self.facing2 = {
+            "haut": 270,
+            "bas": 90,
+            "droite": 0,
+            "gauche": 180
+        }
 
-        self.item = Item(Items.none, self.x, self.y, self.facing[self.face], None, self.websocket, Roads.horizontal)
+        self.item = Item(Items.none, self.x, self.y, self.facing2[self.face], None, self.websocket, Roads.horizontal)
         self.protected = {}
         self.spin_start_frame = None # for animation puropses
         self.rank = 0
