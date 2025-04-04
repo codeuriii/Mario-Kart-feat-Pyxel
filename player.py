@@ -11,10 +11,10 @@ class Player:
         self.y = y * 32 + 8
         self.face = face
         self.facing = {
-            "haut": 270,
-            "bas": 90,
-            "droite": 0,
-            "gauche": 180
+            "haut": 90,
+            "bas": 270,
+            "droite": 180,
+            "gauche": 0
         }
 
         self.item = Item(Items.none, self.x, self.y, self.facing[self.face], None, self.websocket, Roads.horizontal)

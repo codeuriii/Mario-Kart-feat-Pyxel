@@ -8,10 +8,10 @@ class Car:
         self.y = y
         self.speed = 0
         self.facing = {
-            "haut": 270,
-            "bas": 90,
-            "droite": 0,
-            "gauche": 180
+            "haut": 90,
+            "bas": 270,
+            "droite": 180,
+            "gauche": 0
         }
         self.angle = self.facing[angle]
         self.color = color
@@ -37,8 +37,8 @@ class Car:
         self.angle = s.mean(liste)
 
     def move(self, hors_piste):
-        self.x += self.speed * p.cos(self.angle)
-        self.y += self.speed * p.sin(self.angle)
+        self.x += self.speed * -p.cos(self.angle)
+        self.y += self.speed * -p.sin(self.angle)
 
         # Collision with the left border
         if self.x < -8:

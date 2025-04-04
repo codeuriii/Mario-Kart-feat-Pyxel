@@ -177,13 +177,13 @@ class Drawer:
     
     def draw_car(self, color, x, y, angle):
         if color == "blue":
-            p.blt(x, y, 0, 0, 0, 16, 16, 0, rotate=-angle - 90)
+            p.blt(x, y, 0, 0, 0, 16, 16, 0, rotate=angle - 90)
         if color == "red":
-            p.blt(x, y, 0, 16, 0, 16, 16, 0, rotate=-angle - 90)
+            p.blt(x, y, 0, 16, 0, 16, 16, 0, rotate=angle - 90)
         if color == "green":
-            p.blt(x, y, 0, 32, 0, 16, 16, 0, rotate=-angle - 90)
+            p.blt(x, y, 0, 32, 0, 16, 16, 0, rotate=angle - 90)
         if color == "yellow":
-            p.blt(x, y, 0, 48 , 0, 16, 16, 0, rotate=-angle - 90)
+            p.blt(x, y, 0, 48 , 0, 16, 16, 0, rotate=angle - 90)
 
     def draw_road_tile(self, x, y, index):
         if type(index) == int:
